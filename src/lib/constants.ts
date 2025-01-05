@@ -1,4 +1,5 @@
 export const SITE_NAME = 'Work Hays';
+
 export const NAV_LINKS = [
 	{
 		name: 'Jobs',
@@ -21,6 +22,7 @@ export const NAV_LINKS = [
 		href: '/register'
 	}
 ];
+
 export const FOOTER_LINKS = [
 	{
 		name: 'Privacy Policy',
@@ -41,5 +43,24 @@ export const FOOTER_LINKS = [
 	{
 		name: 'About',
 		href: '/about'
+	}
+];
+
+export const ADMIN_NAV_LINKS = [
+	{
+		name: 'Dashboard',
+		href: '/admin'
+	},
+	{
+		name: 'Jobs',
+		href: '/admin/jobs'
+	},
+	{
+		name: 'Settings',
+		href: '/admin/settings'
+	},
+	{
+		name: 'Account',
+		href: '/admin/account'
 	}
 ];

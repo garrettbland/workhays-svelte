@@ -4,7 +4,7 @@
 </script>
 
 <!-- ========== FOOTER ========== -->
-<footer class="mx-auto w-full max-w-2xl px-4 sm:px-6 lg:px-8">
+<footer class="mx-auto mt-4 w-full max-w-4xl px-4">
 	<div class="border-t border-gray-200 py-6 dark:border-neutral-700">
 		<div class="flex flex-wrap items-center justify-between gap-2">
 			<div>

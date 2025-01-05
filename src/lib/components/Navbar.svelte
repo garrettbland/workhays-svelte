@@ -5,7 +5,7 @@
 <header
 	class="relative flex w-full flex-wrap bg-white py-3 text-sm sm:flex-nowrap sm:justify-start dark:bg-neutral-800"
 >
-	<nav class="mx-auto w-full max-w-[85rem] px-4 sm:flex sm:items-center sm:justify-between">
+	<nav class="mx-auto w-full max-w-4xl px-4 sm:flex sm:items-center sm:justify-between">
 		<div class="flex items-center justify-between">
 			<a
 				class="flex-none text-xl font-semibold focus:opacity-80 focus:outline-none dark:text-white"
