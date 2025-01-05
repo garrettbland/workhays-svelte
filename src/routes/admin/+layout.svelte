@@ -1,6 +1,8 @@
 <script>
 	import { ADMIN_NAV_LINKS } from '$lib/constants';
 	let { children } = $props();
+
+	// TO DO: check auth and redirect if not logged in
 </script>
 
 <div class="grid grid-cols-12 gap-6">
