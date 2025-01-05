@@ -2,7 +2,12 @@
 	import '../app.css';
 	import Navbar from '$lib/components/Navbar.svelte';
 	import Footer from '$lib/components/Footer.svelte';
+	import { afterNavigate } from '$app/navigation';
 	let { children } = $props();
+
+	afterNavigate(() => {
+		window.HSStaticMethods.autoInit();
+	});
 </script>
 
 <Navbar />
