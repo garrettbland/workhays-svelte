@@ -12,14 +12,6 @@ export const NAV_LINKS = [
 	{
 		name: 'Contact',
 		href: '/contact'
-	},
-	{
-		name: 'Login',
-		href: '/login'
-	},
-	{
-		name: 'Register',
-		href: '/register'
 	}
 ];
 
@@ -62,5 +54,72 @@ export const ADMIN_NAV_LINKS = [
 	{
 		name: 'Account',
 		href: '/admin/account'
+	}
+];
+
+export const INDUSTRIES_LIST = [
+	{
+		name: 'All Industries',
+		href: '#'
+	},
+	{
+		name: 'Accounting / Finance/Banking',
+		href: '#'
+	},
+	{
+		name: 'Administrative / Office Support',
+		href: '#'
+	},
+	{
+		name: 'Agriculture',
+		href: '#'
+	},
+	{
+		name: 'Construction / Natural Gas / Oil',
+		href: '#'
+	},
+	{
+		name: 'Delivery / Transportation / Trucking',
+		href: '#'
+	},
+	{
+		name: 'Education',
+		href: '#'
+	},
+	{
+		name: 'Food Service',
+		href: '#'
+	},
+	{
+		name: 'Healthcare / Social Assistance',
+		href: '#'
+	},
+	{
+		name: 'Hotel / Hospitality',
+		href: '#'
+	},
+	{
+		name: 'IT / Computer',
+		href: '#'
+	},
+	{
+		name: 'Maintenance / Custodial',
+		href: '#'
+	},
+	{
+		name: 'Manufacturing / Assembly',
+		href: '#'
+	},
+	{
+		name: 'Professional Services',
+		href: '#'
+	},
+	{
+		name: 'Real Estate / Rental',
+		href: '#'
+	},
+	{
+		name: 'Retail / Sales',
+		href: '#'
 	}
 ];

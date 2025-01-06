@@ -4,7 +4,7 @@
 </script>
 
 <!-- ========== FOOTER ========== -->
-<footer class="mx-auto mt-4 w-full max-w-4xl px-4">
+<footer class="mx-auto mt-16 w-full max-w-2xl px-4 sm:px-6 lg:px-8">
 	<div class="border-t border-gray-200 py-6 dark:border-neutral-700">
 		<div class="flex flex-wrap items-center justify-between gap-2">
 			<div>
@@ -16,11 +16,9 @@
 			<!-- End Col -->
 
 			<!-- List -->
-			<ul class="flex flex-wrap items-center">
+			<ul class="flex flex-wrap items-center gap-3">
 				{#each FOOTER_LINKS as link}
-					<li
-						class="relative inline-block pe-4 text-xs before:absolute before:end-1.5 before:top-1/2 before:-translate-y-1/2 before:rounded-full before:bg-gray-400 last:pe-0 last-of-type:before:hidden dark:text-neutral-500 dark:before:bg-neutral-600"
-					>
+					<li class="text-xs dark:text-neutral-500 dark:before:bg-neutral-600">
 						<a
 							class="text-xs text-gray-500 underline hover:text-gray-800 hover:decoration-2 focus:decoration-2 focus:outline-none dark:text-neutral-500 dark:hover:text-neutral-400"
 							href={link.href}
@@ -29,11 +27,11 @@
 						</a>
 					</li>
 				{/each}
-				<li class="inline-block" style="display: none;">
+				<li class="hidden">
 					<!-- Dark Mode -->
 					<button
 						type="button"
-						class="hs-dark-mode hs-dark-mode-active:hidden relative flex size-7 items-center justify-center rounded-full border border-gray-200 text-gray-500 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none dark:border-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+						class="hs-dark-mode relative flex size-7 items-center justify-center rounded-full border border-gray-200 text-gray-500 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none hs-dark-mode-active:hidden dark:border-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
 						data-hs-theme-click-value="dark"
 					>
 						<span class="sr-only">Dark</span>
@@ -52,7 +50,7 @@
 					</button>
 					<button
 						type="button"
-						class="hs-dark-mode hs-dark-mode-active:flex relative flex hidden size-7 items-center justify-center rounded-full border border-gray-200 text-gray-500 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none dark:border-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+						class="hs-dark-mode relative flex hidden size-7 items-center justify-center rounded-full border border-gray-200 text-gray-500 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none hs-dark-mode-active:flex dark:border-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
 						data-hs-theme-click-value="light"
 					>
 						<span class="sr-only">Light</span>
