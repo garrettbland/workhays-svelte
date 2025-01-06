@@ -126,8 +126,8 @@
 <div class="mx-auto my-8 max-w-4xl lg:px-0">
 	<div class="grid grid-cols-1 gap-4 md:grid-cols-6">
 		<div class="col-span-1 mb-12 md:col-span-4 md:mb-0 md:pr-4">
-			<div class="text-sm font-bold">Description</div>
-			<div id="description_input_trix" class="leading-7 text-gray-900 antialiased">
+			<div class="mt-2 text-sm font-bold">Description</div>
+			<div class="">
 				<div>
 					Looking for <em>Something Different</em>?&nbsp; At Nex-Tech Wireless, we’re always working
 					to bring the latest technology to the communities we serve.&nbsp; Join our hometown team
@@ -135,7 +135,7 @@
 					per hour including commissions!&nbsp; Let’s talk about how you can work 4 days a week
 					while being paid for 5!&nbsp;<br /><br />
 				</div>
-				<div>We are seeking customer-oriented candidates to:<br />&nbsp;</div>
+				<div>We are seeking customer-oriented candidates to:</div>
 				<ul>
 					<li>Promote and sell Nex-Tech Wireless products and services</li>
 					<li>Build and maintain relationships with new and existing customers</li>
@@ -146,8 +146,8 @@
 					</li>
 					<li>Conduct follow-up calls to ensure continued customer satisfaction</li>
 				</ul>
-				<div>&nbsp;</div>
-				<div>Required Skills and Qualifications:<br />&nbsp;</div>
+
+				<div>Required Skills and Qualifications:</div>
 				<ul>
 					<li>One year of customer service, telephone sales, or equivalent work experience</li>
 					<li>High School Diploma or equivalent</li>
@@ -156,9 +156,8 @@
 					<li>Strong communication and problem-solving skills</li>
 					<li>Availability to work evenings, weekends, and some holidays</li>
 				</ul>
-				<div>&nbsp;</div>
 				<div>We proudly offer:</div>
-				<div>&nbsp;</div>
+
 				<ul>
 					<li>Competitive pay and opportunity for monthly commission</li>
 					<li>A fun work environment</li>
