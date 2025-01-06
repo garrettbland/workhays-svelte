@@ -1,29 +1,35 @@
 <script>
-	import { login } from '$lib/auth';
-	import { goto } from '$app/navigation';
-	import { onMount } from 'svelte';
-	import { authState } from '$lib/auth';
-	let email = '';
-	let password = '';
-	let error = '';
+	import { signIn, authData } from '$lib/auth.svelte'
+	import { goto } from '$app/navigation'
 
-	$: if ($authState.user && $authState.loading === false) {
-		goto('/admin');
-	}
+	let email = $state('')
+	let password = $state('')
+	let error = $state('')
+	let isLoggingIn = $state(false)
 
-	const handleLogin = async () => {
-		try {
-			await login(email, password);
-			error = ''; // Clear any previous error
-			console.log('logged in!');
-			goto('/admin');
-		} catch (err) {
-			error = err.message;
+	/**
+	 * If the user is logged in, redirect to the admin page
+	 */
+	$effect(() => {
+		if (authData.user && authData.isLoading === false) {
+			goto('/admin')
 		}
-	};
+	})
+
+	const handleSignIn = async () => {
+		try {
+			isLoggingIn = true
+			await signIn(email, password)
+			error = '' // Clear any previous error
+			goto('/admin')
+		} catch (err) {
+			error = err.message
+			isLoggingIn = false
+		}
+	}
 </script>
 
-{#if $authState.loading && !$authState.user}
+{#if authData.isLoading}
 	<p>Loading...</p>
 {:else}
 	<div
@@ -76,7 +82,7 @@
 				</div>
 
 				<!-- Form -->
-				<form on:submit|preventDefault={handleLogin}>
+				<form on:submit|preventDefault={handleSignIn}>
 					<div class="grid gap-y-4">
 						<!-- Form Group -->
 						<div>
@@ -116,11 +122,8 @@
 						<div>
 							<div class="flex items-center justify-between">
 								<label for="password" class="mb-2 block text-sm dark:text-white">Password</label>
-								<a
-									class="inline-flex items-center gap-x-1 text-sm font-medium text-blue-800 decoration-2 hover:underline focus:underline focus:outline-none dark:text-blue-800"
-									href="/forgot-password">Forgot password?</a
-								>
 							</div>
+
 							<div class="relative">
 								<input
 									bind:value={password}
@@ -146,6 +149,10 @@
 									</svg>
 								</div>
 							</div>
+							<a
+								class="inline-flex items-center gap-x-1 text-sm font-medium text-blue-800 decoration-2 hover:underline focus:underline focus:outline-none dark:text-blue-800"
+								href="/reset-password">Forgot password?</a
+							>
 							<p class="mt-2 hidden text-xs text-red-600" id="password-error">
 								8+ characters required
 							</p>
@@ -171,7 +178,16 @@
 						<button
 							type="submit"
 							class="inline-flex w-full items-center justify-center gap-x-2 rounded-lg border border-transparent bg-blue-800 px-4 py-3 text-sm font-medium text-white hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-							>Sign in</button
+							disabled={isLoggingIn}
+						>
+							{#if isLoggingIn}
+								<span
+									class="inline-block size-4 animate-spin rounded-full border-[3px] border-current border-t-transparent text-white"
+									role="status"
+									aria-label="loading"
+								></span>
+							{/if}
+							{isLoggingIn ? 'Loading...' : 'Sign In'}</button
 						>
 					</div>
 					{#if error}
