@@ -1,33 +1,20 @@
 import type { PageLoad } from './$types';
-import { dataStore } from '$lib/stores/dataStore';
-import { get } from 'svelte/store';
 import { getPublicJob } from '$lib/jobs';
+import { error } from '@sveltejs/kit';
 
-export const load: PageLoad = async ({ params }) => {
-	let jobTitle;
-
-	const cachedData = get(dataStore); // Get the current value of the store
-	if (cachedData) {
-		console.log('DataStore has data');
-		const job = cachedData.find((job) => job._id === params.jobId);
-		if (job) {
-			console.log('Job found in cache');
-			jobTitle = job.title;
-		}
-	} else {
-		console.log('Fetching fresh data...');
-		const data = await getPublicJob(params.jobId);
-
-		// const raw = await fetch(`https://jsonplaceholder.typicode.com/posts/${params.jobId}`);
-		// const data = await raw.json();
-		//dataStore.set(data);
-		jobTitle = data.title;
+/**
+ * Loads the job data on the server side initially, then
+ * subsequent requests are done client side.
+ *
+ * This will make SEO happy so it can render job pages in a
+ * traditional SSR way, but for humans jumping around jobs it
+ * will be SPA and snappy.
+ */
+export const load: PageLoad = async ({ params }): Promise<App.Job> => {
+	try {
+		const job = await getPublicJob(params.jobId);
+		return job;
+	} catch (err) {
+		error(404, 'Not found');
 	}
-
-	return {
-		post: {
-			title: jobTitle,
-			content: `Content for ${params.jobId} goes here`
-		}
-	};
 };
