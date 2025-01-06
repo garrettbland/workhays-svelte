@@ -151,7 +151,7 @@
 							</div>
 							<a
 								class="inline-flex items-center gap-x-1 text-sm font-medium text-blue-800 decoration-2 hover:underline focus:underline focus:outline-none dark:text-blue-800"
-								href="/forgot-password">Forgot password?</a
+								href="/reset-password">Forgot password?</a
 							>
 							<p class="mt-2 hidden text-xs text-red-600" id="password-error">
 								8+ characters required

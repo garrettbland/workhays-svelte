@@ -2,7 +2,8 @@ import { auth } from './firebase'
 import {
 	signInWithEmailAndPassword,
 	signOut as firebaseSignOut,
-	onAuthStateChanged
+	onAuthStateChanged,
+	sendPasswordResetEmail
 } from 'firebase/auth'
 
 /**
@@ -46,6 +47,19 @@ export const signOut = async () => {
 		await firebaseSignOut(auth)
 	} catch (error) {
 		console.error('Logout error:', error.message)
+		throw error
+	}
+}
+
+/**
+ * Reset password
+ */
+export const resetPassword = async (email: string) => {
+	try {
+		console.log('Starting password reset...')
+		await sendPasswordResetEmail(auth, email)
+	} catch (error) {
+		console.error('Password reset error:', error.message)
 		throw error
 	}
 }
