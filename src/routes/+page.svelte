@@ -3,7 +3,7 @@
 	import SEO from '$lib/components/SEO.svelte';
 	import { dataStore } from '$lib/stores/dataStore';
 	import { get } from 'svelte/store';
-  import { INDUSTRIES_LIST, SITE_NAME } from '$lib/constants';
+  	import { INDUSTRIES_LIST, SITE_NAME } from '$lib/constants';
 	import { onMount } from 'svelte';
 
 	let jobs = [];
@@ -194,8 +194,10 @@
 							<path d="m9 18 6-6-6-6"></path>
 						</svg>
 					</div>
-				</li></a
-			>
+				</li>
+			</a>
+		{/each}
+	</ul>
 {/if}
 <!-- Pagination -->
 <nav class="flex items-center justify-center gap-x-1" aria-label="Pagination">
