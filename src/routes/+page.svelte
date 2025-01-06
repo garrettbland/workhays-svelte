@@ -25,8 +25,9 @@
 
 			<p class="mt-3 text-gray-600 dark:text-neutral-400">
 				Browse current job openings in Hays, KS and surrounding communities. Are you an employer?
-				Post your jobs for free, to get started, <a href="/register" class="text-blue-800"
-					>register here!</a
+				Post your jobs for free, to get started, <a
+					href="/register"
+					class="text-blue-800 no-underline hover:underline">register here!</a
 				>
 			</p>
 

@@ -35,7 +35,7 @@
 				<p class="mt-2 text-sm text-gray-600 dark:text-neutral-400">
 					Don't have an account yet?
 					<a
-						class="font-medium text-blue-800 decoration-2 hover:underline focus:underline focus:outline-none dark:text-blue-800"
+						class="font-medium text-blue-800 no-underline hover:underline focus:underline focus:outline-none dark:text-blue-800"
 						href="/register"
 					>
 						Register here
@@ -117,7 +117,7 @@
 							<div class="flex items-center justify-between">
 								<label for="password" class="mb-2 block text-sm dark:text-white">Password</label>
 								<a
-									class="inline-flex items-center gap-x-1 text-sm font-medium text-blue-800 decoration-2 hover:underline focus:underline focus:outline-none dark:text-blue-800"
+									class="inline-flex items-center gap-x-1 text-sm font-medium text-blue-800 no-underline hover:underline focus:underline focus:outline-none dark:text-blue-800"
 									href="/forgot-password">Forgot password?</a
 								>
 							</div>
