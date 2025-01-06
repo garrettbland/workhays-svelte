@@ -1,8 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-
-	let { data }: { data: PageData } = $props();
+	let { job }: { job: PageData } = $props();
 </script>
 
-<h1>{data.post.title}</h1>
-<div>{data.post.content}</div>
+<h1>{job.title}</h1>
+<div>{job.description}</div>
