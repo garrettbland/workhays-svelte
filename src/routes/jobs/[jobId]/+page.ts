@@ -10,15 +10,10 @@ import { error } from '@sveltejs/kit';
  * traditional SSR way, but for humans jumping around jobs it
  * will be SPA and snappy.
  */
-export const load: PageLoad = async ({ params }) => {
+export const load: PageLoad = async ({ params }): Promise<App.Job> => {
 	try {
 		const job = await getPublicJob(params.jobId);
-		return {
-			post: {
-				title: job.title,
-				content: `Content for ${params.jobId} goes here`
-			}
-		};
+		return job;
 	} catch (err) {
 		error(404, 'Not found');
 	}
