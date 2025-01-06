@@ -1,44 +1,13 @@
 <script>
 	import { getPublicJobs } from '$lib/jobs';
 	import SEO from '$lib/components/SEO.svelte';
-	import { cachedData } from '$lib/cache.svelte';
 	import { INDUSTRIES_LIST, SITE_NAME } from '$lib/constants';
-	import { onMount } from 'svelte';
 
-	let error = null;
-
-	let jobs = $derived(cachedData.jobs);
-
-	onMount(async () => {
-		// Check if data already exists in the store
-		console.log('Mounted...');
-
-		if (jobs.length === 0) {
-			console.log('Fetching fresh data from server...');
-			try {
-				// const response = await fetch('https://jsonplaceholder.typicode.com/posts');
-				// if (!response.ok) {
-				// 	throw new Error('Failed to fetch data');
-				// }
-				// data = await response.json();
-
-				const data = await getPublicJobs();
-
-				console.log('stuff', data);
-
-				cachedData.jobs = data;
-
-				// dataStore.set(data); // Cache the data
-			} catch (err) {
-				error = err.message;
-			}
-		}
-
-		// Subscribe to the store
-		// dataStore.subscribe((value) => {
-		// 	jobs = value;
-		// });
-	});
+	/**
+	 * Gets all public jobs. Takes advantage of "await" blocks from Svelte.
+	 * https://svelte.dev/docs/svelte/await
+	 */
+	let isGettingJobs = $state(getPublicJobs());
 </script>
 
 <SEO
@@ -164,12 +133,11 @@
 </div>
 <!-- End Hero -->
 
-<p>Bunch of fake items from jsonplaceholder to test data fetching and preloading/etc...</p>
-{#if error}
-	<p>Error: {error}</p>
-{:else if jobs.length === 0}
-	<p>Loading...</p>
-{:else}
+{#await isGettingJobs}
+	<!-- promise is pending -->
+	<p class="text-4xl text-red-500">Loading jobs...Lane make this pretty</p>
+{:then jobs}
+	<!-- promise was fulfilled or not a Promise -->
 	<ul class="list-inside list-none p-0">
 		{#each jobs as job}
 			<a class="group/item no-underline" href={`/jobs/${job._id}`}>
@@ -203,4 +171,7 @@
 			</a>
 		{/each}
 	</ul>
-{/if}
+{:catch error}
+	<!-- promise was rejected -->
+	<p>Something went wrong: {error.message}</p>
+{/await}
