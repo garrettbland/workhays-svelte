@@ -1,11 +1,12 @@
 <script>
+	import { getPublicJobs } from '$lib/jobs';
 	import SEO from '$lib/components/SEO.svelte';
 	import { dataStore } from '$lib/stores/dataStore';
 	import { get } from 'svelte/store';
-
+  import { INDUSTRIES_LIST, SITE_NAME } from '$lib/constants';
 	import { onMount } from 'svelte';
-	import { INDUSTRIES_LIST, SITE_NAME } from '$lib/constants';
-	let data = [];
+
+	let jobs = [];
 	let error = null;
 
 	onMount(async () => {
@@ -14,11 +15,14 @@
 		if (!get(dataStore)) {
 			console.log('Fetching fresh data from server...');
 			try {
-				const response = await fetch('https://jsonplaceholder.typicode.com/posts');
-				if (!response.ok) {
-					throw new Error('Failed to fetch data');
-				}
-				data = await response.json();
+				// const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+				// if (!response.ok) {
+				// 	throw new Error('Failed to fetch data');
+				// }
+				// data = await response.json();
+
+				const data = await getPublicJobs();
+
 				dataStore.set(data); // Cache the data
 			} catch (err) {
 				error = err.message;
@@ -27,7 +31,7 @@
 
 		// Subscribe to the store
 		dataStore.subscribe((value) => {
-			data = value;
+			jobs = value;
 		});
 	});
 </script>
@@ -158,7 +162,7 @@
 <p>Bunch of fake items from jsonplaceholder to test data fetching and preloading/etc...</p>
 {#if error}
 	<p>Error: {error}</p>
-{:else if data.length === 0}
+{:else if jobs.length === 0}
 	<p>Loading...</p>
 {:else}
 	<ul class="list-inside list-none p-0">
@@ -192,8 +196,6 @@
 					</div>
 				</li></a
 			>
-		{/each}
-	</ul>
 {/if}
 <!-- Pagination -->
 <nav class="flex items-center justify-center gap-x-1" aria-label="Pagination">
