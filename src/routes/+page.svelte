@@ -3,7 +3,7 @@
 	import SEO from '$lib/components/SEO.svelte';
 	import { dataStore } from '$lib/stores/dataStore';
 	import { get } from 'svelte/store';
-	import { INDUSTRIES_LIST, SITE_NAME } from '$lib/constants';
+  import { INDUSTRIES_LIST, SITE_NAME } from '$lib/constants';
 	import { onMount } from 'svelte';
 
 	let jobs = [];
