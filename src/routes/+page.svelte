@@ -135,7 +135,14 @@
 
 {#await isGettingJobs}
 	<!-- promise is pending -->
-	<p class="text-4xl text-red-500">Loading jobs...Lane make this pretty</p>
+	<div class="flex flex-1 flex-col items-center gap-6">
+		<div class="text-2xl font-bold">Loading opportunities..yay! 😃</div>
+		<div
+			class="inline-block size-5 animate-spin rounded-full border-[3px] border-current border-t-transparent text-blue-800 dark:text-blue-800"
+			role="status"
+			aria-label="loading"
+		></div>
+	</div>
 {:then jobs}
 	<!-- promise was fulfilled or not a Promise -->
 	<ul class="list-inside list-none p-0">
