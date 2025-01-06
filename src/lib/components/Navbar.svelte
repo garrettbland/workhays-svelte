@@ -5,10 +5,10 @@
 <header
 	class="relative flex w-full flex-wrap bg-white py-3 text-sm sm:flex-nowrap sm:justify-start dark:bg-neutral-800"
 >
-	<nav class="mx-auto w-full max-w-4xl px-4 sm:flex sm:items-center sm:justify-between">
+	<nav class="mx-auto w-full max-w-[85rem] px-4 sm:flex sm:items-center sm:justify-between">
 		<div class="flex items-center justify-between">
 			<a
-				class="flex-none text-xl font-semibold focus:opacity-80 focus:outline-none dark:text-white"
+				class="flex-none text-3xl font-bold text-sky-600 focus:opacity-80 focus:outline-none dark:text-white"
 				href="/"
 				aria-label={SITE_NAME}
 			>
@@ -25,7 +25,7 @@
 					data-hs-collapse="#hs-navbar-example"
 				>
 					<svg
-						class="hs-collapse-open:hidden size-4 shrink-0"
+						class="size-4 shrink-0 hs-collapse-open:hidden"
 						xmlns="http://www.w3.org/2000/svg"
 						width="24"
 						height="24"
@@ -43,7 +43,7 @@
 						/></svg
 					>
 					<svg
-						class="hs-collapse-open:block hidden size-4 shrink-0"
+						class="hidden size-4 shrink-0 hs-collapse-open:block"
 						xmlns="http://www.w3.org/2000/svg"
 						width="24"
 						height="24"
@@ -69,10 +69,21 @@
 				<!-- TO DO: Active page style and aria-current="page" -->
 				{#each NAV_LINKS as link}
 					<a
-						class="font-medium text-gray-600 hover:text-gray-400 focus:text-gray-400 focus:outline-none dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
+						class="font-medium text-gray-700 hover:text-black hover:underline focus:text-black focus:outline-none dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
 						href={link.href}>{link.name}</a
 					>
 				{/each}
+				<div class="mt-5 flex flex-col gap-2 sm:mt-0 sm:flex-row sm:items-center sm:ps-5">
+					<button
+						type="button"
+						class="inline-flex w-max flex-1 items-center gap-x-2 rounded-lg border border-sky-600 px-3 py-2 text-sm font-medium text-sky-600 hover:bg-sky-50 focus:bg-sky-600 focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50 md:w-full"
+						><a href="/register">Register</a></button
+					>
+					<button
+						class="inline-flex w-max flex-1 items-center gap-x-2 rounded-lg border border-transparent bg-sky-600 px-3 py-2 text-sm font-medium text-white hover:bg-sky-500 focus:bg-sky-500 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+						><a href="/login">Login</a></button
+					>
+				</div>
 			</div>
 		</div>
 	</nav>
