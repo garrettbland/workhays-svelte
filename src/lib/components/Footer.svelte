@@ -16,11 +16,9 @@
 			<!-- End Col -->
 
 			<!-- List -->
-			<ul class="flex flex-wrap items-center">
+			<ul class="flex flex-wrap items-center gap-3">
 				{#each FOOTER_LINKS as link}
-					<li
-						class="relative inline-block pe-4 text-xs before:absolute before:end-1.5 before:top-1/2 before:size-[3px] before:-translate-y-1/2 before:rounded-full before:bg-gray-400 last:pe-0 last-of-type:before:hidden dark:text-neutral-500 dark:before:bg-neutral-600"
-					>
+					<li class="text-xs dark:text-neutral-500 dark:before:bg-neutral-600">
 						<a
 							class="text-xs text-gray-500 underline hover:text-gray-800 hover:decoration-2 focus:decoration-2 focus:outline-none dark:text-neutral-500 dark:hover:text-neutral-400"
 							href={link.href}
@@ -29,7 +27,7 @@
 						</a>
 					</li>
 				{/each}
-				<li class="inline-block">
+				<li class="hidden">
 					<!-- Dark Mode -->
 					<button
 						type="button"

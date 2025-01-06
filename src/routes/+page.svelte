@@ -3,7 +3,7 @@
 	import SEO from '$lib/components/SEO.svelte';
 	import { dataStore } from '$lib/stores/dataStore';
 	import { get } from 'svelte/store';
-  	import { INDUSTRIES_LIST, SITE_NAME } from '$lib/constants';
+	import { INDUSTRIES_LIST, SITE_NAME } from '$lib/constants';
 	import { onMount } from 'svelte';
 
 	let jobs = [];
@@ -51,7 +51,7 @@
 
 			<p class="mt-3 text-gray-600 dark:text-neutral-400">
 				Browse current job openings in Hays, KS and surrounding communities. Are you an employer?
-				Post your jobs for free, to get started, <a href="/register" class="text-sky-600"
+				Post your jobs for free, to get started, <a href="/register" class="text-blue-800"
 					>register here!</a
 				>
 			</p>
@@ -59,14 +59,14 @@
 			<div class="relative mx-auto mt-4 max-w-xl sm:mt-12 sm:flex md:flex">
 				<!-- Form -->
 				<div class="flex flex-1 flex-col gap-2 sm:mt-0 sm:flex-row sm:items-center sm:justify-end">
-					<div class=" flex-1 space-y-3">
+					<div class=" hidden flex-1 space-y-3">
 						<div>
 							<div class="relative flex w-full flex-1">
 								<input
 									type="text"
 									id="hs-leading-icon"
 									name="hs-leading-icon"
-									class="z-10 block flex-1 rounded-lg border-gray-200 p-4 ps-11 text-sm shadow-sm placeholder:text-gray-700 focus:border-sky-600 focus:ring-sky-600 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+									class="z-10 block flex-1 rounded-lg border-gray-200 p-4 ps-11 text-sm shadow-sm placeholder:text-gray-700 focus:border-blue-800 focus:ring-blue-800 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
 									placeholder="Job title, Company, etc."
 								/>
 								<div
@@ -91,7 +91,7 @@
 						</div>
 					</div>
 					<select
-						class="z-10 flex-1 rounded-lg border-gray-200 p-4 text-sm focus:border-sky-600 focus:ring-sky-600 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+						class="z-10 flex-1 rounded-lg border-gray-200 p-4 text-sm focus:border-blue-800 focus:ring-blue-800 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
 					>
 						{#each INDUSTRIES_LIST as option}
 							<option>
@@ -137,7 +137,7 @@
 				<!-- SVG Element -->
 				<div class="absolute bottom-0 start-0 hidden -translate-x-32 translate-y-10 md:block">
 					<svg
-						class="h-auto w-40 text-sky-600"
+						class="h-auto w-40 text-blue-800"
 						width="347"
 						height="188"
 						viewBox="0 0 347 188"
@@ -169,7 +169,7 @@
 		{#each jobs as job}
 			<a class="group/item no-underline" href={`/jobs/${job._id}`}>
 				<li
-					class="flex w-full items-center gap-4 rounded-lg border border-gray-200 px-6 py-4 duration-300 ease-in-out hover:cursor-pointer hover:border-sky-600 hover:shadow-md hover:transition-all"
+					class="flex w-full items-center gap-4 rounded-lg border border-gray-200 px-6 py-4 duration-300 ease-in-out hover:cursor-pointer hover:border-blue-800 hover:shadow-md hover:transition-all"
 				>
 					<div class="flex-1">
 						<div class="text-sm font-normal text-gray-700">Employer Name</div>
@@ -180,7 +180,7 @@
 					<div class="flex items-center gap-4">
 						<div class="text-sm font-normal text-gray-700">Jan 1, 2025</div>
 						<svg
-							class="group/chevron size-4 shrink-0 group-hover/item:text-sky-600"
+							class="group/chevron size-4 shrink-0 group-hover/item:text-blue-800"
 							xmlns="http://www.w3.org/2000/svg"
 							width="24"
 							height="24"
@@ -199,67 +199,3 @@
 		{/each}
 	</ul>
 {/if}
-<!-- Pagination -->
-<nav class="flex items-center justify-center gap-x-1" aria-label="Pagination">
-	<button
-		type="button"
-		class="inline-flex min-h-[38px] min-w-[38px] items-center justify-center gap-x-1.5 rounded-lg px-2.5 py-2 text-sm hover:bg-sky-100 focus:bg-sky-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
-		aria-label="Previous"
-		disabled=""
-	>
-		<svg
-			class="size-3.5 shrink-0"
-			xmlns="http://www.w3.org/2000/svg"
-			width="24"
-			height="24"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			stroke-width="2"
-			stroke-linecap="round"
-			stroke-linejoin="round"
-		>
-			<path d="m15 18-6-6 6-6"></path>
-		</svg>
-		<span>Previous</span>
-	</button>
-	<div class="flex items-center gap-x-1">
-		<button
-			type="button"
-			class="flex min-h-[38px] min-w-[38px] items-center justify-center rounded-lg bg-sky-100 px-3 py-2 text-sm focus:bg-sky-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-neutral-600 dark:text-white dark:focus:bg-neutral-500"
-			aria-current="page">1</button
-		>
-		<button
-			type="button"
-			class="flex min-h-[38px] min-w-[38px] items-center justify-center rounded-lg px-3 py-2 text-sm hover:bg-sky-50 focus:bg-sky-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
-			>2</button
-		>
-		<button
-			type="button"
-			class="flex min-h-[38px] min-w-[38px] items-center justify-center rounded-lg px-3 py-2 text-sm hover:bg-sky-50 focus:bg-sky-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
-			>3</button
-		>
-	</div>
-	<button
-		type="button"
-		class="inline-flex min-h-[38px] min-w-[38px] items-center justify-center gap-x-1.5 rounded-lg px-2.5 py-2 text-sm hover:bg-sky-50 focus:bg-sky-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
-		aria-label="Next"
-	>
-		<span>Next</span>
-		<svg
-			class="size-3.5 shrink-0"
-			xmlns="http://www.w3.org/2000/svg"
-			width="24"
-			height="24"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			stroke-width="2"
-			stroke-linecap="round"
-			stroke-linejoin="round"
-		>
-			<path d="m9 18 6-6-6-6"></path>
-		</svg>
-	</button>
-</nav>
-<!-- End Pagination -->

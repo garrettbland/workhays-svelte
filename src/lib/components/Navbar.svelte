@@ -5,10 +5,10 @@
 <header
 	class="relative flex w-full flex-wrap bg-white py-3 text-sm sm:flex-nowrap sm:justify-start dark:bg-neutral-800"
 >
-	<nav class="mx-auto w-full max-w-[85rem] px-4 sm:flex sm:items-center sm:justify-between">
+	<nav class="mx-auto w-full max-w-4xl px-4 sm:flex sm:items-center sm:justify-between">
 		<div class="flex items-center justify-between">
 			<a
-				class="flex-none text-3xl font-bold text-sky-600 focus:opacity-80 focus:outline-none dark:text-white"
+				class="flex-none text-3xl font-bold text-blue-800 focus:opacity-80 focus:outline-none dark:text-white"
 				href="/"
 				aria-label={SITE_NAME}
 			>
@@ -76,11 +76,11 @@
 				<div class="mt-5 flex flex-col gap-2 sm:mt-0 sm:flex-row sm:items-center sm:ps-5">
 					<button
 						type="button"
-						class="inline-flex w-max flex-1 items-center gap-x-2 rounded-lg border border-sky-600 px-3 py-2 text-sm font-medium text-sky-600 hover:bg-sky-50 focus:bg-sky-600 focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50 md:w-full"
+						class="inline-flex w-max flex-1 items-center gap-x-2 rounded-lg border border-blue-700 px-3 py-2 text-sm font-medium text-blue-700 hover:bg-gray-50 focus:bg-gray-50 focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50 md:w-full"
 						><a href="/register">Register</a></button
 					>
 					<button
-						class="inline-flex w-max flex-1 items-center gap-x-2 rounded-lg border border-transparent bg-sky-600 px-3 py-2 text-sm font-medium text-white hover:bg-sky-500 focus:bg-sky-500 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+						class="inline-flex w-max flex-1 items-center gap-x-2 rounded-lg border border-transparent bg-blue-800 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:bg-blue-500 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
 						><a href="/login">Login</a></button
 					>
 				</div>
