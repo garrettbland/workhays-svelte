@@ -1,6 +1,7 @@
 import type { PageLoad } from './$types';
 import { dataStore } from '$lib/stores/dataStore';
 import { get } from 'svelte/store';
+import { getPublicJob } from '$lib/jobs';
 
 export const load: PageLoad = async ({ params }) => {
 	let jobTitle;
@@ -8,15 +9,17 @@ export const load: PageLoad = async ({ params }) => {
 	const cachedData = get(dataStore); // Get the current value of the store
 	if (cachedData) {
 		console.log('DataStore has data');
-		const job = cachedData.find((job) => job.id === params.jobId);
+		const job = cachedData.find((job) => job._id === params.jobId);
 		if (job) {
 			console.log('Job found in cache');
 			jobTitle = job.title;
 		}
 	} else {
 		console.log('Fetching fresh data...');
-		const raw = await fetch(`https://jsonplaceholder.typicode.com/posts/${params.jobId}`);
-		const data = await raw.json();
+		const data = await getPublicJob(params.jobId);
+
+		// const raw = await fetch(`https://jsonplaceholder.typicode.com/posts/${params.jobId}`);
+		// const data = await raw.json();
 		//dataStore.set(data);
 		jobTitle = data.title;
 	}

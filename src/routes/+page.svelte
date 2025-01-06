@@ -1,10 +1,11 @@
 <script>
+	import { getPublicJobs } from '$lib/jobs';
 	import SEO from '$lib/components/SEO.svelte';
 	import { dataStore } from '$lib/stores/dataStore';
 	import { get } from 'svelte/store';
 
 	import { onMount } from 'svelte';
-	let data = [];
+	let jobs = [];
 	let error = null;
 
 	onMount(async () => {
@@ -13,11 +14,14 @@
 		if (!get(dataStore)) {
 			console.log('Fetching fresh data from server...');
 			try {
-				const response = await fetch('https://jsonplaceholder.typicode.com/posts');
-				if (!response.ok) {
-					throw new Error('Failed to fetch data');
-				}
-				data = await response.json();
+				// const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+				// if (!response.ok) {
+				// 	throw new Error('Failed to fetch data');
+				// }
+				// data = await response.json();
+
+				const data = await getPublicJobs();
+
 				dataStore.set(data); // Cache the data
 			} catch (err) {
 				error = err.message;
@@ -26,7 +30,7 @@
 
 		// Subscribe to the store
 		dataStore.subscribe((value) => {
-			data = value;
+			jobs = value;
 		});
 	});
 </script>
@@ -38,12 +42,12 @@
 <p>Bunch of fake items from jsonplaceholder to test data fetching and preloading/etc...</p>
 {#if error}
 	<p>Error: {error}</p>
-{:else if data.length === 0}
+{:else if jobs.length === 0}
 	<p>Loading...</p>
 {:else}
 	<ul>
-		{#each data as item}
-			<li><a href={`/jobs/${item.id}`}>{item.title}</a></li>
+		{#each jobs as job}
+			<li><a href={`/jobs/${job._id}`}>{job.title}</a></li>
 		{/each}
 	</ul>
 {/if}
