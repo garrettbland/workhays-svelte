@@ -81,7 +81,7 @@
 					>
 					<button
 						class="inline-flex w-max flex-1 items-center gap-x-2 rounded-lg border border-transparent bg-blue-800 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:bg-blue-500 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-						><a href="/login">Sign in</a></button
+						><a href="/sign-in">Sign in</a></button
 					>
 				</div>
 			</div>

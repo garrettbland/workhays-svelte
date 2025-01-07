@@ -1,21 +1,24 @@
 <script>
-	import { onMount } from 'svelte';
-	import { goto } from '$app/navigation';
-	import { ADMIN_NAV_LINKS } from '$lib/constants';
-	import { authState } from '$lib/auth';
-	import LogoutButton from '$lib/components/LogoutButton.svelte';
+	import { goto } from '$app/navigation'
+	import { ADMIN_NAV_LINKS } from '$lib/constants'
+	import { authData, signOut } from '$lib/auth.svelte'
 
-	let { children } = $props();
+	let { children } = $props()
 
 	$effect(() => {
-		if (!$authState.loading && !$authState.user) {
-			console.log('user is not logged in');
-			goto('/login');
+		if (!authData.isLoading && !authData.user) {
+			console.log('user is not logged in')
+			goto('/sign-in')
 		}
-	});
+	})
+
+	const handleSignOut = async () => {
+		await signOut()
+		goto('/sign-in')
+	}
 </script>
 
-{#if $authState.loading || !$authState.user}
+{#if authData.isLoading || !authData.user}
 	<p>Loading...</p>
 {:else}
 	<div class="grid grid-cols-12 gap-6">
@@ -31,9 +34,9 @@
 						</a>
 					{/each}
 				</nav>
-				{#if $authState.user}
-					<p>Welcome, {$authState.user.email}</p>
-					<LogoutButton />
+				{#if authData.user}
+					<p>Welcome, {authData.user.email}</p>
+					<button on:click={handleSignOut}>Logout</button>
 				{:else}
 					<a href="/login">Login</a>
 				{/if}

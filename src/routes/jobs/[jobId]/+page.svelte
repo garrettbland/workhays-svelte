@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	let { job }: { job: PageData } = $props();
+	let { data }: { data: PageData } = $props();
+	const job = $derived(data);
 </script>
 
 <div class="lg:flex lg:items-center lg:justify-between">
