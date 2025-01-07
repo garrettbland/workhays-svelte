@@ -34,12 +34,6 @@
 						</a>
 					{/each}
 				</nav>
-				{#if authData.user}
-					<p>Welcome, {authData.user.email}</p>
-					<button on:click={handleSignOut}>Logout</button>
-				{:else}
-					<a href="/login">Login</a>
-				{/if}
 			</div>
 		</div>
 		<div class="col-span-9">

@@ -1,4 +1,4 @@
-export const SITE_NAME = 'Work Hays';
+export const SITE_NAME = 'Work Hays'
 
 export const NAV_LINKS = [
 	{
@@ -13,7 +13,7 @@ export const NAV_LINKS = [
 		name: 'Contact',
 		href: '/contact'
 	}
-];
+]
 
 export const FOOTER_LINKS = [
 	{
@@ -36,7 +36,7 @@ export const FOOTER_LINKS = [
 		name: 'About',
 		href: '/about'
 	}
-];
+]
 
 export const ADMIN_NAV_LINKS = [
 	{
@@ -55,71 +55,73 @@ export const ADMIN_NAV_LINKS = [
 		name: 'Account',
 		href: '/admin/account'
 	}
-];
+]
 
 export const INDUSTRIES_LIST = [
 	{
 		name: 'All Industries',
-		href: '#'
+		value: ''
 	},
 	{
-		name: 'Accounting / Finance/Banking',
-		href: '#'
+		name: 'Accounting / Finance/ Banking',
+		value: ''
 	},
 	{
 		name: 'Administrative / Office Support',
-		href: '#'
+		value: ''
 	},
 	{
 		name: 'Agriculture',
-		href: '#'
+		value: ''
 	},
 	{
 		name: 'Construction / Natural Gas / Oil',
-		href: '#'
+		value: ''
 	},
 	{
 		name: 'Delivery / Transportation / Trucking',
-		href: '#'
+		value: ''
 	},
 	{
 		name: 'Education',
-		href: '#'
+		value: ''
 	},
 	{
 		name: 'Food Service',
-		href: '#'
+		value: ''
 	},
 	{
 		name: 'Healthcare / Social Assistance',
-		href: '#'
+		value: ''
 	},
 	{
 		name: 'Hotel / Hospitality',
-		href: '#'
+		value: ''
 	},
 	{
 		name: 'IT / Computer',
-		href: '#'
+		value: ''
 	},
 	{
 		name: 'Maintenance / Custodial',
-		href: '#'
+		value: ''
 	},
 	{
 		name: 'Manufacturing / Assembly',
-		href: '#'
+		value: ''
 	},
 	{
 		name: 'Professional Services',
-		href: '#'
+		value: ''
 	},
 	{
 		name: 'Real Estate / Rental',
-		href: '#'
+		value: ''
 	},
 	{
 		name: 'Retail / Sales',
-		href: '#'
+		value: ''
 	}
-];
+]
+
+export const INDUSTRY_LIST_VALUES = INDUSTRIES_LIST.map((industry) => industry.value)
