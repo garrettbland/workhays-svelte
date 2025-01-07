@@ -4,10 +4,15 @@
 </script>
 
 <div class="lg:flex lg:items-center lg:justify-between">
-	<div class="">
+	<div class="flex-1">
 		<h2 class="m-0 mt-8 text-2xl font-bold sm:truncate">Retail Sales Associate</h2>
-		<div class="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
-			<div class="mt-2 flex items-center text-sm font-medium text-gray-700">
+		<div class="mb-2">
+			<a href="#" class="text-blue-800 no-underline hover:underline">Nex-tech Wireless, LLC</a>
+		</div>
+		<div
+			class="flex flex-col border-b border-t border-gray-200 py-2 sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6"
+		>
+			<div class=" flex items-center text-sm font-medium text-gray-700">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
@@ -24,7 +29,7 @@
 				</svg>
 				Full-time
 			</div>
-			<div class="mt-2 flex items-center text-sm">
+			<div class=" flex items-center text-sm">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
@@ -41,7 +46,7 @@
 				</svg>
 				<a class="text-blue-800 no-underline hover:underline" href="#">Apply Online</a>
 			</div>
-			<div class="mt-2 flex items-center text-sm text-gray-700">
+			<div class=" flex items-center text-sm text-gray-700">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
@@ -60,7 +65,7 @@
 					>Contact</a
 				>
 			</div>
-			<div class="mt-2 flex items-center text-sm font-medium text-gray-700">
+			<div class=" flex items-center text-sm font-medium text-gray-700">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
@@ -79,7 +84,7 @@
 					>555-555-5555</a
 				>
 			</div>
-			<div class="mt-2 flex items-center text-sm font-medium text-gray-700">
+			<div class=" flex items-center text-sm font-medium text-gray-700">
 				<svg
 					class="-ml-0.5 mr-1.5 size-5 text-gray-400"
 					viewBox="0 0 20 20"
@@ -97,30 +102,6 @@
 				<a class=" text-blue-800 no-underline hover:underline" href="tel:555-555-5555">Copy Link</a>
 			</div>
 		</div>
-	</div>
-	<div class="mt-5 flex hidden lg:ml-4 lg:mt-0">
-		<span class="ml-0 lg:ml-3">
-			<button
-				type="button"
-				class="inline-flex items-center rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-			>
-				<svg
-					class="-ml-0.5 mr-1.5 size-5 text-gray-400"
-					viewBox="0 0 20 20"
-					fill="currentColor"
-					aria-hidden="true"
-					data-slot="icon"
-				>
-					<path
-						d="M12.232 4.232a2.5 2.5 0 0 1 3.536 3.536l-1.225 1.224a.75.75 0 0 0 1.061 1.06l1.224-1.224a4 4 0 0 0-5.656-5.656l-3 3a4 4 0 0 0 .225 5.865.75.75 0 0 0 .977-1.138 2.5 2.5 0 0 1-.142-3.667l3-3Z"
-					/>
-					<path
-						d="M11.603 7.963a.75.75 0 0 0-.977 1.138 2.5 2.5 0 0 1 .142 3.667l-3 3a2.5 2.5 0 0 1-3.536-3.536l1.225-1.224a.75.75 0 0 0-1.061-1.06l-1.224 1.224a4 4 0 1 0 5.656 5.656l3-3a4 4 0 0 0-.225-5.865Z"
-					/>
-				</svg>
-				Copy Link
-			</button>
-		</span>
 	</div>
 </div>
 <div class="mx-auto my-8 max-w-4xl lg:px-0">
@@ -181,7 +162,7 @@
 		</div>
 		<div class="col-span-1 md:col-span-2">
 			<div class="rounded-lg border border-gray-200 bg-white p-2">
-				<div class="mb-6">
+				<div class="mb-6 hidden">
 					<div class="text-sm font-bold">Employer</div>
 					<div class="mt-1 text-sm text-gray-900">
 						<a class="text-blue-800 no-underline hover:underline" href="#">
