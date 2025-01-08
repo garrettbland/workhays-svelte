@@ -1,11 +1,12 @@
 import { collection, getDocs, doc, getDoc } from 'firebase/firestore'
 import { db } from '$lib/firebase'
 import { cachedData } from '$lib/cache.svelte'
+import type { Job } from '$lib/types'
 
 /**
  * Fetches public job listings from firebase
  */
-export const getPublicJobs = async (): Promise<App.Job[]> => {
+export const getPublicJobs = async (): Promise<Job[]> => {
 	try {
 		/**
 		 * Check if jobs exists in cache
@@ -40,11 +41,12 @@ export const getPublicJobs = async (): Promise<App.Job[]> => {
 	}
 }
 
-export const getPublicJob = async (jobId: string): Promise<App.Job> => {
+export const getPublicJob = async (jobId: string): Promise<Job> => {
 	try {
 		/**
 		 * Check if job exists in cache
 		 */
+
 		const cachedJob = cachedData.jobs.find((job) => job._id === jobId)
 		if (cachedJob) {
 			console.log('Job found in cache, skipping fetch...')

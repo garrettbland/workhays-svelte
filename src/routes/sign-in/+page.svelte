@@ -12,7 +12,7 @@
 	 */
 	$effect(() => {
 		if (authData.user && authData.isLoading === false) {
-			goto('/admin')
+			goto('/admin/dashboard')
 		}
 	})
 
@@ -21,7 +21,7 @@
 			isSigningIn = true
 			await signIn(email, password)
 			error = '' // Clear any previous error
-			goto('/admin')
+			goto('/admin/dashboard')
 		} catch (err) {
 			error = err.message
 			isSigningIn = false

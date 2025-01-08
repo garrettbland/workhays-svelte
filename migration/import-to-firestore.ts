@@ -1,6 +1,6 @@
-import fs from 'fs'
+import fs from 'node:fs'
 import csv from 'csv-parser'
-import { firestore } from './firestore'
+import { firestore } from './firestore.ts'
 
 /**
  * Must batch large imports together to avoid exceeding the maximum write limit of 500.
@@ -33,6 +33,7 @@ export const importLargeCSVToFirestore = (
 						const updatedRecord = dataMapper(record)
 
 						const docRef = firestore.collection(collectionName).doc()
+
 						batch.set(docRef, updatedRecord)
 					})
 

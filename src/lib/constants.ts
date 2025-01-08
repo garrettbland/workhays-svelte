@@ -41,7 +41,7 @@ export const FOOTER_LINKS = [
 export const ADMIN_NAV_LINKS = [
 	{
 		name: 'Dashboard',
-		href: '/admin'
+		href: '/admin/dashboard'
 	},
 	{
 		name: 'Jobs',

@@ -1,3 +1,5 @@
+import type { Job } from '$lib/types'
+
 /**
  * Universal state to store cached data.
  * https://svelte.dev/tutorial/svelte/universal-reactivity
@@ -9,4 +11,4 @@
  * console.log(jobs)
  * ```
  */
-export const cachedData = $state<{ jobs: App.Job[] }>({ jobs: [] });
+export const cachedData = $state<{ jobs: Job[] }>({ jobs: [] })

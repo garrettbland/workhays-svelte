@@ -1,13 +1,13 @@
 <script>
-	import { getPublicJobs } from '$lib/jobs';
-	import SEO from '$lib/components/SEO.svelte';
-	import { INDUSTRIES_LIST, SITE_NAME } from '$lib/constants';
+	import { getPublicJobs } from '$lib/jobs'
+	import SEO from '$lib/components/SEO.svelte'
+	import { INDUSTRIES_LIST, SITE_NAME } from '$lib/constants'
 
 	/**
 	 * Gets all public jobs. Takes advantage of "await" blocks from Svelte.
 	 * https://svelte.dev/docs/svelte/await
 	 */
-	let isGettingJobs = $state(getPublicJobs());
+	let isGettingJobs = $state(getPublicJobs())
 </script>
 
 <SEO

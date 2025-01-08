@@ -1,21 +1,15 @@
 <script>
 	import { goto } from '$app/navigation'
 	import { ADMIN_NAV_LINKS } from '$lib/constants'
-	import { authData, signOut } from '$lib/auth.svelte'
+	import { authData } from '$lib/auth.svelte'
 
 	let { children } = $props()
 
 	$effect(() => {
 		if (!authData.isLoading && !authData.user) {
-			console.log('user is not logged in')
 			goto('/sign-in')
 		}
 	})
-
-	const handleSignOut = async () => {
-		await signOut()
-		goto('/sign-in')
-	}
 </script>
 
 {#if authData.isLoading || !authData.user}
