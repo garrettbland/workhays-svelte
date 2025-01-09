@@ -24,3 +24,6 @@ vite.config.ts.timestamp-*
 
 # Firestore Admin SDK
 service-account-key.json
+
+# Migration Data
+migration/database/*

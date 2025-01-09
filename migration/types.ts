@@ -40,7 +40,7 @@ export interface OldUser {
 	first_name: string
 	last_name: string
 	email: string
-	password: string
+	password: Buffer
 	password_reset_token: string
 	password_reset_token_expires: string
 	status: 'pending' | 'verified' | 'locked'

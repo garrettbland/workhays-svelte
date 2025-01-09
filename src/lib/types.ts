@@ -1,6 +1,11 @@
 import { INDUSTRY_LIST_VALUES } from '$lib/constants'
 
-export interface Job {
+interface CommonDocument {
+	createdAt: string // created_at
+	updatedAt: string // updated_at
+}
+
+export interface Job extends CommonDocument {
 	title: string // title
 	description: string // description
 	employerTitle: string // **new**
@@ -9,24 +14,20 @@ export interface Job {
 	applicationLink: string // application_link
 	status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED' // status (active, inactive, archived)
 	industry: typeof INDUSTRY_LIST_VALUES // industry
-	legacyId?: string // id (legacy, only on records migrated)
-	renewedAt: string // renewed_at
-	createdAt: string // created_at
-	updatedAt: string // updated_at
+	// renewedAt: string // renewed_at (!!! Not migrating from legacy !!!)
 }
 
-export interface Employer {
+export interface Employer extends CommonDocument {
 	// id: string
 	title: string
 	description: string
-	user_id: string // legacy
-	users: [
-		{
-			userId: string
-			role: 'MEMBER' | 'ADMIN' | 'OWNER'
-			status: 'INVITED' | 'ACCEPTED'
-		}
-	]
+	legacyUserId: string // legacy
+	users: {
+		userId: string
+		role: 'MEMBER' | 'ADMIN' | 'OWNER'
+		status: 'INVITED' | 'ACCEPTED'
+	}[]
+	status: 'PENDING' | 'APPROVED' | 'DENIED'
 	contact: string
 	email: string
 	phone: string
@@ -37,16 +38,13 @@ export interface Employer {
 	twitter_url: string
 	instagram_url: string
 	youtube_url: string
-	legacyId?: string // id (legacy, only on records migrated)
-	createdAt: string
-	updatedAt: string
 }
 
-export interface User {
+export interface User extends CommonDocument {
 	// id: string
 	uid: string
 	firstName: string
-	lastLame: string
+	lastName: string
 	email: string
 	// password: string
 	// password_reset_token: string
@@ -54,9 +52,6 @@ export interface User {
 	// status: 'pending' | 'verified' | 'locked'
 	role: 'USER' | 'MODERATOR' | 'ADMIN'
 	// last_login: string
-	legacyId?: string // id (legacy, only on records migrated)
-	createdAt: string
-	updatedAt: string
 	// employer_id_claim_request: string
 }
 

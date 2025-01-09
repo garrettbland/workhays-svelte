@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import csv from 'csv-parser'
-import { firestore } from './firestore.ts'
+import { firestore, Timestamp, serverTimestamp } from './firestore.ts'
 
 /**
  * Must batch large imports together to avoid exceeding the maximum write limit of 500.
@@ -10,7 +10,7 @@ export const importLargeCSVToFirestore = (
 	collectionName: string,
 	dataMapper: (record) => Record<any, any>
 ) => {
-	const MAX_BATCH_SIZE = 500
+	const MAX_BATCH_SIZE = 499
 	const data = []
 
 	fs.createReadStream(csvFilePath)
@@ -30,10 +30,13 @@ export const importLargeCSVToFirestore = (
 						/**
 						 * Map data to new format
 						 */
-						const updatedRecord = dataMapper(record)
+						const updatedRecord = {
+							...dataMapper(record),
+							updatedAt: serverTimestamp(),
+							createdAt: Timestamp.fromMillis(new Date(record.created_at).getTime())
+						}
 
-						const docRef = firestore.collection(collectionName).doc()
-
+						const docRef = firestore.collection(collectionName).doc(record.id)
 						batch.set(docRef, updatedRecord)
 					})
 
