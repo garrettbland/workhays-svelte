@@ -21,7 +21,6 @@ export interface Employer extends CommonDocument {
 	// id: string
 	title: string
 	description: string
-	legacyUserId: string // legacy
 	users: {
 		userId: string
 		role: 'MEMBER' | 'ADMIN' | 'OWNER'

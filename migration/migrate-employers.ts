@@ -9,7 +9,8 @@ import { OldEmployer } from './types.ts'
 const CSV_PATH = './database/employers-manual-export.csv'
 
 /**
- * SQL query to get jobs and add employer title
+ * SQL query to get employers. Only gets employers that have a "verified" user
+ * SELECT employers.*, users.status FROM employers JOIN users ON employers.user_id = users.id WHERE users.status = 'verified' LIMIT 10;
  */
 
 /**

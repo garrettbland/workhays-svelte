@@ -10,7 +10,7 @@ const CSV_PATH = './database/jobs-manual-export.csv'
 
 /**
  * SQL query to get jobs and add employer title
- * SELECT jobs.*, employers.title AS employer_title from `workhays_prod`.`jobs` LEFT JOIN `workhays_prod`.`employers` ON jobs.employer_id = employers.id;
+ * SELECT jobs.*, employers.title AS employer_title from jobs LEFT JOIN `employers` ON jobs.employer_id = employers.id;
  */
 
 /**
@@ -30,7 +30,7 @@ const dataMapper = (record: OldJobWithEmployerTitle): Required<Job> => {
 				: record.status === 'inactive'
 					? 'DRAFT'
 					: 'ARCHIVED',
-		industry: record.industry,
+		industry: record.industry ?? 'uncategorized',
 		createdAt: record.created_at,
 		updatedAt: record.updated_at
 	}

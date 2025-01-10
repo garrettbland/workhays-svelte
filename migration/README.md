@@ -12,4 +12,7 @@ Need to add `service-account-key.json` and copy contents from Firebase. `.csv` f
 
 ### Scripts
 
-- `deno migrate-jobs.ts` (Migrates local jobs to firebase)
+- `deno migrate-jobs.ts` (Migrates local jobs with employer title to Firestore)
+- `deno migrate-users.ts` (Migrates users to Firestore)
+- `deno migrate-employers.ts` (Migrates employers to Firestore)
+- `deno migrate-auth.ts` (Imports users into Firebase Auth with current password & uid)

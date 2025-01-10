@@ -9,8 +9,8 @@ import { OldUser } from './types.ts'
 const CSV_PATH = './database/users-manual-export.csv'
 
 /**
- * SQL query to get users
- *
+ * SQL query to get users (only get verified to cut down on spam submissions)
+ * SELECT * from users WHERE status = 'verified' LIMIT 10;
  */
 
 /**

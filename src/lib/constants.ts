@@ -121,6 +121,10 @@ export const INDUSTRIES_LIST = [
 	{
 		name: 'Retail / Sales',
 		value: ''
+	},
+	{
+		name: 'Uncategorized', // Here for migration
+		value: 'uncategorized'
 	}
 ]
 
