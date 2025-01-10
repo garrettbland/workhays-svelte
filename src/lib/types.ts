@@ -1,8 +1,9 @@
 import { INDUSTRY_LIST_VALUES } from '$lib/constants'
+import { Timestamp } from 'firebase/firestore'
 
 interface CommonDocument {
-	createdAt: string // created_at
-	updatedAt: string // updated_at
+	createdAt: typeof Timestamp // created_at
+	updatedAt: typeof Timestamp // updated_at
 }
 
 export interface Job extends CommonDocument {
