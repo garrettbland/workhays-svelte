@@ -12,10 +12,17 @@ export interface Job extends CommonDocument {
 	employerTitle: string // **new**
 	employerId: string // employer_id
 	type: 'FULL_TIME' | 'PART_TIME' | 'CONTRACT' | 'TEMPORARY' | 'INTERN' // job_type (full_time, part_time)
-	applicationLink: string // application_link
+	applicationLink?: string // application_link
 	status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED' // status (active, inactive, archived)
 	industry: typeof INDUSTRY_LIST_VALUES // industry
 	// renewedAt: string // renewed_at (!!! Not migrating from legacy !!!)
+}
+
+/**
+ * Extra type that extends job so we can add the document id when querying
+ */
+export interface JobWithID extends Job {
+	id: string
 }
 
 export interface Employer extends CommonDocument {
@@ -53,6 +60,7 @@ export interface User extends CommonDocument {
 	role: 'USER' | 'MODERATOR' | 'ADMIN'
 	// last_login: string
 	// employer_id_claim_request: string
+	memberOf: string[] // employer ID's that the user is a member of
 }
 
 export {}

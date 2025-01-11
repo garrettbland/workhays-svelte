@@ -5,6 +5,7 @@ import type { Job } from '$lib/types'
 
 /**
  * Fetches public job listings from firebase
+ * TO DO: Only show "PUBLISHED"
  */
 export const getPublicJobs = async (): Promise<Job[]> => {
 	try {
@@ -41,6 +42,9 @@ export const getPublicJobs = async (): Promise<Job[]> => {
 	}
 }
 
+/**
+ * TO DO: Only show "PUBLISHED"
+ */
 export const getPublicJob = async (jobId: string): Promise<Job> => {
 	try {
 		/**
