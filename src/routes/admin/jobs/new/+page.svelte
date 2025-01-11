@@ -1,10 +1,11 @@
-<script>
+<script lang="ts">
 	import { createJob } from '$lib/jobs.admin'
+	import type { Job } from '$lib/types'
 
 	let isLoading = $state(false)
 	let hasError = $state(false)
-	let newJob = $state({})
-	let isSuccess = $derived(Object.keys(newJob).length > 0)
+	let newJob = $state<Job>()
+	let isSuccess = $derived(newJob && Object.keys(newJob).length > 0)
 
 	let title = $state('')
 	let description = $state('')

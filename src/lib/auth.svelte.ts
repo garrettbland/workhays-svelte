@@ -1,16 +1,24 @@
 import { auth } from './firebase'
 import {
+	type User as FirebaseAuthUser,
 	signInWithEmailAndPassword,
 	signOut as firebaseSignOut,
 	onAuthStateChanged,
 	sendPasswordResetEmail
 } from 'firebase/auth'
+import type { User } from '$lib/types'
+import { getUserByUid } from '$lib/users'
 
 /**
  * Universal state to store auth data.
  * https://svelte.dev/tutorial/svelte/universal-reactivity
  */
-export const authData = $state<{ user: Record<any, any> | null; isLoading: boolean }>({
+export const authData = $state<{
+	auth: FirebaseAuthUser | null
+	user: User | null
+	isLoading: boolean
+}>({
+	auth: null,
 	user: null,
 	isLoading: true
 })
@@ -18,10 +26,28 @@ export const authData = $state<{ user: Record<any, any> | null; isLoading: boole
 /**
  * Listen for authentication changes
  */
-onAuthStateChanged(auth, (currentUser) => {
-	console.log(`Authentication state changed, current user: ${currentUser}`)
-	authData.user = currentUser
-	authData.isLoading = false
+onAuthStateChanged(auth, async (currentUser) => {
+	try {
+		console.log(`Authentication state changed, current user: ${currentUser}`)
+
+		if (!currentUser || !currentUser.uid) {
+			throw Error(`No current user or uid found`)
+		}
+
+		/**
+		 * Get the users document from firestore
+		 */
+		const userRecord = await getUserByUid(currentUser?.uid)
+
+		authData.auth = currentUser
+		authData.user = userRecord
+	} catch (err) {
+		console.log(`Error in onAuthStateChanged`, err)
+		authData.auth = null
+		authData.user = null
+	} finally {
+		authData.isLoading = false
+	}
 })
 
 /**
@@ -31,7 +57,6 @@ export const signIn = async (email: string, password: string) => {
 	try {
 		console.log('Starting sign in...')
 		await signInWithEmailAndPassword(auth, email, password)
-		// return userCredential.user;
 	} catch (error) {
 		console.error('Login error:', error.message)
 		throw error

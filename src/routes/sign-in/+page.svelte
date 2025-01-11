@@ -11,7 +11,7 @@
 	 * If the user is logged in, redirect to the admin page
 	 */
 	$effect(() => {
-		if (authData.user && authData.isLoading === false) {
+		if (authData.auth && authData.isLoading === false) {
 			goto('/admin/dashboard')
 		}
 	})

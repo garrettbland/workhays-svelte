@@ -6,13 +6,13 @@
 	let { children } = $props()
 
 	$effect(() => {
-		if (!authData.isLoading && !authData.user) {
+		if (!authData.isLoading && !authData.auth) {
 			goto('/sign-in')
 		}
 	})
 </script>
 
-{#if authData.isLoading || !authData.user}
+{#if authData.isLoading || !authData.auth}
 	<p>Loading...</p>
 {:else}
 	<div class="grid grid-cols-12 gap-6">
