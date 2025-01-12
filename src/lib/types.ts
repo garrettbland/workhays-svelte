@@ -47,6 +47,13 @@ export interface Employer extends CommonDocument {
 	youtube_url: string
 }
 
+/**
+ * Extra type that extends job so we can add the document id when querying
+ */
+export interface EmployerWithID extends Employer {
+	id: string
+}
+
 export interface User extends CommonDocument {
 	// id: string
 	uid: string

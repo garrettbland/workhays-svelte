@@ -1,6 +1,15 @@
-import { query, collection, where, doc, getDocs, getDoc, updateDoc } from 'firebase/firestore'
+import {
+	query,
+	collection,
+	where,
+	doc,
+	getDocs,
+	getDoc,
+	updateDoc,
+	serverTimestamp
+} from 'firebase/firestore'
 import { db } from '$lib/firebase'
-import type { Job, JobWithID } from '$lib/types'
+import type { JobWithID } from '$lib/types'
 
 /**
  * Creates new job. Adds document to jobs collection in firestore
@@ -92,7 +101,7 @@ export const getJobById = async (jobId: string, employerId?: string): Promise<Jo
 /**
  * Updates job by id
  */
-export const updateJobById = async (jobId: string, updatedJob: Partial<Job>) => {
+export const updateJobById = async (jobId: string, updatedJob: Partial<JobWithID>) => {
 	try {
 		/**
 		 * Reference to the document in the jobs collection
@@ -100,10 +109,15 @@ export const updateJobById = async (jobId: string, updatedJob: Partial<Job>) => 
 		const docRef = doc(db, 'jobs', jobId)
 
 		/**
+		 * Remove "id" if present
+		 */
+		delete updatedJob.id
+
+		/**
 		 * Update the document. Will not create new documents, just updates. If promise
 		 * fufills, then success. The new job doc is not returned
 		 */
-		await updateDoc(docRef, updatedJob)
+		await updateDoc(docRef, { ...updatedJob, updatedAt: serverTimestamp() })
 	} catch (error) {
 		console.log(`Error with updateJobById`, error)
 		throw new Error(`Error in updateJobById`)
