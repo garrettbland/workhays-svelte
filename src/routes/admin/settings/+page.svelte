@@ -26,7 +26,7 @@
 {#await currentEmployer}
 	<div>Loading...</div>
 {:then employer}
-	<h1>Edit Job: {employer.title}</h1>
+	<h1>Edit Employer: {employer.title}</h1>
 	{#if isLoading}
 		Updating employer...
 	{/if}

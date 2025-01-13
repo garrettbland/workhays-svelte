@@ -1,4 +1,4 @@
-import type { Job } from '$lib/types'
+import type { Job, EmployerWithID } from '$lib/types'
 
 /**
  * Universal state to store cached data.
@@ -12,3 +12,10 @@ import type { Job } from '$lib/types'
  * ```
  */
 export const cachedData = $state<{ jobs: Job[] }>({ jobs: [] })
+
+/**
+ * Cached admin data for authenticated users
+ */
+export const cachedAdminData = $state<{
+	employer: EmployerWithID | null
+}>({ employer: null })

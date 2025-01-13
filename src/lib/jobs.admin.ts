@@ -6,21 +6,38 @@ import {
 	getDocs,
 	getDoc,
 	updateDoc,
-	serverTimestamp
+	serverTimestamp,
+	addDoc
 } from 'firebase/firestore'
 import { db } from '$lib/firebase'
-import type { JobWithID } from '$lib/types'
+import type { Job, JobWithID, User } from '$lib/types'
 
 /**
  * Creates new job. Adds document to jobs collection in firestore
  */
-export const createJob = async () => {
+
+export const createJob = async (
+	newJob: Omit<Job, 'updatedAt' | 'createdAt'>,
+	employerId: string,
+	employerTitle: string
+) => {
 	try {
-		console.log('Creating job...')
-		return
+		console.log(`Creating job...`)
+
+		const jobsRef = collection(db, 'jobs')
+
+		const docRef = await addDoc(jobsRef, {
+			...newJob,
+			employerId,
+			employerTitle,
+			updatedAt: serverTimestamp(),
+			createdAt: serverTimestamp()
+		})
+
+		return docRef
 	} catch (error) {
-		console.error('Error with createJob:', error)
-		throw new Error('Error in createJob')
+		console.error(`Error with createJob:`, error)
+		throw new Error(`Error in createJob`)
 	}
 }
 

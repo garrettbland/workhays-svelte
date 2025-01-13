@@ -1,13 +1,24 @@
 import { doc, getDoc, updateDoc, serverTimestamp } from 'firebase/firestore'
 import { db } from '$lib/firebase'
-import type { Employer, EmployerWithID } from '$lib/types'
+import type { EmployerWithID } from '$lib/types'
+import { cachedAdminData } from '$lib/cache.svelte'
 
 /**
  * Get employer by ID
  */
-export const getEmployerById = async (employerId: string): Promise<Employer> => {
+export const getEmployerById = async (employerId: string): Promise<EmployerWithID> => {
 	try {
 		console.log(`Getting employer with ID: `, employerId)
+
+		/**
+		 * Check if employer exists in cache
+		 */
+		if (cachedAdminData.employer) {
+			console.log(`Employer exists in cache, skipping fetch`)
+			return cachedAdminData.employer
+		}
+
+		console.log(`Empty employer cache, fetching fresh data...`)
 
 		/**
 		 * Reference to the document in the employers collection
@@ -25,10 +36,17 @@ export const getEmployerById = async (employerId: string): Promise<Employer> => 
 		if (docSnap.exists()) {
 			const data = docSnap.data()
 
-			return {
+			const docWithId = {
 				...data,
 				id: docSnap.id
 			} as EmployerWithID
+
+			/**
+			 * Update cached employer
+			 */
+			cachedAdminData.employer = docWithId
+
+			return docWithId
 		} else {
 			throw new Error(`No such employer with id: ${employerId}`)
 		}
@@ -56,11 +74,18 @@ export const updateEmployerById = async (
 		 */
 		delete updatedEmployer.id
 
+		const newDoc = { ...updatedEmployer, updatedAt: serverTimestamp() }
+
 		/**
 		 * Update the document. Will not create new documents, just updates. If promise
 		 * fufills, then success. The new doc is not returned
 		 */
-		await updateDoc(docRef, { ...updatedEmployer, updatedAt: serverTimestamp() })
+		await updateDoc(docRef, newDoc)
+
+		/**
+		 * Reset cache
+		 */
+		cachedAdminData.employer = null
 	} catch (error) {
 		console.log(`Error with updateEmployerById`, error)
 		throw new Error(`Error in updateEmployerById`)

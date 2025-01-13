@@ -1,13 +1,13 @@
 import { collection, getDocs, doc, getDoc } from 'firebase/firestore'
 import { db } from '$lib/firebase'
 import { cachedData } from '$lib/cache.svelte'
-import type { Job } from '$lib/types'
+import type { Job, JobWithID } from '$lib/types'
 
 /**
  * Fetches public job listings from firebase
  * TO DO: Only show "PUBLISHED"
  */
-export const getPublicJobs = async (): Promise<Job[]> => {
+export const getPublicJobs = async (): Promise<JobWithID[]> => {
 	try {
 		/**
 		 * Check if jobs exists in cache
@@ -28,7 +28,7 @@ export const getPublicJobs = async (): Promise<Job[]> => {
 		 * Map through results, and add "_id" with the document id as the value
 		 * to each item. Not totally sure this is needed
 		 */
-		const data = querySnapshot.docs.map((doc) => ({ _id: doc.id, ...doc.data() }))
+		const data = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
 
 		/**
 		 * Update cached jobs
@@ -51,7 +51,7 @@ export const getPublicJob = async (jobId: string): Promise<Job> => {
 		 * Check if job exists in cache
 		 */
 
-		const cachedJob = cachedData.jobs.find((job) => job._id === jobId)
+		const cachedJob = cachedData.jobs.find((job) => job.id === jobId)
 		if (cachedJob) {
 			console.log('Job found in cache, skipping fetch...')
 			return cachedJob
