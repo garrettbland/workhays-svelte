@@ -6,8 +6,8 @@ import {
 	onAuthStateChanged,
 	sendPasswordResetEmail
 } from 'firebase/auth'
-import type { User } from '$lib/types'
-import { getUserByUid } from '$lib/users'
+import type { UserWithID } from '$lib/types'
+import { getUserByUid } from '$lib/users.admin'
 
 /**
  * Universal state to store auth data.
@@ -15,7 +15,7 @@ import { getUserByUid } from '$lib/users'
  */
 export const authData = $state<{
 	auth: FirebaseAuthUser | null
-	user: User | null
+	user: UserWithID | null
 	isLoading: boolean
 }>({
 	auth: null,

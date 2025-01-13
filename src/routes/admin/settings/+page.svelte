@@ -8,7 +8,7 @@
 	let hasError = $state(false)
 	let isSuccess = $state(false)
 
-	const handleSubmit = async (employerId: string, updatedFields: Partial<Job>) => {
+	const handleSubmit = async (employerId: string, updatedFields: Partial<EmployerWithID>) => {
 		try {
 			isLoading = true
 			hasError = false

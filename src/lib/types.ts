@@ -48,7 +48,7 @@ export interface Employer extends CommonDocument {
 }
 
 /**
- * Extra type that extends job so we can add the document id when querying
+ * Extra type that extends employer so we can add the document id when querying
  */
 export interface EmployerWithID extends Employer {
 	id: string
@@ -68,6 +68,13 @@ export interface User extends CommonDocument {
 	// last_login: string
 	// employer_id_claim_request: string
 	memberOf: string[] // employer ID's that the user is a member of
+}
+
+/**
+ * Extra type that extends user so we can add the document id when querying
+ */
+export interface UserWithID extends User {
+	id: string
 }
 
 export {}
