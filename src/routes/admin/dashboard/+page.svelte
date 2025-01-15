@@ -4,7 +4,7 @@
 
 <h1>Dashboard</h1>
 
-<p>Welcome, {authData?.user?.email}</p>
+<p>Welcome, {authData?.user?.firstName}</p>
 
 <pre>
 	<code>

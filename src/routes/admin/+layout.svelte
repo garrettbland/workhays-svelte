@@ -12,6 +12,12 @@
 	})
 </script>
 
+{#if authData.auth?.emailVerified === false}
+	<p class="bg-orange-500 text-white">
+		Check your email to verify your account. Actions will be limited until then
+	</p>
+{/if}
+
 {#if authData.isLoading || !authData.auth}
 	<p>Loading...</p>
 {:else}
