@@ -29,7 +29,8 @@ export const importLargeCSVToAuth = () => {
 			}[] = users.map((record) => ({
 				uid: record.id,
 				email: record.email,
-				passwordHash: Buffer.from(record.password)
+				passwordHash: Buffer.from(record.password),
+				emailVerified: true
 			}))
 
 			try {

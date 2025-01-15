@@ -147,7 +147,7 @@
 	<!-- promise was fulfilled or not a Promise -->
 	<ul class="list-inside list-none p-0">
 		{#each jobs as job}
-			<a class="group/item no-underline" href={`/jobs/${job._id}`}>
+			<a class="group/item no-underline" href={`/jobs/${job.id}`}>
 				<li
 					class="flex w-full items-center gap-4 rounded-lg border border-gray-200 px-6 py-4 duration-300 ease-in-out hover:cursor-pointer hover:border-blue-800 hover:shadow-md hover:transition-all"
 				>
