@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { authData, signOut } from '$lib/auth.svelte'
-	import { goto } from '$app/navigation'
 	import type { UserWithID } from '$lib/types'
 	import { updateUserById } from '$lib/users.admin'
+	import { goto } from '$app/navigation'
+	import ChangeEmail from '$lib/components/ChangeEmail.svelte'
 
 	let user = $state(authData.user ? { ...authData.user } : ({} as UserWithID))
 	let isLoading = $state(false)
@@ -14,12 +15,17 @@
 		goto('/sign-in')
 	}
 
-	const handleSubmit = async (userId: string, updatedFields: Partial<UserWithID>) => {
+	const handleUserDetailsSubmit = async (userId: string, updatedFields: UserWithID) => {
 		try {
 			isLoading = true
 			hasError = false
 			isSuccess = false
+
 			await updateUserById(userId, updatedFields)
+			authData.user = {
+				...authData.user,
+				...updatedFields
+			}
 			isSuccess = true
 		} catch (err) {
 			hasError = true
@@ -42,20 +48,25 @@
 	Successful user update
 {/if}
 
-<form on:submit|preventDefault={() => handleSubmit(user?.id ?? '', user ?? {})}>
+<h2>Personal Info</h2>
+<form on:submit|preventDefault={() => handleUserDetailsSubmit(user.id, user)}>
 	<label for="title">First Name</label>
 	<input bind:value={user.firstName} type="text" id="firstName" name="firstName" required />
 
-	<label for="description">Last Name</label>
+	<label for="Last Name">Last Name</label>
 	<input bind:value={user.lastName} type="text" id="lastName" name="lastName" required />
 
-	<button type="submit">{isLoading ? 'Loading...' : 'Submit'}</button>
+	<button name="" type="submit">{isLoading ? 'Loading...' : 'Submit'}</button>
 </form>
 
+<ChangeEmail auth={authData.auth} />
+
+<h2>Actions</h2>
 <div>
 	<button
 		on:click={handleSignOut}
 		type="button"
+		name="sign-out"
 		class="inline-flex items-center gap-x-2 rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-800 shadow-sm hover:bg-gray-50 focus:bg-gray-50 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
 	>
 		Sign Out

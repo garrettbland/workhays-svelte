@@ -1,6 +1,9 @@
 <script>
 	import { signIn, authData } from '$lib/auth.svelte'
 	import { goto } from '$app/navigation'
+	import { page } from '$app/state'
+
+	let emailChangeSuccess = page.url.searchParams.get('emailChanged') === 'true'
 
 	let email = $state('')
 	let password = $state('')
@@ -28,6 +31,10 @@
 		}
 	}
 </script>
+
+{#if emailChangeSuccess}
+	<p class="h-48 bg-green-500 text-white">Yay email change was a success 🎉</p>
+{/if}
 
 {#if authData.isLoading}
 	<p>Loading...</p>

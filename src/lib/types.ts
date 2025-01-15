@@ -59,7 +59,7 @@ export interface User extends CommonDocument {
 	uid: string
 	firstName: string
 	lastName: string
-	email: string
+	// email: string // needed? email is in firebase auth object
 	// password: string
 	// password_reset_token: string
 	// password_reset_token_expires: string
