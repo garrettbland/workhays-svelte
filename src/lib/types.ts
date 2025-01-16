@@ -1,4 +1,4 @@
-import { INDUSTRY_LIST_VALUES } from '$lib/constants'
+import { INDUSTRIES, JOB_TYPES, JOB_STATUSES } from '$lib/constants'
 import { Timestamp } from 'firebase/firestore'
 
 interface CommonDocument {
@@ -11,10 +11,10 @@ export interface Job extends CommonDocument {
 	description: string // description
 	employerTitle: string // **new**
 	employerId: string // employer_id
-	type: 'FULL_TIME' | 'PART_TIME' | 'CONTRACT' | 'TEMPORARY' | 'INTERN' // job_type (full_time, part_time)
+	type: JOB_TYPES // job_type (full_time, part_time)
 	applicationLink?: string // application_link
-	status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED' // status (active, inactive, archived)
-	industry: typeof INDUSTRY_LIST_VALUES // industry
+	status: JOB_STATUSES // status (active, inactive, archived)
+	industry: INDUSTRIES // industry
 	// renewedAt: string // renewed_at (!!! Not migrating from legacy !!!)
 }
 

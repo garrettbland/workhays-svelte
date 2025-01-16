@@ -3,6 +3,19 @@
 	import { createJob } from '$lib/jobs.admin'
 	import type { EmployerWithID, Job } from '$lib/types'
 	import { getEmployerById } from '$lib/employer.admin'
+	import { INDUSTRIES, JOB_TYPES, JOB_STATUSES } from '$lib/constants'
+
+	type JobInputs = Omit<Job, 'createdAt' | 'updatedAt'>
+	const DEFAULT_EMPTY_JOB: JobInputs = {
+		title: '',
+		description: '',
+		employerTitle: '',
+		employerId: '',
+		type: '' as JOB_TYPES,
+		applicationLink: '',
+		status: JOB_STATUSES.Draft,
+		industry: '' as INDUSTRIES
+	}
 
 	/**
 	 * TO DO: Set this up in cache
@@ -16,17 +29,11 @@
 	/**
 	 * TO DO: Complete the rest of the type and remove Partial
 	 */
-	let job = $state<Partial<Job>>({
-		title: '',
-		description: ''
-	})
+	let job = $state<JobInputs>(DEFAULT_EMPTY_JOB)
 	let newJobId = $state()
 	// let isSuccess = $derived(newJob && newJob.id)
 
-	const clearInputs = () => {
-		job.title = ''
-		job.description = ''
-	}
+	const clearInputs = () => (job = DEFAULT_EMPTY_JOB)
 
 	const handleSubmit = async (jobData: Partial<Job>, employer: EmployerWithID) => {
 		try {
@@ -67,6 +74,39 @@
 
 		<label for="description">Description</label>
 		<textarea bind:value={job.description} id="description" name="description" required></textarea>
+
+		<label> industry </label>
+		<select bind:value={job.industry}>
+			<option value="" disabled selected>Please select an industry</option>
+			{#each Object.entries(INDUSTRIES) as industry}
+				<option value={industry[1]}>{industry[0]}</option>
+			{/each}
+		</select>
+
+		<label> job type </label>
+		<select bind:value={job.type}>
+			<option value="" disabled selected>Please select an type</option>
+			{#each Object.entries(JOB_TYPES) as type}
+				<option value={type[1]}>{type[0]}</option>
+			{/each}
+		</select>
+
+		<label> job status </label>
+		<select bind:value={job.status}>
+			<option value="" disabled selected>Please select an status</option>
+			{#each Object.entries(JOB_STATUSES) as status}
+				<option value={status[1]}>{status[0]}</option>
+			{/each}
+		</select>
+
+		<label for="applicationLink">Job Application Link</label>
+		<input
+			bind:value={job.applicationLink}
+			type="text"
+			id="applicationLink"
+			name="applicationLink"
+			required
+		/>
 
 		<button type="submit">{isLoading ? 'Loading...' : 'Submit'}</button>
 	</form>

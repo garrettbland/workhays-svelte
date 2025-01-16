@@ -57,75 +57,35 @@ export const ADMIN_NAV_LINKS = [
 	}
 ]
 
-export const INDUSTRIES_LIST = [
-	{
-		name: 'All Industries',
-		value: ''
-	},
-	{
-		name: 'Accounting / Finance/ Banking',
-		value: ''
-	},
-	{
-		name: 'Administrative / Office Support',
-		value: ''
-	},
-	{
-		name: 'Agriculture',
-		value: ''
-	},
-	{
-		name: 'Construction / Natural Gas / Oil',
-		value: ''
-	},
-	{
-		name: 'Delivery / Transportation / Trucking',
-		value: ''
-	},
-	{
-		name: 'Education',
-		value: ''
-	},
-	{
-		name: 'Food Service',
-		value: ''
-	},
-	{
-		name: 'Healthcare / Social Assistance',
-		value: ''
-	},
-	{
-		name: 'Hotel / Hospitality',
-		value: ''
-	},
-	{
-		name: 'IT / Computer',
-		value: ''
-	},
-	{
-		name: 'Maintenance / Custodial',
-		value: ''
-	},
-	{
-		name: 'Manufacturing / Assembly',
-		value: ''
-	},
-	{
-		name: 'Professional Services',
-		value: ''
-	},
-	{
-		name: 'Real Estate / Rental',
-		value: ''
-	},
-	{
-		name: 'Retail / Sales',
-		value: ''
-	},
-	{
-		name: 'Uncategorized', // Here for migration
-		value: 'uncategorized'
-	}
-]
+export enum INDUSTRIES {
+	'Accounting / Finance / Banking' = 'accounting-finance-banking',
+	'Administrative / Office Support' = 'administrative-officesupport',
+	'Agriculture' = 'agriculture',
+	'Construction / Natural Gas / Oil' = 'construction-naturalgas-oil',
+	'Delivery / Transportation / Trucking' = 'delivery-transportation-trucking',
+	'Education' = 'education',
+	'Food Service' = 'foodservice',
+	'Healthcare / Social Assistance' = 'healthcare-socialassistance',
+	'Hotel / Hospitality' = 'hotel-hospitality',
+	'IT / Computer' = 'it-computer',
+	'Maintenance / Custodial' = 'maintenance-custodial',
+	'Manufacturing / Assembly' = 'manufacturing-assembly',
+	'Professional Services' = 'professionalservices',
+	'Real Estate / Rental' = 'realestate-rental',
+	'Retail / Sales' = 'retail-sales',
+	'Uncategorized' = 'uncategorized' // used for migration to replace "all industries"
+}
 
-export const INDUSTRY_LIST_VALUES = INDUSTRIES_LIST.map((industry) => industry.value)
+export enum JOB_TYPES {
+	'Full Time' = 'FULL_TIME',
+	'Part Time' = 'PART_TIME',
+	'Contract' = 'CONTRACT',
+	'Temporary/Seasonal' = 'TEMPORARY',
+	'Intern' = 'INTERN'
+}
+
+export enum JOB_STATUSES {
+	'Draft' = 'DRAFT',
+	'Published' = 'PUBLISHED',
+	'Archived' = 'ARCHIVED'
+}
