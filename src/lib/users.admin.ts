@@ -47,16 +47,18 @@ export const updateUserById = async (userId: string, updatedUser: Partial<UserWi
 		 */
 		const docRef = doc(db, 'users', userId)
 
+		const updatedUserWithoutId = { ...updatedUser }
+
 		/**
 		 * Remove "id" if present
 		 */
-		delete updatedUser.id
+		delete updatedUserWithoutId.id
 
 		/**
 		 * Update the document. Will not create new documents, just updates. If promise
 		 * fufills, then success. The new doc is not returned
 		 */
-		await updateDoc(docRef, { ...updatedUser, updatedAt: serverTimestamp() })
+		await updateDoc(docRef, { ...updatedUserWithoutId, updatedAt: serverTimestamp() })
 	} catch (error) {
 		console.log(`Error with updateUserById`, error)
 		throw new Error(`Error in updateUserById`)
