@@ -15,6 +15,8 @@ export interface Job extends CommonDocument {
 	applicationLink?: string // application_link
 	status: JOB_STATUSES // status (active, inactive, archived)
 	industry: INDUSTRIES // industry
+	isDeleted: boolean
+	deletedAt?: typeof Timestamp
 	// renewedAt: string // renewed_at (!!! Not migrating from legacy !!!)
 }
 

@@ -5,6 +5,7 @@ import {
 	doc,
 	getDocs,
 	getDoc,
+	documentId,
 	updateDoc,
 	serverTimestamp,
 	addDoc
@@ -44,12 +45,19 @@ export const createJob = async (
 /**
  * Get jobs by employerId
  */
-export const getJobsByEmployerId = async (employerId: string): Promise<JobWithID[]> => {
+export const getJobsByEmployerId = async (
+	employerId: string,
+	includeDeleted = false
+): Promise<JobWithID[]> => {
 	try {
 		console.log(`Starting query to find user document`)
 
 		const querySnapshot = await getDocs(
-			query(collection(db, 'jobs'), where('employerId', '==', employerId))
+			query(
+				collection(db, 'jobs'),
+				where('employerId', '==', employerId),
+				where('isDeleted', '==', includeDeleted)
+			)
 		)
 
 		if (!querySnapshot.empty) {
@@ -81,19 +89,25 @@ export const getJobById = async (jobId: string, employerId?: string): Promise<Jo
 		/**
 		 * Reference to the document in the jobs collection
 		 */
-		const docRef = doc(db, 'jobs', jobId)
+		// const docRef = doc(db, 'jobs', jobId)
+		const querySnapshot = await getDocs(
+			query(
+				collection(db, 'jobs'),
+				where(documentId(), '==', jobId),
+				where('isDeleted', '==', false)
+			)
+		)
 
 		/**
-		 * Fetch the document
+		 * Map through results, and add "id" with the document id as the value
+		 * to each item. Not totally sure this is needed
 		 */
-		const docSnap = await getDoc(docRef)
+		const data = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))[0]
 
 		/**
 		 * If the document exists, return the data
 		 */
-		if (docSnap.exists()) {
-			const data = docSnap.data()
-
+		if (data) {
 			/**
 			 * If employer id was passed in, make sure the logged in
 			 * user has access to this document
@@ -102,10 +116,7 @@ export const getJobById = async (jobId: string, employerId?: string): Promise<Jo
 				throw new Error(`User not allowed to access document`)
 			}
 
-			return {
-				...data,
-				id: docSnap.id
-			} as JobWithID
+			return data as JobWithID
 		} else {
 			throw new Error(`No such job with id: ${jobId}`)
 		}
@@ -140,5 +151,26 @@ export const updateJobById = async (jobId: string, updatedJob: Partial<JobWithID
 	} catch (error) {
 		console.log(`Error with updateJobById`, error)
 		throw new Error(`Error in updateJobById`)
+	}
+}
+
+/**
+ * Deletes job. Sets "isDeleted" flag to "true". This is a soft delete, record
+ * will stay in database
+ */
+export const softDeleteJobById = async (jobId: string) => {
+	try {
+		/**
+		 * Reference to the document in the jobs collection
+		 */
+		const docRef = doc(db, 'jobs', jobId)
+
+		/**
+		 * Update the document
+		 */
+		await updateDoc(docRef, { isDeleted: true, deletedAt: serverTimestamp() })
+	} catch (err) {
+		console.log(`Error with softDeleteJobById`, err)
+		throw new Error(`Error in softDeleteJobById`)
 	}
 }

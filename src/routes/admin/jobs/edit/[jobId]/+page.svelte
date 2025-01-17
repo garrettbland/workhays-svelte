@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { authData } from '$lib/auth.svelte'
 	import { page } from '$app/state'
-	import { getJobById, updateJobById } from '$lib/jobs.admin'
+	import { getJobById, updateJobById, softDeleteJobById } from '$lib/jobs.admin'
 	import type { Job, JobWithID } from '$lib/types'
 	import { INDUSTRIES, JOB_TYPES, JOB_STATUSES } from '$lib/constants'
+	import { goto } from '$app/navigation'
 
 	let currentJob = $state(getJobById(page.params.jobId, authData.user?.memberOf[0]))
 	let isLoading = $state(false)
@@ -19,6 +20,20 @@
 			isSuccess = false
 			await updateJobById(jobId, updatedFields)
 			isSuccess = true
+		} catch (err) {
+			hasError = true
+		} finally {
+			isLoading = false
+		}
+	}
+
+	const handleDelete = async (jobId: string) => {
+		try {
+			isLoading = true
+			hasError = false
+			isSuccess = false
+			await softDeleteJobById(jobId)
+			goto(`/admin/jobs?jobDeleted=true`)
 		} catch (err) {
 			hasError = true
 		} finally {
@@ -83,6 +98,8 @@
 
 		<button type="submit">{isLoading ? 'Loading...' : 'Submit'}</button>
 	</form>
+
+	<button on:click={() => handleDelete(job.id)}>Delete Job</button>
 {:catch error}
 	<div>Error loading job</div>
 {/await}

@@ -14,7 +14,8 @@
 		type: '' as JOB_TYPES,
 		applicationLink: '',
 		status: JOB_STATUSES.Draft,
-		industry: '' as INDUSTRIES
+		industry: '' as INDUSTRIES,
+		isDeleted: false
 	}
 
 	/**

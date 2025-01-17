@@ -1,11 +1,10 @@
-import { collection, getDocs, doc, getDoc } from 'firebase/firestore'
+import { collection, getDocs, doc, getDoc, query, where, documentId } from 'firebase/firestore'
 import { db } from '$lib/firebase'
 import { cachedData } from '$lib/cache.svelte'
 import type { Job, JobWithID } from '$lib/types'
 
 /**
  * Fetches public job listings from firebase
- * TO DO: Only show "PUBLISHED"
  */
 export const getPublicJobs = async (): Promise<JobWithID[]> => {
 	try {
@@ -22,7 +21,13 @@ export const getPublicJobs = async (): Promise<JobWithID[]> => {
 		/**
 		 * Get the docs from the jobs collection
 		 */
-		const querySnapshot = await getDocs(collection(db, 'jobs'))
+		const querySnapshot = await getDocs(
+			query(
+				collection(db, 'jobs'),
+				where('isDeleted', '==', false),
+				where('status', '==', 'PUBLISHED')
+			)
+		)
 
 		/**
 		 * Map through results, and add "_id" with the document id as the value
@@ -43,7 +48,7 @@ export const getPublicJobs = async (): Promise<JobWithID[]> => {
 }
 
 /**
- * TO DO: Only show "PUBLISHED"
+ * Gets published jobs
  */
 export const getPublicJob = async (jobId: string): Promise<Job> => {
 	try {
@@ -62,18 +67,31 @@ export const getPublicJob = async (jobId: string): Promise<Job> => {
 		/**
 		 * Reference to the document in the jobs collection
 		 */
-		const docRef = doc(db, 'jobs', jobId)
+		// const docRef = doc(db, 'jobs', jobId)
+		const querySnapshot = await getDocs(
+			query(
+				collection(db, 'jobs'),
+				where(documentId(), '==', jobId),
+				where('isDeleted', '==', false),
+				where('status', '==', 'PUBLISHED')
+			)
+		)
+
+		/**
+		 * Map through results, and add "id" with the document id as the value
+		 * to each item. Not totally sure this is needed
+		 */
+		const data = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))[0]
 
 		/**
 		 * Fetch the document
 		 */
-		const docSnap = await getDoc(docRef)
+		// const docSnap = await getDoc(docRef)
 
 		/**
 		 * If the document exists, return the data
 		 */
-		if (docSnap.exists()) {
-			const data = docSnap.data()
+		if (data) {
 			return data
 		} else {
 			throw new Error(`No such job with id: ${jobId}`)

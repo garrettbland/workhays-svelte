@@ -31,6 +31,7 @@ const dataMapper = (record: OldJobWithEmployerTitle): Required<Job> => {
 					? 'DRAFT'
 					: 'ARCHIVED',
 		industry: record.industry ?? 'uncategorized',
+		isDeleted: false,
 		createdAt: record.created_at,
 		updatedAt: record.updated_at
 	}
