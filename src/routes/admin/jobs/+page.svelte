@@ -16,7 +16,7 @@
 {:then jobs}
 	<ul>
 		{#each jobs as job}
-			<li><a href={`/admin/jobs/${job.id}`}>{job.title}</a></li>
+			<li><a href={`/admin/jobs/edit/${job.id}`}>{job.title}</a></li>
 		{/each}
 	</ul>
 {:catch error}

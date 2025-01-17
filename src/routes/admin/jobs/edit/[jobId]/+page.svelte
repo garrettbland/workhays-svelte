@@ -3,11 +3,14 @@
 	import { page } from '$app/state'
 	import { getJobById, updateJobById } from '$lib/jobs.admin'
 	import type { Job, JobWithID } from '$lib/types'
+	import { INDUSTRIES, JOB_TYPES, JOB_STATUSES } from '$lib/constants'
 
 	let currentJob = $state(getJobById(page.params.jobId, authData.user?.memberOf[0]))
 	let isLoading = $state(false)
 	let hasError = $state(false)
 	let isSuccess = $state(false)
+
+	$inspect(currentJob)
 
 	const handleSubmit = async (jobId: string, updatedFields: Partial<Job>) => {
 		try {
@@ -37,12 +40,46 @@
 	{#if isSuccess}
 		Successful job update
 	{/if}
+
 	<form on:submit|preventDefault={() => handleSubmit(job.id, job)}>
 		<label for="title">Title</label>
 		<input bind:value={job.title} type="text" id="title" name="title" required />
 
 		<label for="description">Description</label>
 		<textarea bind:value={job.description} id="description" name="description" required></textarea>
+
+		<label> industry </label>
+		<select bind:value={job.industry}>
+			<option value="" disabled selected>Please select an industry</option>
+			{#each Object.entries(INDUSTRIES) as industry}
+				<option value={industry[1]}>{industry[0]}</option>
+			{/each}
+		</select>
+
+		<label> job type </label>
+		<select bind:value={job.type}>
+			<option value="" disabled selected>Please select an type</option>
+			{#each Object.entries(JOB_TYPES) as type}
+				<option value={type[1]}>{type[0]}</option>
+			{/each}
+		</select>
+
+		<label> job status </label>
+		<select bind:value={job.status}>
+			<option value="" disabled selected>Please select an status</option>
+			{#each Object.entries(JOB_STATUSES) as status}
+				<option value={status[1]}>{status[0]}</option>
+			{/each}
+		</select>
+
+		<label for="applicationLink">Job Application Link</label>
+		<input
+			bind:value={job.applicationLink}
+			type="text"
+			id="applicationLink"
+			name="applicationLink"
+			required
+		/>
 
 		<button type="submit">{isLoading ? 'Loading...' : 'Submit'}</button>
 	</form>

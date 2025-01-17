@@ -125,10 +125,12 @@ export const updateJobById = async (jobId: string, updatedJob: Partial<JobWithID
 		 */
 		const docRef = doc(db, 'jobs', jobId)
 
+		const updatedDocWithoutId = { ...updatedJob }
+
 		/**
 		 * Remove "id" if present
 		 */
-		delete updatedJob.id
+		delete updatedDocWithoutId.id
 
 		/**
 		 * Update the document. Will not create new documents, just updates. If promise

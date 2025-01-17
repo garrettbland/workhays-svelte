@@ -1,7 +1,7 @@
 <script>
 	import { getPublicJobs } from '$lib/jobs'
 	import SEO from '$lib/components/SEO.svelte'
-	import { INDUSTRIES_LIST, SITE_NAME } from '$lib/constants'
+	import { INDUSTRIES, SITE_NAME } from '$lib/constants'
 
 	/**
 	 * Gets all public jobs. Takes advantage of "await" blocks from Svelte.
@@ -67,9 +67,9 @@
 					<select
 						class="z-10 flex-1 rounded-lg border-gray-200 p-4 text-sm focus:border-blue-800 focus:ring-blue-800 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
 					>
-						{#each INDUSTRIES_LIST as option}
-							<option>
-								{option.name}
+						{#each Object.entries(INDUSTRIES) as option}
+							<option value={option[1]}>
+								{option[0]}
 							</option>
 						{/each}
 					</select>
