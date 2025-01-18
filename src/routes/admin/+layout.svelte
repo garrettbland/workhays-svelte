@@ -1,24 +1,24 @@
 <script>
 	import { goto } from '$app/navigation'
 	import { ADMIN_NAV_LINKS } from '$lib/constants'
-	import { authData, signOut } from '$lib/auth.svelte'
+	import { authData } from '$lib/auth.svelte'
 
 	let { children } = $props()
 
 	$effect(() => {
-		if (!authData.isLoading && !authData.user) {
-			console.log('user is not logged in')
+		if (!authData.isLoading && !authData.auth) {
 			goto('/sign-in')
 		}
 	})
-
-	const handleSignOut = async () => {
-		await signOut()
-		goto('/sign-in')
-	}
 </script>
 
-{#if authData.isLoading || !authData.user}
+{#if authData.auth?.emailVerified === false}
+	<p class="bg-orange-500 text-white">
+		Check your email to verify your account. Actions will be limited until then
+	</p>
+{/if}
+
+{#if authData.isLoading || !authData.auth}
 	<p>Loading...</p>
 {:else}
 	<div class="grid grid-cols-12 gap-6">
@@ -34,12 +34,6 @@
 						</a>
 					{/each}
 				</nav>
-				{#if authData.user}
-					<p>Welcome, {authData.user.email}</p>
-					<button on:click={handleSignOut}>Logout</button>
-				{:else}
-					<a href="/login">Login</a>
-				{/if}
 			</div>
 		</div>
 		<div class="col-span-9">

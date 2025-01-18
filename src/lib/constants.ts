@@ -1,4 +1,4 @@
-export const SITE_NAME = 'Work Hays';
+export const SITE_NAME = 'Work Hays'
 
 export const NAV_LINKS = [
 	{
@@ -13,7 +13,7 @@ export const NAV_LINKS = [
 		name: 'Contact',
 		href: '/contact'
 	}
-];
+]
 
 export const FOOTER_LINKS = [
 	{
@@ -36,12 +36,12 @@ export const FOOTER_LINKS = [
 		name: 'About',
 		href: '/about'
 	}
-];
+]
 
 export const ADMIN_NAV_LINKS = [
 	{
 		name: 'Dashboard',
-		href: '/admin'
+		href: '/admin/dashboard'
 	},
 	{
 		name: 'Jobs',
@@ -55,71 +55,37 @@ export const ADMIN_NAV_LINKS = [
 		name: 'Account',
 		href: '/admin/account'
 	}
-];
+]
 
-export const INDUSTRIES_LIST = [
-	{
-		name: 'All Industries',
-		href: '#'
-	},
-	{
-		name: 'Accounting / Finance/Banking',
-		href: '#'
-	},
-	{
-		name: 'Administrative / Office Support',
-		href: '#'
-	},
-	{
-		name: 'Agriculture',
-		href: '#'
-	},
-	{
-		name: 'Construction / Natural Gas / Oil',
-		href: '#'
-	},
-	{
-		name: 'Delivery / Transportation / Trucking',
-		href: '#'
-	},
-	{
-		name: 'Education',
-		href: '#'
-	},
-	{
-		name: 'Food Service',
-		href: '#'
-	},
-	{
-		name: 'Healthcare / Social Assistance',
-		href: '#'
-	},
-	{
-		name: 'Hotel / Hospitality',
-		href: '#'
-	},
-	{
-		name: 'IT / Computer',
-		href: '#'
-	},
-	{
-		name: 'Maintenance / Custodial',
-		href: '#'
-	},
-	{
-		name: 'Manufacturing / Assembly',
-		href: '#'
-	},
-	{
-		name: 'Professional Services',
-		href: '#'
-	},
-	{
-		name: 'Real Estate / Rental',
-		href: '#'
-	},
-	{
-		name: 'Retail / Sales',
-		href: '#'
-	}
-];
+export enum INDUSTRIES {
+	'Accounting / Finance / Banking' = 'accounting-finance-banking',
+	'Administrative / Office Support' = 'administrative-officesupport',
+	'Agriculture' = 'agriculture',
+	'Construction / Natural Gas / Oil' = 'construction-naturalgas-oil',
+	'Delivery / Transportation / Trucking' = 'delivery-transportation-trucking',
+	'Education' = 'education',
+	'Food Service' = 'foodservice',
+	'Healthcare / Social Assistance' = 'healthcare-socialassistance',
+	'Hotel / Hospitality' = 'hotel-hospitality',
+	'IT / Computer' = 'it-computer',
+	'Maintenance / Custodial' = 'maintenance-custodial',
+	'Manufacturing / Assembly' = 'manufacturing-assembly',
+	'Professional Services' = 'professionalservices',
+	'Real Estate / Rental' = 'realestate-rental',
+	'Retail / Sales' = 'retail-sales',
+	'Uncategorized' = 'uncategorized' // used for migration to replace "all industries"
+}
+
+export enum JOB_TYPES {
+	'Full Time' = 'FULL_TIME',
+	'Part Time' = 'PART_TIME',
+	'Contract' = 'CONTRACT',
+	'Temporary/Seasonal' = 'TEMPORARY',
+	'Intern' = 'INTERN'
+}
+
+export enum JOB_STATUSES {
+	'Draft' = 'DRAFT',
+	'Published' = 'PUBLISHED',
+	'Archived' = 'ARCHIVED'
+}

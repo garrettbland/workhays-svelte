@@ -1,75 +1,62 @@
 <script lang="ts">
 	import { authData } from '$lib/auth.svelte'
-	import { createJob } from '$lib/jobs.admin'
-	import type { EmployerWithID, Job } from '$lib/types'
-	import { getEmployerById } from '$lib/employer.admin'
+	import { page } from '$app/state'
+	import { getJobById, updateJobById, softDeleteJobById } from '$lib/jobs.admin'
+	import type { Job, JobWithID } from '$lib/types'
 	import { INDUSTRIES, JOB_TYPES, JOB_STATUSES } from '$lib/constants'
+	import { goto } from '$app/navigation'
 
-	type JobInputs = Omit<Job, 'createdAt' | 'updatedAt'>
-	const DEFAULT_EMPTY_JOB: JobInputs = {
-		title: '',
-		description: '',
-		employerTitle: '',
-		employerId: '',
-		type: '' as JOB_TYPES,
-		applicationLink: '',
-		status: JOB_STATUSES.Draft,
-		industry: '' as INDUSTRIES,
-		isDeleted: false
-	}
-
-	/**
-	 * TO DO: Set this up in cache
-	 */
-	let currentEmployer = $state(getEmployerById(authData.user?.memberOf[0] ?? ''))
-
+	let currentJob = $state(getJobById(page.params.jobId, authData.user?.memberOf[0]))
 	let isLoading = $state(false)
 	let hasError = $state(false)
 	let isSuccess = $state(false)
 
-	/**
-	 * TO DO: Complete the rest of the type and remove Partial
-	 */
-	let job = $state<JobInputs>(DEFAULT_EMPTY_JOB)
-	let newJobId = $state()
-	// let isSuccess = $derived(newJob && newJob.id)
+	$inspect(currentJob)
 
-	const clearInputs = () => (job = DEFAULT_EMPTY_JOB)
-
-	const handleSubmit = async (jobData: Partial<Job>, employer: EmployerWithID) => {
+	const handleSubmit = async (jobId: string, updatedFields: Partial<Job>) => {
 		try {
 			isLoading = true
 			hasError = false
 			isSuccess = false
-			const newlyCreatedJob = await createJob(jobData as Job, employer.id, employer.title)
+			await updateJobById(jobId, updatedFields)
 			isSuccess = true
-			newJobId = newlyCreatedJob.id
-			clearInputs()
 		} catch (err) {
 			hasError = true
-			console.error(err)
+		} finally {
+			isLoading = false
+		}
+	}
+
+	const handleDelete = async (jobId: string) => {
+		try {
+			isLoading = true
+			hasError = false
+			isSuccess = false
+			await softDeleteJobById(jobId)
+			goto(`/admin/jobs?jobDeleted=true`)
+		} catch (err) {
+			hasError = true
 		} finally {
 			isLoading = false
 		}
 	}
 </script>
 
-<h1>Create new job</h1>
+{#await currentJob}
+	<div>Loading...</div>
+{:then job}
+	<h1>Edit Job: {job.title}</h1>
+	{#if isLoading}
+		Updating job...
+	{/if}
+	{#if hasError}
+		Error updating job
+	{/if}
+	{#if isSuccess}
+		Successful job update
+	{/if}
 
-{#if isSuccess}
-	<p>Job created successfully. Job ID: {newJobId}</p>
-{/if}
-
-{#if hasError}
-	<p class="text-red-500">There was an error creating the job. Please try again.</p>
-{/if}
-
-{#await currentEmployer}
-	<div>loading...</div>
-{:then employer}
-	<form on:submit|preventDefault={() => handleSubmit(job, employer)}>
-		<div>Employer: {employer.title}</div>
-
+	<form on:submit|preventDefault={() => handleSubmit(job.id, job)}>
 		<label for="title">Title</label>
 		<input bind:value={job.title} type="text" id="title" name="title" required />
 
@@ -111,6 +98,8 @@
 
 		<button type="submit">{isLoading ? 'Loading...' : 'Submit'}</button>
 	</form>
-{:catch err}
-	<div>error loading employer...</div>
+
+	<button on:click={() => handleDelete(job.id)}>Delete Job</button>
+{:catch error}
+	<div>Error loading job</div>
 {/await}
