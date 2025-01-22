@@ -7,7 +7,7 @@ import { PROJECT_ID, PRIVATE_KEY, CLIENT_EMAIL } from '$env/static/private'
 
 const serviceAccount: admin.ServiceAccount = {
 	privateKey: PRIVATE_KEY,
-	projectId: PROJECT_ID,
+	projectId: PROJECT_ID.split(String.raw`\n`).join('\n'),
 	clientEmail: CLIENT_EMAIL
 }
 
