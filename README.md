@@ -2,6 +2,18 @@
 
 Work Hays using SvelteKit
 
+# Environment Variables
+
+Must create a `.env` file locally for some firebase admin functions to work
+
+Example `.env` file that also needs uploaded to host
+
+```txt
+PROJECT_ID=""
+PRIVATE_KEY=""
+CLIENT_EMAIL=""
+```
+
 # sv
 
 Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli)
