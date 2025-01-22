@@ -1,4 +1,4 @@
-import type { Job, EmployerWithID } from '$lib/types'
+import type { JobWithID, EmployerWithID } from '$lib/types'
 
 /**
  * Universal state to store cached data.
@@ -11,7 +11,12 @@ import type { Job, EmployerWithID } from '$lib/types'
  * console.log(jobs)
  * ```
  */
-export const cachedData = $state<{ jobs: Job[] }>({ jobs: [] })
+export const cachedData = $state<{ jobs: JobWithID[]; [industry: string]: JobWithID[] }>({
+	jobs: []
+})
+
+// Combine all arrays and remove duplicates
+export const allCachedJobs = () => [...new Set(Object.values(cachedData).flat())]
 
 /**
  * Cached admin data for authenticated users

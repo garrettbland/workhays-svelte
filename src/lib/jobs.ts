@@ -1,6 +1,6 @@
 import { collection, getDocs, doc, getDoc, query, where, documentId } from 'firebase/firestore'
 import { db } from '$lib/firebase'
-import { cachedData } from '$lib/cache.svelte'
+import { cachedData, allCachedJobs } from '$lib/cache.svelte'
 import type { Job, JobWithID } from '$lib/types'
 
 /**
@@ -33,7 +33,7 @@ export const getPublicJobs = async (): Promise<JobWithID[]> => {
 		 * Map through results, and add "_id" with the document id as the value
 		 * to each item. Not totally sure this is needed
 		 */
-		const data = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+		const data = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })) as JobWithID[]
 
 		/**
 		 * Update cached jobs
@@ -56,7 +56,7 @@ export const getPublicJob = async (jobId: string): Promise<Job> => {
 		 * Check if job exists in cache
 		 */
 
-		const cachedJob = cachedData.jobs.find((job) => job.id === jobId)
+		const cachedJob = allCachedJobs().find((job) => job.id === jobId)
 		if (cachedJob) {
 			console.log('Job found in cache, skipping fetch...')
 			return cachedJob
@@ -99,5 +99,55 @@ export const getPublicJob = async (jobId: string): Promise<Job> => {
 	} catch (error) {
 		console.error('Error with getPublicJob', error)
 		throw new Error('Error in getPublicJob')
+	}
+}
+
+/**
+ * Fetches public job listings from firebase
+ */
+export const getPublicJobsByIndustry = async (industry: string): Promise<JobWithID[]> => {
+	try {
+		const CACHED_KEY_NAME = industry.replace('-', '')
+
+		/**
+		 * Check if jobs exists in cache
+		 */
+		if (cachedData[CACHED_KEY_NAME] && cachedData[CACHED_KEY_NAME].length > 0) {
+			console.log(`${industry} industry exist in cache, skipping fetch...`)
+			return cachedData[CACHED_KEY_NAME]
+		}
+
+		console.log(`Empty industry ${industry} cache, fetching fresh data...`)
+
+		/**
+		 * Get the docs from the jobs collection with industry
+		 */
+		const querySnapshot = await getDocs(
+			query(
+				collection(db, 'jobs'),
+				where('isDeleted', '==', false),
+				where('status', '==', 'PUBLISHED'),
+				where('industry', '==', industry)
+			)
+		)
+
+		/**
+		 * Map through results, and add "_id" with the document id as the value
+		 * to each item. Not totally sure this is needed
+		 */
+		const data = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })) as JobWithID[]
+
+		/**
+		 * Update cached jobs
+		 * Why does this cause infinite loops?
+		 */
+		console.log(`INDUSTYR`, CACHED_KEY_NAME)
+		cachedData[CACHED_KEY_NAME] = data
+		//cachedData[industry] = data
+
+		return data
+	} catch (error) {
+		console.error('Error with getPublicJobs:', error)
+		throw new Error('Error in getPublicJobs')
 	}
 }

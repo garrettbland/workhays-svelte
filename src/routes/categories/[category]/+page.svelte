@@ -1,14 +1,65 @@
 <script lang="ts">
-	import { getPublicJobs } from '$lib/jobs'
+	import { getPublicJobsByIndustry } from '$lib/jobs'
 	import SEO from '$lib/components/SEO.svelte'
-	import { SITE_NAME } from '$lib/constants'
+	import { INDUSTRIES, SITE_NAME } from '$lib/constants'
+	import { page } from '$app/state'
 	import CatgorySelector from '$lib/components/CatgorySelector.svelte'
+	import type { Job, JobWithID } from '$lib/types'
+	import { untrack } from 'svelte'
 
 	/**
 	 * Gets all public jobs. Takes advantage of "await" blocks from Svelte.
 	 * https://svelte.dev/docs/svelte/await
 	 */
-	let isGettingJobs = $state(getPublicJobs())
+	// let category = $derived(page.params.category)
+	//let isGettingJobs = $state(getPublicJobsByIndustry(category))
+
+	let category = $derived(page.params.category)
+	let isGettingJobs = $state(false)
+	let jobs = $state<JobWithID[]>([])
+	let error = $state()
+
+	const getJobs = async (industry: string) => {
+		try {
+			isGettingJobs = true
+			console.log('happening here...')
+			//jobs = new Promise((resolve) => resolve([]))
+
+			jobs = await getPublicJobsByIndustry(industry)
+		} catch (err) {
+			error = err
+		} finally {
+			isGettingJobs = false
+		}
+	}
+
+	$effect(() => {
+		if (category) {
+			untrack(() => {
+				getJobs(category)
+			})
+		}
+	})
+
+	// $effect(() => {
+	// 	try {
+	// 		isGettingJobs = true
+	// 		getPublicJobsByIndustry(page.params.category).then((data) => {
+	// 			jobs = data
+	// 		})
+	// 	} catch (err) {
+	// 		error = err
+	// 	} finally {
+	// 		{
+	// 			isGettingJobs = false
+	// 		}
+	// 	}
+	// })
+
+	/**
+	 * Job Category
+	 */
+	let categoryName = $derived(Object.entries(INDUSTRIES).find((i) => i[1] === category)[0])
 </script>
 
 <SEO
@@ -21,7 +72,8 @@
 	<div class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 sm:py-24 lg:px-8">
 		<div class="text-center">
 			<h1 class="not-prose text-4xl font-bold sm:text-6xl dark:text-neutral-200">
-				Current Job Openings
+				Job Openings in <br />
+				<span class="rounded-full bg-blue-50 px-4 py-1 text-xl text-blue-800">{categoryName}</span>
 			</h1>
 
 			<p class="not-prose mt-3 text-gray-600 dark:text-neutral-400">
@@ -127,7 +179,7 @@
 </div>
 <!-- End Hero -->
 
-{#await isGettingJobs}
+{#if isGettingJobs}
 	<!-- promise is pending -->
 	<div class="flex flex-1 flex-col items-center gap-6">
 		<div class="text-2xl font-bold">Loading opportunities..yay! 😃</div>
@@ -137,7 +189,9 @@
 			aria-label="loading"
 		></div>
 	</div>
-{:then jobs}
+{/if}
+
+{#if !isGettingJobs && jobs}
 	<!-- promise was fulfilled or not a Promise -->
 	<ul class="list-inside list-none p-0">
 		{#each jobs as job}
@@ -172,7 +226,9 @@
 			</a>
 		{/each}
 	</ul>
-{:catch error}
+{/if}
+
+{#if error}
 	<!-- promise was rejected -->
 	<p>Something went wrong: {error.message}</p>
-{/await}
+{/if}
