@@ -18,7 +18,7 @@
 			<div class="sm:hidden">
 				<button
 					type="button"
-					class="hs-collapse-toggle relative flex size-7 items-center justify-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:bg-gray-50 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-transparent dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
+					class="hs-collapse-toggle relative flex items-center justify-center gap-x-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-gray-800 shadow-sm hover:bg-gray-50 focus:bg-gray-50 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-transparent dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
 					id="hs-navbar-example-collapse"
 					aria-expanded="false"
 					aria-controls="hs-navbar-example"

@@ -19,14 +19,15 @@
 <div class="relative overflow-hidden">
 	<div class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 sm:py-24 lg:px-8">
 		<div class="text-center">
-			<h1 class="text-4xl font-bold text-gray-800 sm:text-6xl dark:text-neutral-200">
+			<h1 class="not-prose text-4xl font-bold sm:text-6xl dark:text-neutral-200">
 				Current Job Openings
 			</h1>
 
-			<p class="mt-3 text-gray-600 dark:text-neutral-400">
+			<p class="not-prose mt-3 text-gray-600 dark:text-neutral-400">
 				Browse current job openings in Hays, KS and surrounding communities. Are you an employer?
-				Post your jobs for free, to get started, <a href="/register" class="text-blue-800"
-					>register here!</a
+				Post your jobs for free, to get started, <a
+					href="/register"
+					class="not-prose text-blue-800 no-underline hover:underline">register here!</a
 				>
 			</p>
 
