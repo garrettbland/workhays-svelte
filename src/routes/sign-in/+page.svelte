@@ -1,33 +1,40 @@
 <script>
 	import { signIn, authData } from '$lib/auth.svelte'
 	import { goto } from '$app/navigation'
+	import { page } from '$app/state'
+
+	let emailChangeSuccess = page.url.searchParams.get('emailChanged') === 'true'
 
 	let email = $state('')
 	let password = $state('')
 	let error = $state('')
-	let isLoggingIn = $state(false)
+	let isSigningIn = $state(false)
 
 	/**
 	 * If the user is logged in, redirect to the admin page
 	 */
 	$effect(() => {
-		if (authData.user && authData.isLoading === false) {
-			goto('/admin')
+		if (authData.auth && authData.isLoading === false) {
+			goto('/admin/dashboard')
 		}
 	})
 
 	const handleSignIn = async () => {
 		try {
-			isLoggingIn = true
+			isSigningIn = true
 			await signIn(email, password)
 			error = '' // Clear any previous error
-			goto('/admin')
+			goto('/admin/dashboard')
 		} catch (err) {
 			error = err.message
-			isLoggingIn = false
+			isSigningIn = false
 		}
 	}
 </script>
+
+{#if emailChangeSuccess}
+	<p class="h-48 bg-green-500 text-white">Yay email change was a success 🎉</p>
+{/if}
 
 {#if authData.isLoading}
 	<p>Loading...</p>
@@ -178,16 +185,16 @@
 						<button
 							type="submit"
 							class="inline-flex w-full items-center justify-center gap-x-2 rounded-lg border border-transparent bg-blue-800 px-4 py-3 text-sm font-medium text-white hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-							disabled={isLoggingIn}
+							disabled={isSigningIn}
 						>
-							{#if isLoggingIn}
+							{#if isSigningIn}
 								<span
 									class="inline-block size-4 animate-spin rounded-full border-[3px] border-current border-t-transparent text-white"
 									role="status"
 									aria-label="loading"
 								></span>
 							{/if}
-							{isLoggingIn ? 'Loading...' : 'Sign In'}</button
+							{isSigningIn ? 'Loading...' : 'Sign In'}</button
 						>
 					</div>
 					{#if error}

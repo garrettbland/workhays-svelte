@@ -1,5 +1,6 @@
 <script>
 	import { SITE_NAME, NAV_LINKS } from '$lib/constants'
+	import { authData } from '$lib/auth.svelte'
 </script>
 
 <header
@@ -74,15 +75,22 @@
 					>
 				{/each}
 				<div class="mt-5 flex flex-col gap-2 sm:mt-0 sm:flex-row sm:items-center sm:ps-5">
-					<button
-						type="button"
-						class="inline-flex w-max flex-1 items-center gap-x-2 rounded-lg border border-blue-700 px-3 py-2 text-sm font-medium text-blue-700 hover:bg-gray-50 focus:bg-gray-50 focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50 md:w-full"
-						><a href="/register">Register</a></button
-					>
-					<button
-						class="inline-flex w-max flex-1 items-center gap-x-2 rounded-lg border border-transparent bg-blue-800 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:bg-blue-500 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-						><a href="/sign-in">Sign in</a></button
-					>
+					{#if authData.user}
+						<button
+							class="inline-flex w-max flex-1 items-center gap-x-2 rounded-lg border border-transparent bg-blue-800 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:bg-blue-500 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+							><a href="/admin/dashboard">Dashboard</a></button
+						>
+					{:else}
+						<button
+							type="button"
+							class="inline-flex w-max flex-1 items-center gap-x-2 rounded-lg border border-blue-700 px-3 py-2 text-sm font-medium text-blue-700 hover:bg-gray-50 focus:bg-gray-50 focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50 md:w-full"
+							><a href="/register">Register</a></button
+						>
+						<button
+							class="inline-flex w-max flex-1 items-center gap-x-2 rounded-lg border border-transparent bg-blue-800 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:bg-blue-500 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+							><a href="/sign-in">Sign in</a></button
+						>
+					{/if}
 				</div>
 			</div>
 		</div>
