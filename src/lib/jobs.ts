@@ -1,46 +1,95 @@
-import { collection, getDocs, doc, getDoc, query, where, documentId } from 'firebase/firestore'
+import {
+	collection,
+	getDocs,
+	doc,
+	getDoc,
+	query,
+	where,
+	documentId,
+	limit,
+	startAfter,
+	orderBy,
+	QueryDocumentSnapshot
+} from 'firebase/firestore'
 import { db } from '$lib/firebase'
 import { cachedData, allCachedJobs } from '$lib/cache.svelte'
 import type { Job, JobWithID } from '$lib/types'
+import type { DocumentData } from 'firebase-admin/firestore'
+
+const DOC_LIMIT = 2
+
+export type LastDocType = QueryDocumentSnapshot<DocumentData, DocumentData> | 'LAST'
 
 /**
  * Fetches public job listings from firebase
  */
-export const getPublicJobs = async (): Promise<JobWithID[]> => {
+export const getPublicJobs = async ({
+	lastVisibleDoc
+}: {
+	lastVisibleDoc?: JobWithID
+}): Promise<{
+	jobs: JobWithID[]
+	lastDoc: LastDocType
+}> => {
 	try {
 		/**
 		 * Check if jobs exists in cache
+		 * TEMP: disabling cache
 		 */
-		if (cachedData.jobs.length > 0) {
-			console.log('Jobs exist in cache, skipping fetch...')
-			return cachedData.jobs
-		}
+		// if (lastVisibleDoc === undefined && cachedData.jobs.length > 0) {
+		// 	console.log('Jobs exist in cache, skipping fetch...')
+		// 	return cachedData.jobs
+		// }
 
 		console.log('Empty jobs cache, fetching fresh data...')
 
-		/**
-		 * Get the docs from the jobs collection
-		 */
-		const querySnapshot = await getDocs(
-			query(
-				collection(db, 'jobs'),
-				where('isDeleted', '==', false),
-				where('status', '==', 'PUBLISHED')
-			)
-		)
+		let querySnapshot
 
 		/**
-		 * Map through results, and add "_id" with the document id as the value
+		 * Get the docs from the jobs collection. If lastVisibleDoc is passed in,
+		 * the "startAfter" cursor will be used
+		 */
+		if (lastVisibleDoc) {
+			querySnapshot = await getDocs(
+				query(
+					collection(db, 'jobs'),
+					where('isDeleted', '==', false),
+					where('status', '==', 'PUBLISHED'),
+					orderBy('updatedAt'),
+					startAfter(lastVisibleDoc),
+					limit(DOC_LIMIT)
+				)
+			)
+		} else {
+			querySnapshot = await getDocs(
+				query(
+					collection(db, 'jobs'),
+					where('isDeleted', '==', false),
+					where('status', '==', 'PUBLISHED'),
+					orderBy('updatedAt'),
+					limit(DOC_LIMIT)
+				)
+			)
+		}
+
+		/**
+		 * Map through results, and add "id" with the document id as the value
 		 * to each item. Not totally sure this is needed
 		 */
 		const data = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })) as JobWithID[]
 
+		console.log('new jobs', { data })
+
 		/**
 		 * Update cached jobs
 		 */
-		cachedData.jobs = data
+		cachedData.jobs = [...cachedData.jobs, ...data]
 
-		return data
+		return {
+			jobs: data,
+			lastDoc:
+				querySnapshot.docs.length > 1 ? querySnapshot.docs[querySnapshot.docs.length - 1] : 'LAST'
+		}
 	} catch (error) {
 		console.error('Error with getPublicJobs:', error)
 		throw new Error('Error in getPublicJobs')

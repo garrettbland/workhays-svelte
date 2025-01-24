@@ -12,6 +12,7 @@ import {
 } from 'firebase/firestore'
 import { db } from '$lib/firebase'
 import type { Job, JobWithID, User } from '$lib/types'
+import { clearCachedData } from './cache.svelte'
 
 /**
  * Creates new job. Adds document to jobs collection in firestore
@@ -34,6 +35,8 @@ export const createJob = async (
 			updatedAt: serverTimestamp(),
 			createdAt: serverTimestamp()
 		})
+
+		clearCachedData()
 
 		return docRef
 	} catch (error) {
@@ -148,6 +151,8 @@ export const updateJobById = async (jobId: string, updatedJob: Partial<JobWithID
 		 * fufills, then success. The new job doc is not returned
 		 */
 		await updateDoc(docRef, { ...updatedJob, updatedAt: serverTimestamp() })
+
+		clearCachedData()
 	} catch (error) {
 		console.log(`Error with updateJobById`, error)
 		throw new Error(`Error in updateJobById`)
@@ -169,6 +174,8 @@ export const softDeleteJobById = async (jobId: string) => {
 		 * Update the document
 		 */
 		await updateDoc(docRef, { isDeleted: true, deletedAt: serverTimestamp() })
+
+		clearCachedData()
 	} catch (err) {
 		console.log(`Error with softDeleteJobById`, err)
 		throw new Error(`Error in softDeleteJobById`)

@@ -15,8 +15,19 @@ export const cachedData = $state<{ jobs: JobWithID[]; [industry: string]: JobWit
 	jobs: []
 })
 
-// Combine all arrays and remove duplicates
+/**
+ * Combine all arrays and remove duplicates
+ */
 export const allCachedJobs = () => [...new Set(Object.values(cachedData).flat())]
+
+/**
+ * Clear all cached data
+ */
+export const clearCachedData = () => {
+	Object.keys(cachedData).forEach((cacheKey) => {
+		cachedData[cacheKey] = []
+	})
+}
 
 /**
  * Cached admin data for authenticated users

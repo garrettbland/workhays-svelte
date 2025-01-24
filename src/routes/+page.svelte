@@ -1,14 +1,58 @@
 <script lang="ts">
 	import { getPublicJobs } from '$lib/jobs'
+	import type { LastDocType } from '$lib/jobs'
 	import SEO from '$lib/components/SEO.svelte'
 	import { SITE_NAME } from '$lib/constants'
 	import CatgorySelector from '$lib/components/CatgorySelector.svelte'
+	import type { JobWithID } from '$lib/types'
+
+	let isLoading = $state<boolean>(false)
+	let jobs = $state<JobWithID[]>([])
+	let lastJob = $state<LastDocType>()
+	let error = $state()
+
+	const getJobs = async () => {
+		try {
+			isLoading = true
+			const { jobs: data, lastDoc } = await getPublicJobs({
+				lastVisibleDoc: undefined
+			})
+			jobs = data
+			lastJob = lastDoc
+			isLoading = false
+		} catch (err) {
+			error = err
+		} finally {
+			isLoading = false
+		}
+	}
+
+	const handleLoadMoreJobs = async (lastVisibleDoc: JobWithID) => {
+		console.log('load more...', { lastVisibleDoc })
+		try {
+			isLoading = true
+			const { jobs: additionalJobs, lastDoc } = await getPublicJobs({
+				lastVisibleDoc: lastVisibleDoc
+			})
+			lastJob = lastDoc
+			jobs = [...jobs, ...additionalJobs]
+			isLoading = false
+		} catch (err) {
+			error = err
+		} finally {
+			isLoading = false
+		}
+	}
+
+	$effect(() => {
+		getJobs()
+	})
 
 	/**
 	 * Gets all public jobs. Takes advantage of "await" blocks from Svelte.
 	 * https://svelte.dev/docs/svelte/await
 	 */
-	let isGettingJobs = $state(getPublicJobs())
+	// let isGettingJobs = $state(getPublicJobs())
 </script>
 
 <SEO
@@ -127,7 +171,7 @@
 </div>
 <!-- End Hero -->
 
-{#await isGettingJobs}
+{#if isLoading}
 	<!-- promise is pending -->
 	<div class="flex flex-1 flex-col items-center gap-6">
 		<div class="text-2xl font-bold">Loading opportunities..yay! 😃</div>
@@ -137,7 +181,9 @@
 			aria-label="loading"
 		></div>
 	</div>
-{:then jobs}
+{/if}
+
+{#if !isLoading && jobs}
 	<!-- promise was fulfilled or not a Promise -->
 	<ul class="list-inside list-none p-0">
 		{#each jobs as job}
@@ -171,8 +217,16 @@
 				</li>
 			</a>
 		{/each}
+		{#if lastJob === 'LAST'}
+			END OF JOBS
+		{/if}
+		{#if lastJob !== 'LAST'}
+			<button onclick={() => handleLoadMoreJobs(lastJob!)}>Load More</button>
+		{/if}
 	</ul>
-{:catch error}
+{/if}
+
+{#if error}
 	<!-- promise was rejected -->
 	<p>Something went wrong: {error.message}</p>
-{/await}
+{/if}
