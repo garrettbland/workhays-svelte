@@ -1,60 +1,80 @@
 <script lang="ts">
-	// import { getPublicJobs } from '$lib/jobs'
-	import type { LastDocType } from '$lib/jobs'
+	import { getPublicJobs } from '$lib/jobs'
 	import SEO from '$lib/components/SEO.svelte'
-	import { SITE_NAME } from '$lib/constants'
+	import { INDUSTRIES, SITE_NAME } from '$lib/constants'
+	import { page } from '$app/state'
 	import CatgorySelector from '$lib/components/CatgorySelector.svelte'
-	import type { JobWithID } from '$lib/types'
-
+	import type { Job, JobWithID } from '$lib/types'
+	import { untrack } from 'svelte'
+	import type { LastDocType } from '$lib/jobs'
 	import Jobs from '$lib/components/Jobs.svelte'
-
-	// let isLoading = $state<boolean>(false)
-	// let jobs = $state<JobWithID[]>([])
-	// let lastJob = $state<LastDocType>()
-	// let error = $state()
-
-	// const getJobs = async () => {
-	// 	try {
-	// 		isLoading = true
-	// 		const { jobs: data, lastDoc } = await getPublicJobs({
-	// 			lastVisibleDoc: undefined
-	// 		})
-	// 		jobs = data
-	// 		lastJob = lastDoc
-	// 		isLoading = false
-	// 	} catch (err) {
-	// 		error = err
-	// 	} finally {
-	// 		isLoading = false
-	// 	}
-	// }
-
-	// const handleLoadMoreJobs = async (lastVisibleDoc: JobWithID) => {
-	// 	console.log('load more...', { lastVisibleDoc })
-	// 	try {
-	// 		isLoading = true
-	// 		const { jobs: additionalJobs, lastDoc } = await getPublicJobs({
-	// 			lastVisibleDoc: lastVisibleDoc
-	// 		})
-	// 		lastJob = lastDoc
-	// 		jobs = [...jobs, ...additionalJobs]
-	// 		isLoading = false
-	// 	} catch (err) {
-	// 		error = err
-	// 	} finally {
-	// 		isLoading = false
-	// 	}
-	// }
-
-	// $effect(() => {
-	// 	getJobs()
-	// })
 
 	/**
 	 * Gets all public jobs. Takes advantage of "await" blocks from Svelte.
 	 * https://svelte.dev/docs/svelte/await
 	 */
-	// let isGettingJobs = $state(getPublicJobs())
+	// let category = $derived(page.params.category)
+	//let isGettingJobs = $state(getPublicJobsByIndustry(category))
+
+	let industry = $derived(page.params.industry)
+	// let isGettingJobs = $state(false)
+	// let jobs = $state<JobWithID[]>([])
+	// let lastJob = $state<LastDocType>()
+	// let error = $state()
+
+	// const getJobs = async ({
+	// 	industry,
+	// 	lastSceneDoc
+	// }: {
+	// 	industry: INDUSTRIES
+	// 	lastSceneDoc?: JobWithID
+	// }) => {
+	// 	try {
+	// 		isGettingJobs = true
+	// 		console.log('happening here...')
+	// 		//jobs = new Promise((resolve) => resolve([]))
+
+	// 		const data = await getPublicJobs({
+	// 			industry: industry,
+	// 			lastVisibleDoc: lastSceneDoc
+	// 		})
+
+	// 		jobs = data.jobs
+	// 		lastJob = data.lastDoc
+	// 	} catch (err) {
+	// 		error = err
+	// 	} finally {
+	// 		isGettingJobs = false
+	// 	}
+	// }
+
+	// $effect(() => {
+	// 	if (category) {
+	// 		untrack(() => {
+	// 			getJobs(category)
+	// 		})
+	// 	}
+	// })
+
+	// $effect(() => {
+	// 	try {
+	// 		isGettingJobs = true
+	// 		getPublicJobsByIndustry(page.params.category).then((data) => {
+	// 			jobs = data
+	// 		})
+	// 	} catch (err) {
+	// 		error = err
+	// 	} finally {
+	// 		{
+	// 			isGettingJobs = false
+	// 		}
+	// 	}
+	// })
+
+	/**
+	 * Job Category
+	 */
+	let industryName = $derived(Object.entries(INDUSTRIES).find((i) => i[1] === industry)[0])
 </script>
 
 <SEO
@@ -67,7 +87,8 @@
 	<div class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 sm:py-24 lg:px-8">
 		<div class="text-center">
 			<h1 class="not-prose text-4xl font-bold sm:text-6xl dark:text-neutral-200">
-				Current Job Openings
+				Job Openings in <br />
+				<span class="rounded-full bg-blue-50 px-4 py-1 text-xl text-blue-800">{industryName}</span>
 			</h1>
 
 			<p class="not-prose mt-3 text-gray-600 dark:text-neutral-400">
@@ -173,4 +194,6 @@
 </div>
 <!-- End Hero -->
 
-<Jobs industry={undefined} />
+{#key page.params.industry}
+	<Jobs industry={page.params.industry} />
+{/key}

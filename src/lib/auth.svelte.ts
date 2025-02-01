@@ -31,8 +31,6 @@ export const authData = $state<{
  */
 onAuthStateChanged(auth, async (currentUser) => {
 	try {
-		console.log(`Authentication state changed, current user: ${JSON.stringify(currentUser)}`)
-
 		if (!currentUser || !currentUser.uid) {
 			console.log(`No user currently logged in...`)
 			throw Error(`No current user or uid found`)

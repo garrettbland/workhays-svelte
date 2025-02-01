@@ -1,17 +1,32 @@
-import type { Job, EmployerWithID } from '$lib/types'
+import type { Job, JobWithID, EmployerWithID } from '$lib/types'
+import type { QueryDocumentSnapshot, DocumentData } from 'firebase-admin/firestore'
 
 /**
- * Universal state to store cached data.
+ * Universal state to store cached jobs.
  * https://svelte.dev/tutorial/svelte/universal-reactivity
  *
  * Example usage...
  *
  * ```js
- * let jobs = $derived(cachedData.jobs);
+ * let jobs = $derived(cachedJobs);
  * console.log(jobs)
  * ```
  */
-export const cachedData = $state<{ jobs: Job[] }>({ jobs: [] })
+export const cachedJobs = $state<{ [id: string]: Job }>({})
+
+/**
+ * Return cached jobs. Otherwise svelte returns the Proxy object thing
+ */
+export const allCachedJobs = () => {
+	return { ...cachedJobs }
+}
+
+/**
+ * Clear all cached data
+ */
+export const clearCachedData = () => {
+	Object.keys(cachedJobs).forEach((key) => delete cachedJobs[key])
+}
 
 /**
  * Cached admin data for authenticated users
