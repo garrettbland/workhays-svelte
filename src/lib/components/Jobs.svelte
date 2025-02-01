@@ -23,7 +23,6 @@
 		industry?: INDUSTRIES
 		lastVisibleDoc?: LastDocType
 	}) => {
-		console.log(`Getting jobs by industry: ${industry}`)
 		try {
 			isLoading = true
 

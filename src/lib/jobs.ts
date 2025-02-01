@@ -62,11 +62,11 @@ export const getPublicJobs = async ({
 		 * Last visible doc was NOT passed in, and there are jobs in
 		 * the cache
 		 */
-
 		if (!lastVisibleDoc && Object.keys(cachedJobs).length > 0) {
 			console.log(`Jobs exist in cache, skipping fetch...`)
 			return { jobs: cachedJobs, lastDoc: Object.values(cachedJobs).at(-1) }
 		}
+
 		/**
 		 * Check if jobs exists in cache
 		 */
@@ -89,7 +89,9 @@ export const getPublicJobs = async ({
 		// 	return cachedData.jobs
 		// }
 
-		console.log(`Empty cache, getting public jobs`)
+		console.log(
+			lastVisibleDoc ? `Loading additional jobs...` : `Fetching fresh jobs, none in cache...`
+		)
 
 		const querySnapshot = await getDocs(
 			query(
@@ -123,7 +125,7 @@ export const getPublicJobs = async ({
 			 */
 			cachedJobs[doc.id] = doc.data() as Job
 		})
-		;(window as any).cache = jobs
+		;(window as any).cache = { ...window.cache, ...jobs }
 
 		// cachedData[CACHE_KEY_NAME] = [
 		// 	...(cachedData[CACHE_KEY_NAME] ? (cachedData[CACHE_KEY_NAME] as any) : []),
@@ -159,8 +161,6 @@ export const getPublicJob = async (jobId: string): Promise<Job> => {
 		 * Check if job exists in cache
 		 */
 
-		// const cachedJob = allCachedJobs().find((doc) => doc.data().id === jobId)
-		console.log({ test: allCachedJobs() })
 		const cachedJob = allCachedJobs()[jobId]
 
 		if (cachedJob) {
