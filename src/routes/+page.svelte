@@ -1,52 +1,54 @@
 <script lang="ts">
-	import { getPublicJobs } from '$lib/jobs'
+	// import { getPublicJobs } from '$lib/jobs'
 	import type { LastDocType } from '$lib/jobs'
 	import SEO from '$lib/components/SEO.svelte'
 	import { SITE_NAME } from '$lib/constants'
 	import CatgorySelector from '$lib/components/CatgorySelector.svelte'
 	import type { JobWithID } from '$lib/types'
 
-	let isLoading = $state<boolean>(false)
-	let jobs = $state<JobWithID[]>([])
-	let lastJob = $state<LastDocType>()
-	let error = $state()
+	import Jobs from '$lib/components/Jobs.svelte'
 
-	const getJobs = async () => {
-		try {
-			isLoading = true
-			const { jobs: data, lastDoc } = await getPublicJobs({
-				lastVisibleDoc: undefined
-			})
-			jobs = data
-			lastJob = lastDoc
-			isLoading = false
-		} catch (err) {
-			error = err
-		} finally {
-			isLoading = false
-		}
-	}
+	// let isLoading = $state<boolean>(false)
+	// let jobs = $state<JobWithID[]>([])
+	// let lastJob = $state<LastDocType>()
+	// let error = $state()
 
-	const handleLoadMoreJobs = async (lastVisibleDoc: JobWithID) => {
-		console.log('load more...', { lastVisibleDoc })
-		try {
-			isLoading = true
-			const { jobs: additionalJobs, lastDoc } = await getPublicJobs({
-				lastVisibleDoc: lastVisibleDoc
-			})
-			lastJob = lastDoc
-			jobs = [...jobs, ...additionalJobs]
-			isLoading = false
-		} catch (err) {
-			error = err
-		} finally {
-			isLoading = false
-		}
-	}
+	// const getJobs = async () => {
+	// 	try {
+	// 		isLoading = true
+	// 		const { jobs: data, lastDoc } = await getPublicJobs({
+	// 			lastVisibleDoc: undefined
+	// 		})
+	// 		jobs = data
+	// 		lastJob = lastDoc
+	// 		isLoading = false
+	// 	} catch (err) {
+	// 		error = err
+	// 	} finally {
+	// 		isLoading = false
+	// 	}
+	// }
 
-	$effect(() => {
-		getJobs()
-	})
+	// const handleLoadMoreJobs = async (lastVisibleDoc: JobWithID) => {
+	// 	console.log('load more...', { lastVisibleDoc })
+	// 	try {
+	// 		isLoading = true
+	// 		const { jobs: additionalJobs, lastDoc } = await getPublicJobs({
+	// 			lastVisibleDoc: lastVisibleDoc
+	// 		})
+	// 		lastJob = lastDoc
+	// 		jobs = [...jobs, ...additionalJobs]
+	// 		isLoading = false
+	// 	} catch (err) {
+	// 		error = err
+	// 	} finally {
+	// 		isLoading = false
+	// 	}
+	// }
+
+	// $effect(() => {
+	// 	getJobs()
+	// })
 
 	/**
 	 * Gets all public jobs. Takes advantage of "await" blocks from Svelte.
@@ -171,62 +173,4 @@
 </div>
 <!-- End Hero -->
 
-{#if isLoading}
-	<!-- promise is pending -->
-	<div class="flex flex-1 flex-col items-center gap-6">
-		<div class="text-2xl font-bold">Loading opportunities..yay! 😃</div>
-		<div
-			class="inline-block size-5 animate-spin rounded-full border-[3px] border-current border-t-transparent text-blue-800 dark:text-blue-800"
-			role="status"
-			aria-label="loading"
-		></div>
-	</div>
-{/if}
-
-{#if !isLoading && jobs}
-	<!-- promise was fulfilled or not a Promise -->
-	<ul class="list-inside list-none p-0">
-		{#each jobs as job}
-			<a class="group/item no-underline" href={`/jobs/${job.id}`}>
-				<li
-					class="flex w-full items-center gap-4 rounded-lg border border-gray-200 px-6 py-4 duration-300 ease-in-out hover:cursor-pointer hover:border-blue-800 hover:shadow-md hover:transition-all"
-				>
-					<div class="flex-1">
-						<div class="text-sm font-normal text-gray-700">Employer Name</div>
-						<div class="group/job text-lg font-bold group-hover/item:underline">
-							{job.title}
-						</div>
-					</div>
-					<div class="flex items-center gap-4">
-						<div class="text-sm font-normal text-gray-700">Jan 1, 2025</div>
-						<svg
-							class="group/chevron size-4 shrink-0 group-hover/item:text-blue-800"
-							xmlns="http://www.w3.org/2000/svg"
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						>
-							<path d="m9 18 6-6-6-6"></path>
-						</svg>
-					</div>
-				</li>
-			</a>
-		{/each}
-		{#if lastJob === 'LAST'}
-			END OF JOBS
-		{/if}
-		{#if lastJob !== 'LAST'}
-			<button onclick={() => handleLoadMoreJobs(lastJob!)}>Load More</button>
-		{/if}
-	</ul>
-{/if}
-
-{#if error}
-	<!-- promise was rejected -->
-	<p>Something went wrong: {error.message}</p>
-{/if}
+<Jobs industry={undefined} />

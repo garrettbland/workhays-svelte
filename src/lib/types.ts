@@ -1,5 +1,6 @@
 import { INDUSTRIES, JOB_TYPES, JOB_STATUSES } from '$lib/constants'
 import { Timestamp } from 'firebase/firestore'
+import type { QueryDocumentSnapshot, DocumentData } from 'firebase-admin/firestore'
 
 interface CommonDocument {
 	createdAt: typeof Timestamp // created_at

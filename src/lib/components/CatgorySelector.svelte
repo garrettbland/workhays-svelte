@@ -2,14 +2,20 @@
 	import { INDUSTRIES } from '$lib/constants'
 	import { goto } from '$app/navigation'
 	import { page } from '$app/state'
+	import { clearCachedData } from '$lib/cache.svelte'
 
-	let selected = $state(page.params.category)
+	let selected = $state(page.params.industry)
 
-	const handleCategoryChange = (category: INDUSTRIES | 'all') => {
-		if (category === 'all') {
+	const handleCategoryChange = (industry: INDUSTRIES | 'all') => {
+		/**
+		 * Clear cached data when changing industries
+		 */
+		clearCachedData()
+
+		if (industry === 'all') {
 			return goto(`/`)
 		}
-		goto(`/categories/${category}`)
+		goto(`/industries/${industry}`)
 	}
 </script>
 

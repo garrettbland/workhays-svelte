@@ -1,15 +1,16 @@
 <script lang="ts">
+	import type { Job } from '$lib/types'
 	import type { PageData } from './$types'
 	let { data }: { data: PageData } = $props()
-	const job = $derived(data)
+	const job: Job = $derived(data)
 </script>
 
 <div class="lg:flex lg:items-center lg:justify-between">
 	<div class="flex-1">
-		<h2 class="not-prose m-0 mt-8 text-2xl font-bold sm:truncate">Retail Sales Associate</h2>
+		<h2 class="not-prose m-0 mt-8 text-2xl font-bold sm:truncate">{job.title}</h2>
 		<div class="mb-2">
 			<a href="#" class="not-prose text-blue-800 no-underline hover:underline"
-				>Nex-tech Wireless, LLC</a
+				>{job.employerTitle}</a
 			>
 		</div>
 		<div
@@ -30,7 +31,7 @@
 						d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 0 0 .75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 0 0-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0 1 12 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 0 1-.673-.38m0 0A2.18 2.18 0 0 1 3 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 0 1 3.413-.387m7.5 0V5.25A2.25 2.25 0 0 0 13.5 3h-3a2.25 2.25 0 0 0-2.25 2.25v.894m7.5 0a48.667 48.667 0 0 0-7.5 0M12 12.75h.008v.008H12v-.008Z"
 					/>
 				</svg>
-				Full-time
+				{job.type}
 			</div>
 			<div class=" flex items-center text-sm">
 				<svg
@@ -47,7 +48,9 @@
 						d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
 					/>
 				</svg>
-				<a class="not-prose text-blue-800 no-underline hover:underline" href="#">Apply Online</a>
+				<a class="not-prose text-blue-800 no-underline hover:underline" href={job.applicationLink}
+					>Apply Online</a
+				>
 			</div>
 			<div class=" flex items-center text-sm">
 				<svg
@@ -112,71 +115,23 @@
 	<div class="grid grid-cols-1 gap-4 md:grid-cols-6">
 		<div class="col-span-1 mb-12 md:col-span-4 md:mb-0 md:pr-4">
 			<h4 class="not-prose mt-2 text-sm font-bold">Job Description</h4>
-			<div class="">
-				<div>
-					Looking for <em>Something Different</em>?&nbsp; At Nex-Tech Wireless, we’re always working
-					to bring the latest technology to the communities we serve.&nbsp; Join our hometown team
-					as a <strong>Retail Sales Associate</strong> and have the opportunity to earn over $16.00
-					per hour including commissions!&nbsp; Let’s talk about how you can work 4 days a week
-					while being paid for 5!&nbsp;<br /><br />
-				</div>
-				<div>We are seeking customer-oriented candidates to:</div>
-				<ul>
-					<li>Promote and sell Nex-Tech Wireless products and services</li>
-					<li>Build and maintain relationships with new and existing customers</li>
-					<li>Educate customers on wireless products, services, and promotions</li>
-					<li>Build relationships through community engagement</li>
-					<li>
-						Resolve product and service issues and determine customer needs and best solutions
-					</li>
-					<li>Conduct follow-up calls to ensure continued customer satisfaction</li>
-				</ul>
-
-				<div>Required Skills and Qualifications:</div>
-				<ul>
-					<li>One year of customer service, telephone sales, or equivalent work experience</li>
-					<li>High School Diploma or equivalent</li>
-					<li>Customer-focused attitude</li>
-					<li>Ability to organize and handle multiple tasks</li>
-					<li>Strong communication and problem-solving skills</li>
-					<li>Availability to work evenings, weekends, and some holidays</li>
-				</ul>
-				<div>We proudly offer:</div>
-
-				<ul>
-					<li>Competitive pay and opportunity for monthly commission</li>
-					<li>A fun work environment</li>
-					<li>401(k) Retirement Plan with Company Match</li>
-					<li>Health, Dental, and Vision Insurance</li>
-					<li>Life, Dependent Life, and AD&amp;D Insurance&nbsp;</li>
-					<li>Short and Long-term Disability Insurance</li>
-					<li>Generous Paid Time Off</li>
-					<li>Employee Discounts&nbsp;</li>
-				</ul>
-				<div>
-					<br />How to apply:&nbsp; Submit an online application at
-					<a href="https://www.nex-techwireless.com/job-application"
-						>https://www.nex-techwireless.com/job-application</a
-					>
-					and send a current resume and cover letter to
-					<a href="mailto:ntwcareers@ntwls.com">ntwcareers@ntwls.com</a>.&nbsp; Nex-Tech Wireless is
-					an EEO employer.
-				</div>
-			</div>
+			<p>
+				{job.description}
+			</p>
 		</div>
 		<div class="col-span-1 md:col-span-2">
 			<div class="rounded-lg border border-gray-200 bg-white p-2">
 				<div class="mb-6">
 					<h4 class="not-prose text-sm font-bold">Employer Contact</h4>
-					<div class="mt-1 text-sm">Lisa Pierce</div>
+					<div class="mt-1 text-sm">TO DO</div>
 				</div>
 				<div class="mb-6">
 					<h4 class="not-prose text-sm font-bold">Created On</h4>
-					<div class="mt-1 text-sm">Jul 7, 2020</div>
+					<div class="mt-1 text-sm">{job.createdAt}</div>
 				</div>
 				<div class="">
 					<h4 class="not-prose text-sm font-bold">Last Updated</h4>
-					<div class="mt-1 text-sm leading-5">Dec 30, 2024</div>
+					<div class="mt-1 text-sm leading-5">{job.updatedAt}</div>
 				</div>
 			</div>
 		</div>

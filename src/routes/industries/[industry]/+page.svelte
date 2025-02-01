@@ -1,11 +1,13 @@
 <script lang="ts">
-	import { getPublicJobsByIndustry } from '$lib/jobs'
+	import { getPublicJobs } from '$lib/jobs'
 	import SEO from '$lib/components/SEO.svelte'
 	import { INDUSTRIES, SITE_NAME } from '$lib/constants'
 	import { page } from '$app/state'
 	import CatgorySelector from '$lib/components/CatgorySelector.svelte'
 	import type { Job, JobWithID } from '$lib/types'
 	import { untrack } from 'svelte'
+	import type { LastDocType } from '$lib/jobs'
+	import Jobs from '$lib/components/Jobs.svelte'
 
 	/**
 	 * Gets all public jobs. Takes advantage of "await" blocks from Svelte.
@@ -14,32 +16,45 @@
 	// let category = $derived(page.params.category)
 	//let isGettingJobs = $state(getPublicJobsByIndustry(category))
 
-	let category = $derived(page.params.category)
-	let isGettingJobs = $state(false)
-	let jobs = $state<JobWithID[]>([])
-	let error = $state()
+	let industry = $derived(page.params.industry)
+	// let isGettingJobs = $state(false)
+	// let jobs = $state<JobWithID[]>([])
+	// let lastJob = $state<LastDocType>()
+	// let error = $state()
 
-	const getJobs = async (industry: string) => {
-		try {
-			isGettingJobs = true
-			console.log('happening here...')
-			//jobs = new Promise((resolve) => resolve([]))
+	// const getJobs = async ({
+	// 	industry,
+	// 	lastSceneDoc
+	// }: {
+	// 	industry: INDUSTRIES
+	// 	lastSceneDoc?: JobWithID
+	// }) => {
+	// 	try {
+	// 		isGettingJobs = true
+	// 		console.log('happening here...')
+	// 		//jobs = new Promise((resolve) => resolve([]))
 
-			jobs = await getPublicJobsByIndustry(industry)
-		} catch (err) {
-			error = err
-		} finally {
-			isGettingJobs = false
-		}
-	}
+	// 		const data = await getPublicJobs({
+	// 			industry: industry,
+	// 			lastVisibleDoc: lastSceneDoc
+	// 		})
 
-	$effect(() => {
-		if (category) {
-			untrack(() => {
-				getJobs(category)
-			})
-		}
-	})
+	// 		jobs = data.jobs
+	// 		lastJob = data.lastDoc
+	// 	} catch (err) {
+	// 		error = err
+	// 	} finally {
+	// 		isGettingJobs = false
+	// 	}
+	// }
+
+	// $effect(() => {
+	// 	if (category) {
+	// 		untrack(() => {
+	// 			getJobs(category)
+	// 		})
+	// 	}
+	// })
 
 	// $effect(() => {
 	// 	try {
@@ -59,7 +74,7 @@
 	/**
 	 * Job Category
 	 */
-	let categoryName = $derived(Object.entries(INDUSTRIES).find((i) => i[1] === category)[0])
+	let industryName = $derived(Object.entries(INDUSTRIES).find((i) => i[1] === industry)[0])
 </script>
 
 <SEO
@@ -73,7 +88,7 @@
 		<div class="text-center">
 			<h1 class="not-prose text-4xl font-bold sm:text-6xl dark:text-neutral-200">
 				Job Openings in <br />
-				<span class="rounded-full bg-blue-50 px-4 py-1 text-xl text-blue-800">{categoryName}</span>
+				<span class="rounded-full bg-blue-50 px-4 py-1 text-xl text-blue-800">{industryName}</span>
 			</h1>
 
 			<p class="not-prose mt-3 text-gray-600 dark:text-neutral-400">
@@ -179,56 +194,6 @@
 </div>
 <!-- End Hero -->
 
-{#if isGettingJobs}
-	<!-- promise is pending -->
-	<div class="flex flex-1 flex-col items-center gap-6">
-		<div class="text-2xl font-bold">Loading opportunities..yay! 😃</div>
-		<div
-			class="inline-block size-5 animate-spin rounded-full border-[3px] border-current border-t-transparent text-blue-800 dark:text-blue-800"
-			role="status"
-			aria-label="loading"
-		></div>
-	</div>
-{/if}
-
-{#if !isGettingJobs && jobs}
-	<!-- promise was fulfilled or not a Promise -->
-	<ul class="list-inside list-none p-0">
-		{#each jobs as job}
-			<a class="group/item no-underline" href={`/jobs/${job.id}`}>
-				<li
-					class="flex w-full items-center gap-4 rounded-lg border border-gray-200 px-6 py-4 duration-300 ease-in-out hover:cursor-pointer hover:border-blue-800 hover:shadow-md hover:transition-all"
-				>
-					<div class="flex-1">
-						<div class="text-sm font-normal text-gray-700">Employer Name</div>
-						<div class="group/job text-lg font-bold group-hover/item:underline">
-							{job.title}
-						</div>
-					</div>
-					<div class="flex items-center gap-4">
-						<div class="text-sm font-normal text-gray-700">Jan 1, 2025</div>
-						<svg
-							class="group/chevron size-4 shrink-0 group-hover/item:text-blue-800"
-							xmlns="http://www.w3.org/2000/svg"
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						>
-							<path d="m9 18 6-6-6-6"></path>
-						</svg>
-					</div>
-				</li>
-			</a>
-		{/each}
-	</ul>
-{/if}
-
-{#if error}
-	<!-- promise was rejected -->
-	<p>Something went wrong: {error.message}</p>
-{/if}
+{#key page.params.industry}
+	<Jobs industry={page.params.industry} />
+{/key}

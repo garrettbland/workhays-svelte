@@ -1,32 +1,31 @@
-import type { JobWithID, EmployerWithID } from '$lib/types'
+import type { Job, JobWithID, EmployerWithID } from '$lib/types'
+import type { QueryDocumentSnapshot, DocumentData } from 'firebase-admin/firestore'
 
 /**
- * Universal state to store cached data.
+ * Universal state to store cached jobs.
  * https://svelte.dev/tutorial/svelte/universal-reactivity
  *
  * Example usage...
  *
  * ```js
- * let jobs = $derived(cachedData.jobs);
+ * let jobs = $derived(cachedJobs);
  * console.log(jobs)
  * ```
  */
-export const cachedData = $state<{ jobs: JobWithID[]; [industry: string]: JobWithID[] }>({
-	jobs: []
-})
+export const cachedJobs = $state<{ [id: string]: Job }>({})
 
 /**
- * Combine all arrays and remove duplicates
+ * Return cached jobs. Otherwise svelte returns the Proxy object thing
  */
-export const allCachedJobs = () => [...new Set(Object.values(cachedData).flat())]
+export const allCachedJobs = () => {
+	return { ...cachedJobs }
+}
 
 /**
  * Clear all cached data
  */
 export const clearCachedData = () => {
-	Object.keys(cachedData).forEach((cacheKey) => {
-		cachedData[cacheKey] = []
-	})
+	Object.keys(cachedJobs).forEach((key) => delete cachedJobs[key])
 }
 
 /**
