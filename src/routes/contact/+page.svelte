@@ -92,6 +92,7 @@
 								name="firstName"
 								class="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm focus:border-blue-800 focus:ring-blue-800 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
 							/>
+
 							{#if $errors.firstName}
 								{$errors.firstName}
 							{/if}
@@ -129,11 +130,11 @@
 
 						<div>
 							<label for="hs-business-name" class="mb-2 block text-sm dark:text-white"
-								>Phone Number</label
+								>Business Name</label
 							>
 							<input
 								type="text"
-								name="businessName"
+								name="business"
 								class="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm focus:border-blue-800 focus:ring-blue-800 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
 							/>
 						</div>
