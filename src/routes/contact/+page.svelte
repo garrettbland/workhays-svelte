@@ -56,7 +56,7 @@
 </script>
 
 <div
-	class="mx-auto mt-12 max-w-md rounded-xl border border-gray-200 bg-white shadow-sm dark:border-neutral-700 dark:bg-neutral-900"
+	class="mx-auto mt-12 max-w-lg rounded-xl border border-gray-200 bg-white shadow-sm dark:border-neutral-700 dark:bg-neutral-900"
 >
 	<div class="p-4 sm:p-7">
 		<div class="text-center">
@@ -80,9 +80,9 @@
 				Error with form
 			{/if}
 			<form use:form>
-				<div class="grid gap-4 lg:gap-6">
+				<div class="grid gap-4 lg:gap-4">
 					<!-- Grid -->
-					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:gap-6">
+					<div class="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:gap-2">
 						<div>
 							<label for="hs-firstname-contacts-1" class="mb-2 block text-sm dark:text-white"
 								>First Name</label
@@ -112,7 +112,7 @@
 					<!-- End Grid -->
 
 					<!-- Grid -->
-					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:gap-6">
+					<div class="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:gap-2">
 						<div>
 							<label for="hs-email-contacts-1" class="mb-2 block text-sm dark:text-white"
 								>Email</label
