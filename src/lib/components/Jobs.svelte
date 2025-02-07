@@ -118,10 +118,17 @@
 			</a>
 		{/each}
 		{#if lastJobLoaded === 'LAST'}
-			END OF JOBS
+			<div class="flex w-full justify-center">
+				<p class="font-bold text-gray-500">-- End of job listings --</p>
+			</div>
 		{/if}
 		{#if lastJobLoaded !== 'LAST'}
-			<button onclick={() => handleLoadMore(lastJobLoaded!)}>Load More</button>
+			<div class="flex w-full justify-center">
+				<button
+					class="flex gap-x-2 rounded-lg border border-transparent bg-blue-800 px-6 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:bg-blue-500 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+					onclick={() => handleLoadMore(lastJobLoaded!)}>Load more jobs</button
+				>
+			</div>
 		{/if}
 	</ul>
 {/if}
