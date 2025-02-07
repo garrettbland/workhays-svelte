@@ -55,35 +55,117 @@
 	})
 </script>
 
-<h1>Contact us page</h1>
+<div
+	class="mx-auto mt-12 max-w-md rounded-xl border border-gray-200 bg-white shadow-sm dark:border-neutral-700 dark:bg-neutral-900"
+>
+	<div class="p-4 sm:p-7">
+		<div class="text-center">
+			<h1 class="block text-2xl font-bold text-gray-800 dark:text-white">Contact us</h1>
+			<p class="mt-2 text-sm text-gray-600 dark:text-neutral-400">
+				Please fill out the following form to contact us.
+			</p>
+		</div>
 
-{#if status === 'LOADING'}
-	Loading...
-{/if}
+		<div class="mt-5">
+			<!-- Form -->
+			{#if status === 'LOADING'}
+				Loading...
+			{/if}
 
-{#if status === 'SUCCESSFUL'}
-	Successful!
-{/if}
+			{#if status === 'SUCCESSFUL'}
+				Successful!
+			{/if}
 
-{#if status === 'ERROR'}
-	Error with form
-{/if}
+			{#if status === 'ERROR'}
+				Error with form
+			{/if}
+			<form use:form>
+				<div class="grid gap-4 lg:gap-6">
+					<!-- Grid -->
+					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:gap-6">
+						<div>
+							<label for="hs-firstname-contacts-1" class="mb-2 block text-sm dark:text-white"
+								>First Name</label
+							>
+							<input
+								type="text"
+								name="firstName"
+								class="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm focus:border-blue-800 focus:ring-blue-800 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+							/>
+							{#if $errors.firstName}
+								{$errors.firstName}
+							{/if}
+						</div>
 
-<form use:form>
-	<input name="firstName" type="text" />
-	{#if $errors.firstName}
-		{$errors.firstName}
-	{/if}
-	<input name="lastName" type="text" />
+						<div>
+							<label for="hs-lastname-contacts-1" class="mb-2 block text-sm dark:text-white"
+								>Last Name</label
+							>
+							<input
+								type="text"
+								name="lastName"
+								class="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm focus:border-blue-800 focus:ring-blue-800 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+							/>
+						</div>
+					</div>
+					<!-- End Grid -->
 
-	<input name="email" type="email" />
-	{#if $errors.email}
-		{$errors.email}
-	{/if}
+					<!-- Grid -->
+					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:gap-6">
+						<div>
+							<label for="hs-email-contacts-1" class="mb-2 block text-sm dark:text-white"
+								>Email</label
+							>
+							<input
+								type="email"
+								name="email"
+								autocomplete="email"
+								class="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm focus:border-blue-800 focus:ring-blue-800 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+							/>
+							{#if $errors.email}
+								{$errors.email}
+							{/if}
+						</div>
 
-	<input name="businessName" type="text" />
+						<div>
+							<label for="hs-business-name" class="mb-2 block text-sm dark:text-white"
+								>Phone Number</label
+							>
+							<input
+								type="text"
+								name="businessName"
+								class="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm focus:border-blue-800 focus:ring-blue-800 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+							/>
+						</div>
+					</div>
+					<!-- End Grid -->
 
-	<textarea name="message"></textarea>
+					<div>
+						<label for="hs-message" class="mb-2 block text-sm dark:text-white">Details</label>
+						<textarea
+							name="message"
+							rows="4"
+							class="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm focus:border-blue-800 focus:ring-blue-800 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+						></textarea>
+					</div>
+				</div>
+				<!-- End Grid -->
 
-	<button type="submit">Submit</button>
-</form>
+				<div class="mt-6 grid">
+					<button
+						type="submit"
+						class="inline-flex w-full items-center justify-center gap-x-2 rounded-lg border border-transparent bg-blue-800 px-4 py-3 text-sm font-medium text-white hover:bg-blue-700 focus:bg-blue-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+						>Send inquiry</button
+					>
+				</div>
+
+				<div class="mt-3 text-center">
+					<p class="text-sm text-gray-600 dark:text-neutral-400">
+						We'll get back to you as soon as we can!
+					</p>
+				</div>
+			</form>
+			<!-- End Form -->
+		</div>
+	</div>
+</div>
