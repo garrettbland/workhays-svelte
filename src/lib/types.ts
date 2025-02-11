@@ -28,6 +28,11 @@ export interface JobWithID extends Job {
 	id: string
 }
 
+/**
+ * Job inputs
+ */
+export type JobInputs = Omit<Job, 'createdAt' | 'updatedAt'>
+
 export interface Employer extends CommonDocument {
 	// id: string
 	title: string
@@ -79,5 +84,10 @@ export interface User extends CommonDocument {
 export interface UserWithID extends User {
 	id: string
 }
+
+/**
+ * Form Status
+ */
+export type FormStatus = 'IDLE' | 'LOADING' | 'SUCCESSFUL' | 'ERROR'
 
 export {}

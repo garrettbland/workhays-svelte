@@ -2,16 +2,18 @@
 	import { authData } from '$lib/auth.svelte'
 	import { page } from '$app/state'
 	import { getJobById, updateJobById, softDeleteJobById } from '$lib/jobs.admin'
-	import type { Job, JobWithID } from '$lib/types'
+	import type { Job, JobWithID, FormStatus } from '$lib/types'
 	import { INDUSTRIES, JOB_TYPES, JOB_STATUSES } from '$lib/constants'
 	import { goto } from '$app/navigation'
+	import JobForm from '$lib/components/JobForm.svelte'
 
 	let currentJob = $state(getJobById(page.params.jobId, authData.user?.memberOf[0]))
 	let isLoading = $state(false)
 	let hasError = $state(false)
 	let isSuccess = $state(false)
+	let editFormStatus = $state<FormStatus>('IDLE')
 
-	$inspect(currentJob)
+	// $inspect(currentJob)
 
 	const handleSubmit = async (jobId: string, updatedFields: Partial<Job>) => {
 		try {
@@ -46,16 +48,24 @@
 	<div>Loading...</div>
 {:then job}
 	<h1>Edit Job: {job.title}</h1>
-	{#if isLoading}
+	<!-- {#if isLoading}
 		Updating job...
-	{/if}
-	{#if hasError}
+	{/if} -->
+	{#if editFormStatus === 'ERROR'}
 		Error updating job
 	{/if}
-	{#if isSuccess}
-		Successful job update
+	{#if editFormStatus === 'SUCCESSFUL'}
+		<p class="text-5xl">Successful job update</p>
 	{/if}
 
+	<JobForm
+		currentJob={job}
+		handleSubmit={(job) => handleSubmit(page.params.jobId, job)}
+		onStatusChange={(status) => editFormStatus === status}
+		clearInputsOnSubmit={false}
+	/>
+
+	<!-- 
 	<form on:submit|preventDefault={() => handleSubmit(job.id, job)}>
 		<label for="title">Title</label>
 		<input bind:value={job.title} type="text" id="title" name="title" required />
@@ -97,7 +107,7 @@
 		/>
 
 		<button type="submit">{isLoading ? 'Loading...' : 'Submit'}</button>
-	</form>
+	</form> -->
 
 	<button on:click={() => handleDelete(job.id)}>Delete Job</button>
 {:catch error}
