@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { authData } from '$lib/auth.svelte'
 	import { createJob } from '$lib/jobs.admin'
-	import type { EmployerWithID, Job } from '$lib/types'
+	import type { EmployerWithID, Job, FormStatus } from '$lib/types'
 	import { getEmployerById } from '$lib/employer.admin'
 	import { INDUSTRIES, JOB_TYPES, JOB_STATUSES } from '$lib/constants'
+	import JobForm from '$lib/components/JobForm.svelte'
 
 	type JobInputs = Omit<Job, 'createdAt' | 'updatedAt'>
 	const DEFAULT_EMPTY_JOB: JobInputs = {
@@ -26,6 +27,8 @@
 	let isLoading = $state(false)
 	let hasError = $state(false)
 	let isSuccess = $state(false)
+
+	let newFormStatus = $state<FormStatus>('IDLE')
 
 	/**
 	 * TO DO: Complete the rest of the type and remove Partial
@@ -56,18 +59,23 @@
 
 <h1>Create new job</h1>
 
-{#if isSuccess}
+{#if newFormStatus === 'SUCCESSFUL'}
 	<p>Job created successfully. Job ID: {newJobId}</p>
 {/if}
 
-{#if hasError}
+{#if newFormStatus === 'ERROR'}
 	<p class="text-red-500">There was an error creating the job. Please try again.</p>
 {/if}
 
 {#await currentEmployer}
 	<div>loading...</div>
 {:then employer}
-	<form on:submit|preventDefault={() => handleSubmit(job, employer)}>
+	<JobForm
+		handleSubmit={(_job) => handleSubmit(_job, employer)}
+		onStatusChange={(status) => (newFormStatus = status)}
+		clearInputsOnSubmit={true}
+	/>
+	<!-- <form on:submit|preventDefault={() => handleSubmit(job, employer)}>
 		<div>Employer: {employer.title}</div>
 
 		<label for="title">Title</label>
@@ -110,7 +118,7 @@
 		/>
 
 		<button type="submit">{isLoading ? 'Loading...' : 'Submit'}</button>
-	</form>
+	</form> -->
 {:catch err}
 	<div>error loading employer...</div>
 {/await}

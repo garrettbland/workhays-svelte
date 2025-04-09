@@ -1,4 +1,9 @@
 <script lang="ts">
+	/**
+	 * To Do: Fix a lot of this page and the loading indicator stuff, it's a mess
+	 * along with the error and success handling. (updating job by id is also wonky)
+	 */
+
 	import { authData } from '$lib/auth.svelte'
 	import { page } from '$app/state'
 	import { getJobById, updateJobById, softDeleteJobById } from '$lib/jobs.admin'
@@ -20,10 +25,15 @@
 			isLoading = true
 			hasError = false
 			isSuccess = false
-			await updateJobById(jobId, updatedFields)
-			isSuccess = true
+			editFormStatus = 'LOADING'
+			const { status } = await updateJobById(jobId, updatedFields)
+			if (status !== 'success') {
+				editFormStatus = 'ERROR'
+			}
+			throw new Error('Job not updated')
 		} catch (err) {
-			hasError = true
+			console.log(err)
+			editFormStatus = 'ERROR'
 		} finally {
 			isLoading = false
 		}
@@ -47,10 +57,9 @@
 {#await currentJob}
 	<div>Loading...</div>
 {:then job}
+	{editFormStatus}
 	<h1>Edit Job: {job.title}</h1>
-	<!-- {#if isLoading}
-		Updating job...
-	{/if} -->
+
 	{#if editFormStatus === 'ERROR'}
 		Error updating job
 	{/if}
@@ -61,7 +70,7 @@
 	<JobForm
 		currentJob={job}
 		handleSubmit={(job) => handleSubmit(page.params.jobId, job)}
-		onStatusChange={(status) => editFormStatus === status}
+		onStatusChange={(status) => (editFormStatus = status)}
 		clearInputsOnSubmit={false}
 	/>
 

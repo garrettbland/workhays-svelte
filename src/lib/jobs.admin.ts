@@ -132,7 +132,12 @@ export const getJobById = async (jobId: string, employerId?: string): Promise<Jo
 /**
  * Updates job by id
  */
-export const updateJobById = async (jobId: string, updatedJob: Partial<JobWithID>) => {
+export const updateJobById = async (
+	jobId: string,
+	updatedJob: Partial<JobWithID>
+): {
+	status: 'success' | 'error'
+} => {
 	try {
 		/**
 		 * Reference to the document in the jobs collection
@@ -153,9 +158,16 @@ export const updateJobById = async (jobId: string, updatedJob: Partial<JobWithID
 		await updateDoc(docRef, { ...updatedJob, updatedAt: serverTimestamp() })
 
 		clearCachedData()
+
+		return {
+			status: 'success'
+		}
 	} catch (error) {
-		console.log(`Error with updateJobById`, error)
-		throw new Error(`Error in updateJobById`)
+		console.error(`Error with updateJobById`, error)
+		return {
+			status: 'error'
+		}
+		// throw new Error(`Error in updateJobById`)
 	}
 }
 

@@ -1,6 +1,7 @@
 import { INDUSTRIES, JOB_TYPES, JOB_STATUSES } from '$lib/constants'
 import { Timestamp } from 'firebase/firestore'
 import type { QueryDocumentSnapshot, DocumentData } from 'firebase-admin/firestore'
+import type { JSONContent } from '@tiptap/core'
 
 interface CommonDocument {
 	createdAt: typeof Timestamp // created_at
@@ -9,7 +10,7 @@ interface CommonDocument {
 
 export interface Job extends CommonDocument {
 	title: string // title
-	description: string // description
+	description: JSONContent // description content from tip tap is JSON basically
 	employerTitle: string // **new**
 	employerId: string // employer_id
 	type: JOB_TYPES // job_type (full_time, part_time)
