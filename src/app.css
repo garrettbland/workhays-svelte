@@ -3,7 +3,7 @@
 @import 'tailwindcss/utilities';
 
 .ProseMirror:focus {
-	outline: none;
+	@apply rounded-b-lg rounded-t-none outline outline-2 outline-offset-1 outline-blue-500;
 }
 
 .tiptap ul p,

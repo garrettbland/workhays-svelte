@@ -21,7 +21,7 @@
 {#if authData.isLoading || !authData.auth}
 	<p>Loading...</p>
 {:else}
-	<div class="grid grid-cols-12 gap-6">
+	<div class="relative grid grid-cols-12 gap-6">
 		<div class="col-span-3">
 			<div class="max-w-32 border-e-2 border-gray-200 dark:border-neutral-700">
 				<nav class="-me-0.5 flex flex-col space-y-3">

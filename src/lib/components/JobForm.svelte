@@ -141,141 +141,145 @@
 	]
 </script>
 
-<form onsubmit={handleSubmitCallback}>
-	<!-- <label for="title">Title</label>
-	<input bind:value={job.title} type="text" id="title" name="title" required /> -->
-
+<form onsubmit={handleSubmitCallback} class="space-y-8">
 	<!-- Job Title -->
-	<label for="title" class="mb-2 block text-sm font-medium dark:text-white">Job Title</label>
-	<input
-		type="text"
-		id="title"
-		class="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-		placeholder="Sales Associate"
-		aria-describedby="hs-input-helper-text"
-		name="title"
-		bind:value={job.title}
-	/>
-	<p class="mt-2 text-sm text-gray-500 dark:text-neutral-500" id="hs-input-helper-text">
+	<div>
+		<label for="title" class="mb-2 block text-sm font-medium dark:text-white">Job Title</label>
+		<input
+			type="text"
+			id="title"
+			class="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+			placeholder="Sales Associate"
+			aria-describedby="hs-input-helper-text"
+			name="title"
+			bind:value={job.title}
+		/>
+		<!-- <p class="mt-2 text-sm text-gray-500 dark:text-neutral-500" id="hs-input-helper-text">
 		Helper text
-	</p>
+	</p> -->
+	</div>
 
 	<!-- Description -->
-	<div
-		class="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-neutral-700 dark:bg-neutral-800"
-	>
-		<div id="hs-editor-tiptap">
-			<div
-				class="sticky top-0 flex gap-x-0.5 border-b border-gray-200 bg-white p-2 align-middle dark:border-neutral-700"
-			>
-				<button
-					class="inline-flex size-8 items-center justify-center gap-x-2 rounded-full border border-transparent text-sm font-semibold text-gray-800 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
-					type="button"
-					data-hs-editor-bold=""
+	<div>
+		<label for="description" class="mb-2 block text-sm font-medium dark:text-white"
+			>Description</label
+		>
+		<div
+			id="description"
+			class="rounded-lg border border-gray-200 bg-white dark:border-neutral-700 dark:bg-neutral-800"
+		>
+			<div id="hs-editor-tiptap">
+				<div
+					class="flex gap-x-0.5 rounded-t-xl border-b border-gray-200 bg-white p-2 align-middle dark:border-neutral-700"
 				>
-					<svg
-						class="size-4 shrink-0"
-						xmlns="http://www.w3.org/2000/svg"
-						width="24"
-						height="24"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
+					<button
+						class="inline-flex size-8 items-center justify-center gap-x-2 rounded-full border border-transparent text-sm font-semibold text-gray-800 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+						type="button"
+						data-hs-editor-bold=""
 					>
-						<path d="M14 12a4 4 0 0 0 0-8H6v8"></path>
-						<path d="M15 20a4 4 0 0 0 0-8H6v8Z"></path>
-					</svg>
-				</button>
-				<button
-					class="inline-flex size-8 items-center justify-center gap-x-2 rounded-full border border-transparent text-sm font-semibold text-gray-800 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
-					type="button"
-					data-hs-editor-italic=""
-				>
-					<svg
-						class="size-4 shrink-0"
-						xmlns="http://www.w3.org/2000/svg"
-						width="24"
-						height="24"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
+						<svg
+							class="size-4 shrink-0"
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<path d="M14 12a4 4 0 0 0 0-8H6v8"></path>
+							<path d="M15 20a4 4 0 0 0 0-8H6v8Z"></path>
+						</svg>
+					</button>
+					<button
+						class="inline-flex size-8 items-center justify-center gap-x-2 rounded-full border border-transparent text-sm font-semibold text-gray-800 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+						type="button"
+						data-hs-editor-italic=""
 					>
-						<line x1="19" x2="10" y1="4" y2="4"></line>
-						<line x1="14" x2="5" y1="20" y2="20"></line>
-						<line x1="15" x2="9" y1="4" y2="20"></line>
-					</svg>
-				</button>
-				<button
-					class="inline-flex size-8 items-center justify-center gap-x-2 rounded-full border border-transparent text-sm font-semibold text-gray-800 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
-					type="button"
-					data-hs-editor-underline=""
-				>
-					<svg
-						class="size-4 shrink-0"
-						xmlns="http://www.w3.org/2000/svg"
-						width="24"
-						height="24"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
+						<svg
+							class="size-4 shrink-0"
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<line x1="19" x2="10" y1="4" y2="4"></line>
+							<line x1="14" x2="5" y1="20" y2="20"></line>
+							<line x1="15" x2="9" y1="4" y2="20"></line>
+						</svg>
+					</button>
+					<button
+						class="inline-flex size-8 items-center justify-center gap-x-2 rounded-full border border-transparent text-sm font-semibold text-gray-800 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+						type="button"
+						data-hs-editor-underline=""
 					>
-						<path d="M6 4v6a6 6 0 0 0 12 0V4"></path>
-						<line x1="4" x2="20" y1="20" y2="20"></line>
-					</svg>
-				</button>
-				<button
-					class="inline-flex size-8 items-center justify-center gap-x-2 rounded-full border border-transparent text-sm font-semibold text-gray-800 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
-					type="button"
-					data-hs-editor-strike=""
-				>
-					<svg
-						class="size-4 shrink-0"
-						xmlns="http://www.w3.org/2000/svg"
-						width="24"
-						height="24"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
+						<svg
+							class="size-4 shrink-0"
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<path d="M6 4v6a6 6 0 0 0 12 0V4"></path>
+							<line x1="4" x2="20" y1="20" y2="20"></line>
+						</svg>
+					</button>
+					<!-- <button
+						class="inline-flex size-8 items-center justify-center gap-x-2 rounded-full border border-transparent text-sm font-semibold text-gray-800 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+						type="button"
+						data-hs-editor-strike=""
 					>
-						<path d="M16 4H9a3 3 0 0 0-2.83 4"></path>
-						<path d="M14 12a4 4 0 0 1 0 8H6"></path>
-						<line x1="4" x2="20" y1="12" y2="12"></line>
-					</svg>
-				</button>
-				<button
-					class="inline-flex size-8 items-center justify-center gap-x-2 rounded-full border border-transparent text-sm font-semibold text-gray-800 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
-					type="button"
-					data-hs-editor-link=""
-				>
-					<svg
-						class="size-4 shrink-0"
-						xmlns="http://www.w3.org/2000/svg"
-						width="24"
-						height="24"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
+						<svg
+							class="size-4 shrink-0"
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<path d="M16 4H9a3 3 0 0 0-2.83 4"></path>
+							<path d="M14 12a4 4 0 0 1 0 8H6"></path>
+							<line x1="4" x2="20" y1="12" y2="12"></line>
+						</svg>
+					</button> -->
+					<button
+						class="inline-flex size-8 items-center justify-center gap-x-2 rounded-full border border-transparent text-sm font-semibold text-gray-800 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+						type="button"
+						data-hs-editor-link=""
 					>
-						<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-						<path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-					</svg>
-				</button>
-				<!-- <button
+						<svg
+							class="size-4 shrink-0"
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+							<path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+						</svg>
+					</button>
+					<!-- <button
 					class="inline-flex size-8 items-center justify-center gap-x-2 rounded-full border border-transparent text-sm font-semibold text-gray-800 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
 					type="button"
 					data-hs-editor-ol=""
@@ -300,125 +304,103 @@
 						<path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"></path>
 					</svg>
 				</button> -->
-				<button
-					class="inline-flex size-8 items-center justify-center gap-x-2 rounded-full border border-transparent text-sm font-semibold text-gray-800 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
-					type="button"
-					data-hs-editor-ul=""
-				>
-					<svg
-						class="size-4 shrink-0"
-						xmlns="http://www.w3.org/2000/svg"
-						width="24"
-						height="24"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
+					<button
+						class="inline-flex size-8 items-center justify-center gap-x-2 rounded-full border border-transparent text-sm font-semibold text-gray-800 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+						type="button"
+						data-hs-editor-ul=""
 					>
-						<line x1="8" x2="21" y1="6" y2="6"></line>
-						<line x1="8" x2="21" y1="12" y2="12"></line>
-						<line x1="8" x2="21" y1="18" y2="18"></line>
-						<line x1="3" x2="3.01" y1="6" y2="6"></line>
-						<line x1="3" x2="3.01" y1="12" y2="12"></line>
-						<line x1="3" x2="3.01" y1="18" y2="18"></line>
-					</svg>
-				</button>
-			</div>
+						<svg
+							class="size-4 shrink-0"
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<line x1="8" x2="21" y1="6" y2="6"></line>
+							<line x1="8" x2="21" y1="12" y2="12"></line>
+							<line x1="8" x2="21" y1="18" y2="18"></line>
+							<line x1="3" x2="3.01" y1="6" y2="6"></line>
+							<line x1="3" x2="3.01" y1="12" y2="12"></line>
+							<line x1="3" x2="3.01" y1="18" y2="18"></line>
+						</svg>
+					</button>
+				</div>
 
-			<div class="prose overflow-auto" data-hs-editor-field=""></div>
+				<div class="prose" data-hs-editor-field=""></div>
+			</div>
 		</div>
 	</div>
 
-	<!-- <label for="description">Description</label>
-	<textarea bind:value={job.description} id="description" name="description" required></textarea> -->
-
 	<!-- Industry -->
-	<label for="industry" class="mb-2 block text-sm font-medium dark:text-white">Industry</label>
-	<select
-		bind:value={job.industry}
-		id="industry"
-		class="block w-full rounded-lg border-gray-200 px-4 py-3 pe-9 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-	>
-		<option value="" disabled selected>Please select an industry</option>
-		{#each Object.entries(INDUSTRIES) as industry}
-			<option value={industry[1]}>{industry[0]}</option>
-		{/each}
-	</select>
-
-	<!-- <label> industry </label>
-	<select bind:value={job.industry}>
-		<option value="" disabled selected>Please select an industry</option>
-		{#each Object.entries(INDUSTRIES) as industry}
-			<option value={industry[1]}>{industry[0]}</option>
-		{/each}
-	</select> -->
+	<div>
+		<label for="industry" class="mb-2 block text-sm font-medium dark:text-white">Industry</label>
+		<select
+			bind:value={job.industry}
+			id="industry"
+			class="block w-full rounded-lg border-gray-200 px-4 py-3 pe-9 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+		>
+			<option value="" disabled selected>Please select an industry</option>
+			{#each Object.entries(INDUSTRIES) as industry}
+				<option value={industry[1]}>{industry[0]}</option>
+			{/each}
+		</select>
+	</div>
 
 	<!-- Type -->
-	<label for="type" class="mb-2 block text-sm font-medium dark:text-white">Position Type</label>
-	<select
-		bind:value={job.type}
-		id="type"
-		class="block w-full rounded-lg border-gray-200 px-4 py-3 pe-9 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-	>
-		<option value="" disabled selected>Please select an type</option>
-		{#each Object.entries(JOB_TYPES) as type}
-			<option value={type[1]}>{type[0]}</option>
-		{/each}
-	</select>
-
-	<!-- <label> job type </label>
-	<select bind:value={job.type}>
-		<option value="" disabled selected>Please select an type</option>
-		{#each Object.entries(JOB_TYPES) as type}
-			<option value={type[1]}>{type[0]}</option>
-		{/each}
-	</select> -->
+	<div>
+		<label for="type" class="mb-2 block text-sm font-medium dark:text-white">Position Type</label>
+		<select
+			bind:value={job.type}
+			id="type"
+			class="block w-full rounded-lg border-gray-200 px-4 py-3 pe-9 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+		>
+			<option value="" disabled selected>Please select an type</option>
+			{#each Object.entries(JOB_TYPES) as type}
+				<option value={type[1]}>{type[0]}</option>
+			{/each}
+		</select>
+	</div>
 
 	<!-- Job Status -->
-	<label for="status" class="mb-2 block text-sm font-medium dark:text-white">Position Type</label>
-	<select
-		bind:value={job.status}
-		id="status"
-		class="block w-full rounded-lg border-gray-200 px-4 py-3 pe-9 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-	>
-		<option value="" disabled selected>Please select an status</option>
-		{#each Object.entries(JOB_STATUSES) as status}
-			<option value={status[1]}>{status[0]}</option>
-		{/each}
-	</select>
-
-	<!-- <label> job status </label>
-	<select bind:value={job.status}>
-		<option value="" disabled selected>Please select an status</option>
-		{#each Object.entries(JOB_STATUSES) as status}
-			<option value={status[1]}>{status[0]}</option>
-		{/each}
-	</select> -->
+	<div>
+		<label for="status" class="mb-2 block text-sm font-medium dark:text-white">Position Type</label>
+		<select
+			bind:value={job.status}
+			id="status"
+			class="block w-full rounded-lg border-gray-200 px-4 py-3 pe-9 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+		>
+			<option value="" disabled selected>Please select an status</option>
+			{#each Object.entries(JOB_STATUSES) as status}
+				<option value={status[1]}>{status[0]}</option>
+			{/each}
+		</select>
+	</div>
 
 	<!-- Application Link -->
-	<label for="applicationLink" class="mb-2 block text-sm font-medium dark:text-white"
-		>Application Link</label
+	<div>
+		<label for="applicationLink" class="mb-2 block text-sm font-medium dark:text-white"
+			>Application Link</label
+		>
+		<input
+			type="url"
+			id="applicationLink"
+			class="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+			placeholder="Application Link"
+			aria-describedby="hs-input-helper-text"
+			name="applicationLink"
+			bind:value={job.applicationLink}
+		/>
+	</div>
+
+	<button
+		type="submit"
+		class="focus:outline-hidden inline-flex items-center gap-x-2 rounded-lg border border-transparent bg-blue-600 px-4 py-3 text-sm font-medium text-white hover:bg-blue-700 focus:bg-blue-700 disabled:pointer-events-none disabled:opacity-50"
 	>
-	<input
-		type="url"
-		id="applicationLink"
-		class="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-		placeholder="Application Link"
-		aria-describedby="hs-input-helper-text"
-		name="applicationLink"
-		bind:value={job.applicationLink}
-	/>
-
-	<!-- <label for="applicationLink">Job Application Link</label>
-	<input
-		bind:value={job.applicationLink}
-		type="text"
-		id="applicationLink"
-		name="applicationLink"
-		required
-	/> -->
-
-	<button type="submit">{isLoading ? 'Loading...' : 'Submit'}</button>
+		{isLoading ? 'Loading...' : 'Submit'}
+	</button>
 </form>

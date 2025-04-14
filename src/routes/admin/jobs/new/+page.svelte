@@ -9,7 +9,7 @@
 	type JobInputs = Omit<Job, 'createdAt' | 'updatedAt'>
 	const DEFAULT_EMPTY_JOB: JobInputs = {
 		title: '',
-		description: '',
+		description: {},
 		employerTitle: '',
 		employerId: '',
 		type: '' as JOB_TYPES,
