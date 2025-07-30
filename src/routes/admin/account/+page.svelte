@@ -4,6 +4,8 @@
 	import { updateUserById } from '$lib/users.admin'
 	import { goto } from '$app/navigation'
 	import ChangeEmail from '$lib/components/ChangeEmail.svelte'
+	import Button from '$lib/components/Button.svelte'
+	import Alert from '$lib/components/Alert.svelte'
 
 	let user = $state(authData.user ? { ...authData.user } : ({} as UserWithID))
 	let isLoading = $state(false)
@@ -35,40 +37,76 @@
 	}
 </script>
 
-<h1>Account Settings (email/password)</h1>
+<div class="prose prose-sm mb-4">
+	<h1>Account</h1>
+</div>
 
-<h1>Edit User: {authData.user?.firstName}</h1>
-{#if isLoading}
-	Updating user...
-{/if}
-{#if hasError}
-	Error updating user
-{/if}
-{#if isSuccess}
-	Successful user update
-{/if}
+<!-- <h1>Edit User: {authData.user?.firstName}</h1> -->
+<div class="mb-4">
+	{#if isLoading}
+		<Alert type="secondary" title="Updating user..." />
+	{/if}
+	{#if hasError}
+		<Alert type="warning" title="Error updating user. Please try again." />
+	{/if}
+	{#if isSuccess}
+		<Alert type="success" title="User updated successfully." />
+	{/if}
+</div>
 
-<h2>Personal Info</h2>
-<form on:submit|preventDefault={() => handleUserDetailsSubmit(user.id, user)}>
-	<label for="title">First Name</label>
-	<input bind:value={user.firstName} type="text" id="firstName" name="firstName" required />
+<div class="prose prose-sm mb-4">
+	<h2>Personal Information</h2>
+</div>
+<form
+	on:submit|preventDefault={() => handleUserDetailsSubmit(user.id, user)}
+	class="mb-12 space-y-8"
+>
+	<div>
+		<label for="first_name" class="mb-2 block text-sm font-medium dark:text-white">First Name</label
+		>
+		<input
+			type="text"
+			id="first_name"
+			class="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+			placeholder="Sales Associate"
+			aria-describedby="hs-input-helper-text"
+			name="first_name"
+			bind:value={user.firstName}
+			required
+		/>
+	</div>
 
-	<label for="Last Name">Last Name</label>
-	<input bind:value={user.lastName} type="text" id="lastName" name="lastName" required />
+	<div>
+		<label for="last_name" class="mb-2 block text-sm font-medium dark:text-white">Last Name</label>
+		<input
+			type="text"
+			id="last_name"
+			class="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+			placeholder="Sales Associate"
+			aria-describedby="hs-input-helper-text"
+			name="last_name"
+			bind:value={user.lastName}
+			required
+		/>
+	</div>
 
-	<button name="" type="submit">{isLoading ? 'Loading...' : 'Submit'}</button>
+	<Button
+		title="Update User"
+		type="primary"
+		buttonType="submit"
+		disabled={isLoading}
+		{isLoading}
+		loadingText="Updating..."
+	/>
 </form>
 
-<ChangeEmail auth={authData.auth} />
+<div class="mb-12">
+	<ChangeEmail auth={authData.auth} />
+</div>
 
-<h2>Actions</h2>
+<div class="prose prose-sm mb-4">
+	<h2>Actions</h2>
+</div>
 <div>
-	<button
-		on:click={handleSignOut}
-		type="button"
-		name="sign-out"
-		class="inline-flex items-center gap-x-2 rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-800 shadow-sm hover:bg-gray-50 focus:bg-gray-50 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
-	>
-		Sign Out
-	</button>
+	<Button title="Sign Out" type="secondary" onclick={handleSignOut} />
 </div>

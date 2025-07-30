@@ -10,7 +10,8 @@ import {
 	startAfter,
 	orderBy,
 	QueryDocumentSnapshot,
-	QueryFieldFilterConstraint
+	QueryFieldFilterConstraint,
+	Timestamp
 } from 'firebase/firestore'
 import { db } from '$lib/firebase'
 import { cachedJobs, allCachedJobs } from '$lib/cache.svelte'
@@ -99,6 +100,7 @@ export const getPublicJobs = async ({
 				...buildQuery([
 					where('isDeleted', '==', false),
 					where('status', '==', 'PUBLISHED'),
+					where('expiresAt', '>', Timestamp.now()),
 					() => {
 						if (industry) {
 							return where('industry', '==', industry)
@@ -173,13 +175,15 @@ export const getPublicJob = async (jobId: string): Promise<Job> => {
 		/**
 		 * Reference to the document in the jobs collection
 		 */
+
 		// const docRef = doc(db, 'jobs', jobId)
 		const querySnapshot = await getDocs(
 			query(
 				collection(db, 'jobs'),
 				where(documentId(), '==', jobId),
 				where('isDeleted', '==', false),
-				where('status', '==', 'PUBLISHED')
+				where('status', '==', 'PUBLISHED'),
+				where('expiresAt', '>', Timestamp.now()) // Ensure job is not expired
 			)
 		)
 

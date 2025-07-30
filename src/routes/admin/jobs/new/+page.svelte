@@ -5,8 +5,10 @@
 	import { getEmployerById } from '$lib/employer.admin'
 	import { INDUSTRIES, JOB_TYPES, JOB_STATUSES } from '$lib/constants'
 	import JobForm from '$lib/components/JobForm.svelte'
+	import { goto } from '$app/navigation'
+	import Alert from '$lib/components/Alert.svelte'
 
-	type JobInputs = Omit<Job, 'createdAt' | 'updatedAt'>
+	type JobInputs = Omit<Job, 'createdAt' | 'updatedAt' | 'expiresAt'>
 	const DEFAULT_EMPTY_JOB: JobInputs = {
 		title: '',
 		description: {},
@@ -48,6 +50,7 @@
 			isSuccess = true
 			newJobId = newlyCreatedJob.id
 			clearInputs()
+			goto(`/admin/jobs?newJobId=${newJobId}`)
 		} catch (err) {
 			hasError = true
 			console.error(err)
@@ -57,14 +60,12 @@
 	}
 </script>
 
-<h1>Create new job</h1>
-
-{#if newFormStatus === 'SUCCESSFUL'}
-	<p>Job created successfully. Job ID: {newJobId}</p>
-{/if}
+<div class="prose prose-sm mb-8">
+	<h1>New Job</h1>
+</div>
 
 {#if newFormStatus === 'ERROR'}
-	<p class="text-red-500">There was an error creating the job. Please try again.</p>
+	<Alert type="warning" title="Error creating job. Please try again." />
 {/if}
 
 {#await currentEmployer}

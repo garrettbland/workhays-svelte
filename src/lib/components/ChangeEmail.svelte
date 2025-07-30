@@ -4,6 +4,8 @@
 	import type { UserWithID } from '$lib/types'
 	import { changeEmail, signOut } from '$lib/auth.svelte'
 	import type { User as FirebaseAuthUser } from 'firebase/auth'
+	import Button from './Button.svelte'
+	import Alert from './Alert.svelte'
 
 	let { auth }: { auth: FirebaseAuthUser | null } = $props()
 
@@ -38,27 +40,67 @@
 	}
 </script>
 
-<h2>Auth</h2>
-<p>
-	Changing email will sign you out. A confirmation email will be sent to original holders email
-	address as a security measure and incase this was an accident to reverse.
-</p>
-{#if isEmailLoading}
-	Updating email...
-{/if}
-{#if hasEmailError}
-	Error updating email.
-{/if}
-{#if isEmailSuccess}
-	Successful email update.
-{/if}
+<div class="prose prose-sm mb-4">
+	<h2>Email Settings</h2>
+	<p>
+		Changing email will sign you out. A confirmation email will be sent to original holders email
+		address as a security measure and incase this was an accident to reverse.
+	</p>
+</div>
 
-<form onsubmit={(event) => handleEmailChange(event, newEmail, password)}>
-	<label for="Email">Email</label>
-	<input bind:value={newEmail} type="text" id="email" name="email" required />
+<div class="mb-4">
+	{#if isEmailLoading}
+		<Alert type="info" title="Updating email..." />
+	{/if}
+	{#if hasEmailError}
+		<Alert
+			type="warning"
+			title="Error updating email. Please try again. If the issue persists, please contact us"
+		/>
+	{/if}
+	{#if isEmailSuccess}
+		<Alert
+			type="warning"
+			title="Success - Your email has been updated. You should be signed out automatically."
+		/>
+	{/if}
+</div>
 
-	<label for="Password">Password</label>
-	<input bind:value={password} type="password" name="password" required />
+<form onsubmit={(event) => handleEmailChange(event, newEmail, password)} class="space-y-8">
+	<div>
+		<label for="email" class="mb-2 block text-sm font-medium dark:text-white">Email Address</label>
+		<input
+			type="email"
+			id="email"
+			class="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+			placeholder="Sales Associate"
+			aria-describedby="hs-input-helper-text"
+			name="email"
+			bind:value={newEmail}
+			required
+		/>
+	</div>
 
-	<button name="change-email" type="submit">{isEmailLoading ? 'Loading...' : 'Submit'}</button>
+	<!-- <label for="Email">Email</label>
+	<input bind:value={newEmail} type="text" id="email" name="email" required /> -->
+
+	<div>
+		<label for="password" class="mb-2 block text-sm font-medium dark:text-white">Password</label>
+		<input
+			type="password"
+			id="password"
+			class="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+			placeholder="Password"
+			aria-describedby="hs-input-helper-text"
+			name="password"
+			bind:value={password}
+			required
+		/>
+	</div>
+
+	<!-- <label for="Password">Password</label>
+	<input bind:value={password} type="password" name="password" required /> -->
+
+	<Button title="Change Email" type="primary" isLoading={isEmailLoading} />
+	<!-- <button name="change-email" type="submit">{isEmailLoading ? 'Loading...' : 'Submit'}</button> -->
 </form>

@@ -8,7 +8,9 @@ import {
 	documentId,
 	updateDoc,
 	serverTimestamp,
-	addDoc
+	addDoc,
+	Timestamp,
+	orderBy
 } from 'firebase/firestore'
 import { db } from '$lib/firebase'
 import type { Job, JobWithID, User } from '$lib/types'
@@ -28,12 +30,19 @@ export const createJob = async (
 
 		const jobsRef = collection(db, 'jobs')
 
+		// Current timestamp
+		const now = Timestamp.now()
+
+		// Add 2 weeks (14 days)
+		const twoWeeksFromNow = Timestamp.fromMillis(now.toMillis() + 14 * 24 * 60 * 60 * 1000)
+
 		const docRef = await addDoc(jobsRef, {
 			...newJob,
 			employerId,
 			employerTitle,
 			updatedAt: serverTimestamp(),
-			createdAt: serverTimestamp()
+			createdAt: serverTimestamp(),
+			expiresAt: twoWeeksFromNow
 		})
 
 		clearCachedData()
@@ -65,20 +74,22 @@ export const getJobsByEmployerId = async (
 
 		if (!querySnapshot.empty) {
 			const userDocuments = querySnapshot.docs
-			return userDocuments.map(
-				(doc) =>
-					({
-						...doc.data(),
-						id: doc.id
-					}) as JobWithID
-			)
+			return userDocuments
+				.map(
+					(doc) =>
+						({
+							...doc.data(),
+							id: doc.id
+						}) as JobWithID
+				)
+				.sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase())) // sort alphabetically by title
 		} else {
 			console.log(`No jobs found for employer`)
 			return []
 		}
 	} catch (error) {
-		console.error('Error with getUserByUid', error)
-		throw new Error('Error in getUserByUid')
+		console.error('Error with getJobsByEmployerId', error)
+		throw new Error('Error in getJobsByEmployerId')
 	}
 }
 

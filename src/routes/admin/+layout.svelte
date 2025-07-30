@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation'
 	import { ADMIN_NAV_LINKS } from '$lib/constants'
 	import { authData } from '$lib/auth.svelte'
+	import Alert from '$lib/components/Alert.svelte'
 
 	let { children } = $props()
 
@@ -13,14 +14,18 @@
 </script>
 
 {#if authData.auth?.emailVerified === false}
-	<p class="bg-orange-500 text-white">
-		Check your email to verify your account. Actions will be limited until then
-	</p>
+	<div class="my-4">
+		<Alert
+			title="Check your email to verify your account. Actions will be limited until then"
+			type="warning"
+		/>
+	</div>
 {/if}
 
 {#if authData.isLoading || !authData.auth}
 	<p>Loading...</p>
 {:else}
+	<!-- {JSON.stringify(authData.auth, null, 4)} -->
 	<div class="relative grid grid-cols-12 gap-6">
 		<div class="col-span-3">
 			<div class="max-w-32 border-e-2 border-gray-200 dark:border-neutral-700">

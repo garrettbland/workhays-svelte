@@ -4,8 +4,8 @@ import type { QueryDocumentSnapshot, DocumentData } from 'firebase-admin/firesto
 import type { JSONContent } from '@tiptap/core'
 
 interface CommonDocument {
-	createdAt: typeof Timestamp // created_at
-	updatedAt: typeof Timestamp // updated_at
+	createdAt: Timestamp // created_at
+	updatedAt: Timestamp // updated_at
 }
 
 export interface Job extends CommonDocument {
@@ -18,7 +18,8 @@ export interface Job extends CommonDocument {
 	status: JOB_STATUSES // status (active, inactive, archived)
 	industry: INDUSTRIES // industry
 	isDeleted: boolean
-	deletedAt?: typeof Timestamp
+	deletedAt?: Timestamp
+	expiresAt: Timestamp // expires_at
 	// renewedAt: string // renewed_at (!!! Not migrating from legacy !!!)
 }
 
@@ -37,7 +38,7 @@ export type JobInputs = Omit<Job, 'createdAt' | 'updatedAt'>
 export interface Employer extends CommonDocument {
 	// id: string
 	title: string
-	description: string
+	description: JSONContent // TO DO: make sure we convert this from SQL along with job descriptions
 	users: {
 		userId: string
 		role: 'MEMBER' | 'ADMIN' | 'OWNER'
