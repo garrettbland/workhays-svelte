@@ -21,3 +21,8 @@ export const getTwoWeeksFromNow = (): Timestamp => {
 
 	return twoWeeksFromNow
 }
+
+export const isJobExpired = (expiresAt: Timestamp): boolean => {
+	// Check if the job's expiration date is in the past
+	return expiresAt < Timestamp.now()
+}

@@ -183,7 +183,6 @@ export const getPublicJob = async (jobId: string): Promise<Job> => {
 
 		if (docSnap.exists()) {
 			job = docSnap.data() as Job
-			console.log('Document data:', job)
 		} else {
 			console.log('No such document!')
 			throw new Error(`No such job with id: ${jobId}`)

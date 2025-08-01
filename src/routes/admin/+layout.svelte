@@ -23,7 +23,7 @@
 {/if}
 
 {#if authData.isLoading || !authData.auth}
-	<p>Loading...</p>
+	<Alert type="secondary" title="Loading..." />
 {:else}
 	<!-- {JSON.stringify(authData.auth, null, 4)} -->
 	<div class="relative grid grid-cols-12 gap-6">

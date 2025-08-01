@@ -13,7 +13,7 @@
 	import JobForm from '$lib/components/JobForm.svelte'
 	import Alert from '$lib/components/Alert.svelte'
 	import Button from '$lib/components/Button.svelte'
-	import { getHumanDateFromFirebaseTimestamp, getTwoWeeksFromNow } from '$lib/date'
+	import { getHumanDateFromFirebaseTimestamp, getTwoWeeksFromNow, isJobExpired } from '$lib/date'
 	import type { PageData } from './$types'
 
 	let { data }: { data: PageData } = $props()
@@ -93,11 +93,19 @@
 
 <div class="prose prose-sm">
 	<h1>Edit Job</h1>
-	<p>
-		Update details or renew your listing. This listing will expire on {getHumanDateFromFirebaseTimestamp(
-			job.expiresAt
-		)}
-	</p>
+	{#if isJobExpired(job.expiresAt)}
+		<p>
+			This job <strong>expired</strong> on {getHumanDateFromFirebaseTimestamp(job.expiresAt)}. Click
+			<a href="#renew" onclick={() => handleRenew(job.id)}>here</a> to renew, or scroll down to the "Renew"
+			section below to renew this job listing for another two weeks.
+		</p>
+	{:else}
+		<p>
+			Update details or renew your listing. This listing will expire on {getHumanDateFromFirebaseTimestamp(
+				job.expiresAt
+			)}
+		</p>
+	{/if}
 </div>
 
 <!-- TODO: Is there anything better than this? -->
@@ -141,7 +149,7 @@
 		{/if}
 	</div>
 
-	<div>
+	<div id="renew">
 		<Button
 			title="Renew"
 			type="secondary"
