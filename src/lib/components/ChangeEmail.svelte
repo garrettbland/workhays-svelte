@@ -50,7 +50,7 @@
 
 <div class="mb-4">
 	{#if isEmailLoading}
-		<Alert type="info" title="Updating email..." />
+		<Alert type="secondary" title="Updating email..." />
 	{/if}
 	{#if hasEmailError}
 		<Alert

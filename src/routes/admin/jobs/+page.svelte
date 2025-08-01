@@ -25,7 +25,9 @@
 {/if}
 
 {#await isGettingJobs}
-	<div>Loading jobs...</div>
+	<div class="mb-4">
+		<Alert type="secondary" title="Loading..." />
+	</div>
 {:then jobs}
 	{#if newJobId && jobs.find((i) => i.id === newJobId)}
 		<Alert

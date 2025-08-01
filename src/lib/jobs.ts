@@ -176,36 +176,45 @@ export const getPublicJob = async (jobId: string): Promise<Job> => {
 		 * Reference to the document in the jobs collection
 		 */
 
+		let job: Job
+
+		const docRef = doc(db, 'jobs', jobId)
+		const docSnap = await getDoc(docRef)
+
+		if (docSnap.exists()) {
+			job = docSnap.data() as Job
+			console.log('Document data:', job)
+		} else {
+			console.log('No such document!')
+			throw new Error(`No such job with id: ${jobId}`)
+		}
+
 		// const docRef = doc(db, 'jobs', jobId)
-		const querySnapshot = await getDocs(
-			query(
-				collection(db, 'jobs'),
-				where(documentId(), '==', jobId),
-				where('isDeleted', '==', false),
-				where('status', '==', 'PUBLISHED'),
-				where('expiresAt', '>', Timestamp.now()) // Ensure job is not expired
-			)
-		)
+		// const querySnapshot = await getDocs(
+		// 	query(
+		// 		collection(db, 'jobs'),
+		// 		where(documentId(), '==', jobId),
+		// 		where('isDeleted', '==', false),
+		// 		where('status', '==', 'PUBLISHED')
+		// 		// where('expiresAt', '>', Timestamp.now()) // Ensure job is not expired
+		// 	)
+		// )
 
 		/**
 		 * Map through results, and add "id" with the document id as the value
 		 * to each item. Not totally sure this is needed
 		 */
-		const data = querySnapshot.docs.map((doc) => ({ ...doc.data() }))[0] as Job
+		// const job = querySnapshot.docs.map((doc) => ({ ...doc.job() }))[0] as Job
 
 		/**
 		 * Fetch the document
 		 */
 		// const docSnap = await getDoc(docRef)
-
-		/**
-		 * If the document exists, return the data
-		 */
-		if (data) {
-			return data
-		} else {
-			throw new Error(`No such job with id: ${jobId}`)
+		if (job.expiresAt < Timestamp.now()) {
+			throw new Error('Job expired...')
 		}
+
+		return job
 	} catch (error) {
 		console.error('Error with getPublicJob', error)
 		throw new Error('Error in getPublicJob')

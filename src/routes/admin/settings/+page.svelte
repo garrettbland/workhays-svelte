@@ -26,7 +26,9 @@
 </script>
 
 {#await currentEmployer}
-	<div>Loading...</div>
+	<div class="mb-4">
+		<Alert type="secondary" title="Loading..." />
+	</div>
 {:then employer}
 	<div class="prose prose-sm mb-4">
 		<h1>Edit Employer</h1>
