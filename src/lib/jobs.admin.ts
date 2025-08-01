@@ -15,6 +15,7 @@ import {
 import { db } from '$lib/firebase'
 import type { Job, JobWithID, User } from '$lib/types'
 import { clearCachedData } from './cache.svelte'
+import { getTwoWeeksFromNow } from './date'
 
 /**
  * Creates new job. Adds document to jobs collection in firestore
@@ -30,19 +31,13 @@ export const createJob = async (
 
 		const jobsRef = collection(db, 'jobs')
 
-		// Current timestamp
-		const now = Timestamp.now()
-
-		// Add 2 weeks (14 days)
-		const twoWeeksFromNow = Timestamp.fromMillis(now.toMillis() + 14 * 24 * 60 * 60 * 1000)
-
 		const docRef = await addDoc(jobsRef, {
 			...newJob,
 			employerId,
 			employerTitle,
 			updatedAt: serverTimestamp(),
 			createdAt: serverTimestamp(),
-			expiresAt: twoWeeksFromNow
+			expiresAt: getTwoWeeksFromNow()
 		})
 
 		clearCachedData()
@@ -146,9 +141,7 @@ export const getJobById = async (jobId: string, employerId?: string): Promise<Jo
 export const updateJobById = async (
 	jobId: string,
 	updatedJob: Partial<JobWithID>
-): {
-	status: 'success' | 'error'
-} => {
+): Promise<{ status: 'success' | 'error' }> => {
 	try {
 		/**
 		 * Reference to the document in the jobs collection

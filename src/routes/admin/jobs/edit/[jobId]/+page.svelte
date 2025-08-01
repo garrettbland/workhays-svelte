@@ -13,13 +13,15 @@
 	import JobForm from '$lib/components/JobForm.svelte'
 	import Alert from '$lib/components/Alert.svelte'
 	import Button from '$lib/components/Button.svelte'
-	import { getHumanDateFromFirebaseTimestamp } from '$lib/date'
+	import { getHumanDateFromFirebaseTimestamp, getTwoWeeksFromNow } from '$lib/date'
 
 	let currentJob = $state(getJobById(page.params.jobId, authData.user?.memberOf[0]))
 	let isLoading = $state(false)
 	let hasError = $state(false)
 	let isSuccess = $state(false)
 	let editFormStatus = $state<FormStatus>('IDLE')
+
+	let renewStatus = $state<'IDLE' | 'LOADING' | 'SUCCESS' | 'ERROR'>('IDLE')
 
 	// $inspect(currentJob)
 
@@ -39,6 +41,23 @@
 			editFormStatus = 'ERROR'
 		} finally {
 			isLoading = false
+		}
+	}
+
+	const handleRenew = async (jobId: string) => {
+		try {
+			renewStatus = 'LOADING'
+			const { status } = await updateJobById(jobId, {
+				expiresAt: getTwoWeeksFromNow()
+			})
+
+			if (status === 'error') {
+				throw new Error('Error renewing job')
+			}
+
+			renewStatus = 'SUCCESS'
+		} catch (err) {
+			renewStatus = 'ERROR'
 		}
 	}
 
@@ -94,20 +113,41 @@
 		clearInputsOnSubmit={false}
 	/>
 
-	<div class="prose prose-sm my-4">
-		<h2>Renew</h2>
-		<p>
-			Click submit to renew your listing below. This will reset the jobs expiration to two weeks
-			from submission.
-		</p>
+	<div class="mb-8 mt-12">
+		<div class="prose prose-sm mb-4">
+			<h2>Renew</h2>
+			<p>
+				Click submit to renew your listing below. This will reset the jobs expiration to two weeks
+				from submission.
+			</p>
+		</div>
+		<div class="mb-4">
+			{#if renewStatus === 'LOADING'}
+				<Alert title="Renewing job..." type="secondary" />
+			{/if}
+			{#if renewStatus === 'ERROR'}
+				<Alert title="Error renewing job, please try again" type="alert" />
+			{/if}
+			{#if renewStatus === 'SUCCESS'}
+				<Alert title="Job renewed successfully" type="success" />
+			{/if}
+		</div>
+
 		<div>
-			<Button title="Renew" type="secondary" onclick={() => console.log('renew')} />
+			<Button
+				title="Renew"
+				type="secondary"
+				onclick={() => handleRenew(job.id)}
+				isLoading={renewStatus === 'LOADING'}
+				loadingText="Renewing..."
+				disabled={renewStatus === 'LOADING'}
+			/>
 		</div>
 	</div>
 
-	<div class="my-8 rounded-md border border-red-300 p-4">
-		<h2 class="text font-bold">Delete Job</h2>
-		<p class="text-sm">This job will be permanently deleted and cannot be undone.</p>
+	<div class="prose prose-sm">
+		<h2>Delete Job</h2>
+		<p>This job will be permanently deleted and cannot be undone.</p>
 		<Button onclick={() => handleDelete(job.id)} type="danger" {isLoading} title="Delete Job" />
 	</div>
 {:catch error}

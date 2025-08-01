@@ -11,3 +11,13 @@ export const getHumanDateFromFirebaseTimestamp = (timestamp: Timestamp) => {
 		// timeStyle: 'short'
 	}).format(timestamp.toDate())
 }
+
+export const getTwoWeeksFromNow = (): Timestamp => {
+	// Current timestamp
+	const now = Timestamp.now()
+
+	// Add 2 weeks (14 days)
+	const twoWeeksFromNow = Timestamp.fromMillis(now.toMillis() + 14 * 24 * 60 * 60 * 1000)
+
+	return twoWeeksFromNow
+}
