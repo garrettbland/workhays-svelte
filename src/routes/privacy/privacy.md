@@ -1,5 +1,3 @@
-# Privacy
-
 Your privacy is important to us. It is Work Hays' policy to respect your privacy and comply with any applicable law and regulation regarding any personal information we may collect about you, including across our website, [https://workhays.com](/), and other sites we own and operate.
 
 This policy is effective as of 13 December 2021 and was last updated on 13 December 2021.

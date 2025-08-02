@@ -9,7 +9,7 @@
 	<nav class="mx-auto w-full max-w-4xl px-4 sm:flex sm:items-center sm:justify-between">
 		<div class="flex items-center justify-between">
 			<a
-				class="flex-none text-3xl font-bold text-blue-800 focus:opacity-80 focus:outline-none dark:text-white"
+				class="flex-none text-xl font-bold text-blue-800 focus:opacity-80 focus:outline-none dark:text-white"
 				href="/"
 				aria-label={SITE_NAME}
 			>

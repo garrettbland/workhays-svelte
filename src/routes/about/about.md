@@ -1,4 +1,4 @@
-# About Hays
+## About Hays
 
 Hays, America is a university community, home of the [Fort Hays Tigers](https://www.fhsu.edu/), of 20,000 people located halfway between Kansas City and Denver on Interstate 70. We are the regional hub of Northwest Kansas for retail, education, medical service, entertainment, and recreation. [Ellis County](https://www.ellisco.net/) has the largest retail pull factor in the state.
 
@@ -6,7 +6,7 @@ Our [downtown](https://www.downtownhays.com/) is being revitalized with unique s
 
 ---
 
-# Childcare
+## Childcare
 
 **Childcare Aware of Kansas**  
 📞 [877.678.2548](tel:877-678-2548)  
@@ -15,9 +15,9 @@ Our [downtown](https://www.downtownhays.com/) is being revitalized with unique s
 
 ---
 
-# Job Seekers Tips
+## Job Seekers Tips
 
-## Professional Email Address and Voicemail Message
+### Professional Email Address and Voicemail Message
 
 When you begin your job search, make sure your email address and voicemail message are simple and professional. Avoid anything off-the-wall, inappropriate, or bizarre to ensure they won't harm your chances of being contacted by an employer. Paying attention to these small details can significantly improve your chances of being hired.
 
@@ -37,7 +37,7 @@ When you begin your job search, make sure your email address and voicemail messa
 
 ---
 
-# Job Fair Tips
+## Job Fair Tips
 
 In preparation for job fairs, consider the following tips:
 

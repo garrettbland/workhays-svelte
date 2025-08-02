@@ -1,8 +1,6 @@
-# Terms
-
 Please read these terms of service ("terms", "terms of service") carefully before using the [Work Hays](/) website (the "service") operated privately by Garrett Bland and Lane Patterson ("us", 'we", "our").
 
-This policy is effective as of 13 December 2021 and was last updated on 13 December 2021.
+This policy is effective as of December 13, 2021 and was last updated on December 13, 2021.
 
 ### Conditions of Use
 

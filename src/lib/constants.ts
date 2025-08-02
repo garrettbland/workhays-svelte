@@ -24,10 +24,10 @@ export const FOOTER_LINKS = [
 		name: 'Terms of Service',
 		href: '/terms'
 	},
-	{
-		name: `FAQ's`,
-		href: '/faq'
-	},
+	// {
+	// 	name: `FAQ's`,
+	// 	href: '/faq'
+	// },
 	{
 		name: 'Help',
 		href: '/help'

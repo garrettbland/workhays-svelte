@@ -6,6 +6,9 @@
 	let { children } = $props()
 
 	afterNavigate(() => {
+		/**
+		 * This is a preline/styling thing for tailwind and Preline library
+		 */
 		window.HSStaticMethods.autoInit()
 	})
 </script>
