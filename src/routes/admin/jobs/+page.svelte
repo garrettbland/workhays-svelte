@@ -41,6 +41,9 @@
 			<li class="rounded-md border border-gray-200 hover:bg-gray-50">
 				<a href={`/admin/jobs/edit/${job.id}`} class="block p-4 font-semibold"
 					>{job.title}
+					{#if job.status === 'DRAFT'}
+						<span class="rounded-full bg-blue-200 px-2 py-1 text-sm text-blue-900">Draft</span>
+					{/if}
 					{#if isJobExpired(job.expiresAt)}
 						<span class="rounded-full bg-orange-200 px-2 py-1 text-sm text-orange-900">Expired</span
 						>

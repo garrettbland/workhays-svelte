@@ -7,6 +7,7 @@
 	import JobForm from '$lib/components/JobForm.svelte'
 	import { goto } from '$app/navigation'
 	import Alert from '$lib/components/Alert.svelte'
+	// import { cachedAdminData } from '$lib/cache.svelte'
 
 	type JobInputs = Omit<Job, 'createdAt' | 'updatedAt' | 'expiresAt'>
 	const DEFAULT_EMPTY_JOB: JobInputs = {
@@ -75,6 +76,7 @@
 		handleSubmit={(_job) => handleSubmit(_job, employer)}
 		onStatusChange={(status) => (newFormStatus = status)}
 		clearInputsOnSubmit={true}
+		{employer}
 	/>
 	<!-- <form on:submit|preventDefault={() => handleSubmit(job, employer)}>
 		<div>Employer: {employer.title}</div>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte'
-	import type { Job, JobInputs, FormStatus } from '$lib/types'
+	import type { Job, JobInputs, FormStatus, Employer } from '$lib/types'
 	import { INDUSTRIES, JOB_TYPES, JOB_STATUSES } from '$lib/constants'
 	import RichText from '$lib/components/RichText.svelte'
 	import Button from '$lib/components/Button.svelte'
@@ -9,12 +9,14 @@
 		currentJob,
 		handleSubmit,
 		onStatusChange,
-		clearInputsOnSubmit
+		clearInputsOnSubmit,
+		employer
 	}: {
 		currentJob?: Job
 		handleSubmit: (job: JobInputs) => Promise<void>
 		onStatusChange: (status: FormStatus) => void
 		clearInputsOnSubmit: boolean
+		employer: Employer
 	} = $props()
 
 	const DEFAULT_EMPTY_JOB: JobInputs = {
@@ -112,10 +114,15 @@
 
 	<!-- Job Status -->
 	<div>
-		<label for="status" class="mb-2 block text-sm font-medium dark:text-white"
-			>Status {job.status}</label
-		>
+		<label for="status" class="mb-2 block text-sm font-medium dark:text-white">Status</label>
+		{#if employer.status === 'PENDING'}
+			<p class="mb-2 text-sm text-red-600 dark:text-neutral-500">
+				Your employer is still pending approval. You can still create jobs, but cannot be published
+				until your employer is approved.
+			</p>
+		{/if}
 		<select
+			disabled={employer.status === 'PENDING'}
 			bind:value={job.status}
 			id="status"
 			class="block w-full rounded-lg border-gray-200 px-4 py-3 pe-9 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
@@ -144,11 +151,4 @@
 	</div>
 
 	<Button type="primary" {isLoading} title="Submit" />
-
-	<!-- <button
-		type="submit"
-		class="focus:outline-hidden inline-flex items-center gap-x-2 rounded-lg border border-transparent bg-blue-600 px-4 py-3 text-sm font-medium text-white hover:bg-blue-700 focus:bg-blue-700 disabled:pointer-events-none disabled:opacity-50"
-	>
-		{isLoading ? 'Loading...' : 'Submit'}
-	</button> -->
 </form>

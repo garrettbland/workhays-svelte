@@ -86,6 +86,6 @@ export enum JOB_TYPES {
 
 export enum JOB_STATUSES {
 	'Draft' = 'DRAFT',
-	'Published' = 'PUBLISHED',
-	'Archived' = 'ARCHIVED'
+	'Published' = 'PUBLISHED'
+	// 'Archived' = 'ARCHIVED' // removing this. TO DO: remove from database
 }

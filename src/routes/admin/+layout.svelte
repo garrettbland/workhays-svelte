@@ -1,8 +1,28 @@
-<script>
+<script lang="ts">
 	import { goto } from '$app/navigation'
 	import { ADMIN_NAV_LINKS } from '$lib/constants'
 	import { authData } from '$lib/auth.svelte'
 	import Alert from '$lib/components/Alert.svelte'
+	import { getEmployerById } from '$lib/employer.admin'
+	import { onMount } from 'svelte'
+	import type { Employer } from '$lib/types'
+
+	let employer = $state<Employer | undefined>(undefined)
+
+	// onMount(async () => {
+	// 	const res = await getEmployerById(authData.user?.memberOf[0] ?? '')
+	// 	employer = res
+	// })
+
+	$effect(() => {
+		if (authData.user) {
+			const getEmployer = async () => {
+				const data = await getEmployerById(authData.user?.memberOf[0] ?? '')
+				return data
+			}
+			getEmployer().then((data) => (employer = data))
+		}
+	})
 
 	let { children } = $props()
 
@@ -16,7 +36,16 @@
 {#if authData.auth?.emailVerified === false}
 	<div class="my-4">
 		<Alert
-			title="Check your email to verify your account. Actions will be limited until then"
+			title="Check your email to verify your account. Actions will be limited until then."
+			type="warning"
+		/>
+	</div>
+{/if}
+
+{#if employer?.status === 'PENDING'}
+	<div class="my-4">
+		<Alert
+			title="Your employer account is pending approval. You will be notified once approved. You can still create job postings, but they will not be visible until approved."
 			type="warning"
 		/>
 	</div>

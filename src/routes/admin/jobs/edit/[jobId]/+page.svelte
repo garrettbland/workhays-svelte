@@ -15,6 +15,7 @@
 	import Button from '$lib/components/Button.svelte'
 	import { getHumanDateFromFirebaseTimestamp, getTwoWeeksFromNow, isJobExpired } from '$lib/date'
 	import type { PageData } from './$types'
+	import { cachedAdminData } from '$lib/cache.svelte'
 
 	let { data }: { data: PageData } = $props()
 	let job = $state<JobWithID>(data)
@@ -126,6 +127,7 @@
 	handleSubmit={(job) => handleSubmit(page.params.jobId, job)}
 	onStatusChange={(status) => (editFormStatus = status)}
 	clearInputsOnSubmit={false}
+	employer={cachedAdminData.employer ?? ({} as any)}
 />
 
 <div class="mb-8 mt-12">

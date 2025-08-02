@@ -31,7 +31,7 @@
 	</div>
 {:then employer}
 	<div class="prose prose-sm mb-4">
-		<h1>Edit Employer</h1>
+		<h1>Employer Settings</h1>
 	</div>
 
 	<div class="mb-4">
