@@ -6,9 +6,9 @@
 	<h1>Register</h1>
 	<p>Start creating free job listings today. To register, follow the steps below.</p>
 	<p>
-		Please note, after creating your employers status will be <strong>pending</strong>, and jobs
-		wont be visible to the public. We manually review these registrations and approve, usually in
-		two to three business days.
+		Please note, after submission your employers status will be <strong>pending</strong>. This means
+		jobs wont be visible to the public. We manually review these registrations and approve usually
+		in two to three business days.
 	</p>
 	<p>
 		If you have any questions or need assistance, please <a href="/contact">contact us.</a>
