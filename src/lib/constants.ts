@@ -10,6 +10,10 @@ export const NAV_LINKS = [
 		href: '/events'
 	},
 	{
+		name: 'Register',
+		href: '/register'
+	},
+	{
 		name: 'Contact',
 		href: '/contact'
 	}
