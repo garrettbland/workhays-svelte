@@ -1,11 +1,19 @@
 <script lang="ts">
+	import { goto } from '$app/navigation'
 	import Button from '$lib/components/Button.svelte'
 	import Link from '$lib/components/Link.svelte'
 	import Register from '$lib/components/Register.svelte'
 	import type { User } from '$lib/types'
+	import { authData } from '$lib/auth.svelte'
 
 	let currentStep = $state<number>(1)
 	let newUser = $state<User | null>(null)
+
+	$effect(() => {
+		if (!authData.isLoading && authData.auth) {
+			goto('/admin/dashboard')
+		}
+	})
 
 	/**
 	 * Logic that happens after user is registered successfully

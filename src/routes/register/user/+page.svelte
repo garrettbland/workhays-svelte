@@ -34,11 +34,9 @@
 	</div>
 {:else if !authData?.user.memberOf || authData.user?.memberOf.length === 0}
 	<div class="prose prose-sm mb-4">
-		<h1>Complete Account Setup</h1>
-		<p>
-			Thank you for creating an account with us and verifiying your email. You can now proceed to
-			register your employer account below.
-		</p>
+		<h1>Complete Registration</h1>
+		<p class="rounded-lg border border-green-300 bg-green-50 p-2">Your email has been verified</p>
+		<p>You can now proceed to register your employer account below.</p>
 		TO DO : FINISH
 	</div>
 {:else}
