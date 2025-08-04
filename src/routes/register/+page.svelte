@@ -80,10 +80,9 @@
 			{#if currentStep === 2}
 				<div class="prose prose-sm my-4">
 					<p class="rounded-lg border border-green-300 bg-green-50 p-2">
-						Your user account has been created. You can now sign in with <strong
+						Your user account has been created. A verification email has been sent to <strong
 							>{newUser?.email}</strong
-						>
-						and the password you set. <a href="/sign-in">Click here to sign in.</a>
+						>.
 					</p>
 					<p>
 						Once signed in, you will be able to create or join an employer account. If you are

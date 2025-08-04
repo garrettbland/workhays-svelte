@@ -34,7 +34,7 @@
 		 * Check to see if the user is part of an employer. IF they are not, redirect them to the employer registration page
 		 */
 		if (!authData.user?.memberOf || authData.user?.memberOf.length === 0) {
-			goto('/register/employer')
+			goto('/register/user')
 		}
 	})
 </script>

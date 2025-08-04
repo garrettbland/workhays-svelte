@@ -2,7 +2,8 @@
 	import { goto } from '$app/navigation'
 	import { authData } from '$lib/auth.svelte'
 	import Alert from '$lib/components/Alert.svelte'
-	import { use } from 'marked'
+	import { page } from '$app/state'
+	// import { use } from 'marked'
 
 	$effect(() => {
 		if (!authData.isLoading && !authData.auth) {
@@ -14,7 +15,9 @@
 	})
 </script>
 
-{#if authData.auth?.emailVerified === false}
+{#if !authData.user}
+	<Alert type="secondary" title="Loading..." />
+{:else if authData.user?.emailVerified === false}
 	<div class="prose prose-sm mb-4">
 		<h1>Email Validation Required</h1>
 		<p>Thank you for creating an account with us, but your email has not been verified yet.</p>
@@ -29,9 +32,9 @@
 			the inconvenience.
 		</p>
 	</div>
-{:else if authData.user?.memberOf.length === 0}
+{:else if !authData?.user.memberOf || authData.user?.memberOf.length === 0}
 	<div class="prose prose-sm mb-4">
-		<h1>Registration</h1>
+		<h1>Complete Account Setup</h1>
 		<p>
 			Thank you for creating an account with us and verifiying your email. You can now proceed to
 			register your employer account below.

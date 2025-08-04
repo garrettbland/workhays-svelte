@@ -12,6 +12,8 @@ Example `.env` file that also needs uploaded to host
 PROJECT_ID=""
 PRIVATE_KEY=""
 CLIENT_EMAIL=""
+MAILGUN_API_KEY=""
+MAILGUN_DOMAIN=""
 ```
 
 # sv

@@ -7,8 +7,16 @@ import admin from 'firebase-admin'
 const serverTimestamp = () => FieldValue.serverTimestamp()
 import { getApps } from 'firebase-admin/app'
 import { FieldValue } from 'firebase-admin/firestore'
-import { PROJECT_ID, PRIVATE_KEY, CLIENT_EMAIL } from '$env/static/private'
+import {
+	PROJECT_ID,
+	PRIVATE_KEY,
+	CLIENT_EMAIL,
+	MAILGUN_API_KEY,
+	MAILGUN_DOMAIN
+} from '$env/static/private'
 import type { User } from '$lib/types.js'
+import Mailgun from 'mailgun.js'
+import formData from 'form-data'
 
 const serviceAccount: admin.ServiceAccount = {
 	privateKey: PRIVATE_KEY,
@@ -28,6 +36,12 @@ if (currentApps.length === 0) {
 }
 
 const firestore = firebaseAdmin.firestore()
+
+const mailgun = new Mailgun(formData)
+const client = mailgun.client({
+	username: 'api',
+	key: MAILGUN_API_KEY!
+})
 
 export const POST = async ({ request, cookies }) => {
 	try {
@@ -88,9 +102,10 @@ export const POST = async ({ request, cookies }) => {
 			firstName,
 			lastName,
 			email,
-			password,
 			uid: newUserId, // Created by Firebase Auth above
 			role: 'USER',
+			emailVerificationCode: crypto.randomUUID(), // TO DO: maybe add an expiration or something
+			emailVerified: false,
 			createdAt: serverTimestamp(),
 			updatedAt: serverTimestamp()
 		}
@@ -101,6 +116,24 @@ export const POST = async ({ request, cookies }) => {
 		await firestore.collection('users').doc(newUserId).set(submission)
 
 		console.log(`User document created in Firestore`)
+
+		/**
+		 * Send email with emailVerification code
+		 */
+		try {
+			const domain = MAILGUN_DOMAIN!
+			const verificationUrl = `https://workhays.com/register/user?code=${submission.emailVerificationCode}`
+
+			client.messages.create(domain, {
+				from: `Your App <noreply@${domain}>`,
+				to: submission.email,
+				subject: 'Verify your email',
+				text: `Please verify your email: ${verificationUrl}`,
+				html: `<p>Please verify your email by clicking <a href="${verificationUrl}">here</a>.</p>`
+			})
+		} catch (err) {
+			console.log('email not sent...')
+		}
 
 		return json(
 			{

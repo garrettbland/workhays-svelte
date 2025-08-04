@@ -66,7 +66,7 @@ export interface EmployerWithID extends Employer {
 
 export interface User extends CommonDocument {
 	// id: string
-	uid: string
+	uid: string // needed? This is also stored
 	firstName: string
 	lastName: string
 	email: string // needed? email is in firebase auth object
@@ -78,6 +78,8 @@ export interface User extends CommonDocument {
 	// last_login: string
 	// employer_id_claim_request: string
 	memberOf: string[] // employer ID's that the user is a member of
+	emailVerificationCode?: string // this is the unique id used in email to verify
+	emailVerified: boolean // if true, user clicked unique link in their email
 }
 
 /**
