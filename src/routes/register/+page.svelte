@@ -4,7 +4,7 @@
 	import Register from '$lib/components/Register.svelte'
 	import type { User } from '$lib/types'
 
-	let currentStep = $state<number>(2)
+	let currentStep = $state<number>(1)
 	let newUser = $state<User | null>(null)
 
 	/**
@@ -80,13 +80,18 @@
 			{#if currentStep === 2}
 				<div class="prose prose-sm my-4">
 					<p class="rounded-lg border border-green-300 bg-green-50 p-2">
-						Your user account has been created. An email should be sent to <strong
+						Your user account has been created. You can now sign in with <strong
 							>{newUser?.email}</strong
-						> to verify ownership. Please click the link below to login and continue the registration
-						process.
+						>
+						and the password you set. <a href="/sign-in">Click here to sign in.</a>
+					</p>
+					<p>
+						Once signed in, you will be able to create or join an employer account. If you are
+						representing an employer, you can create a new employer account. If you are part of an
+						existing employer, you can request to join that employer. You will also be required to
+						verify your email address before proceeding.
 					</p>
 				</div>
-				<Link type="primary" href="/sign-in" title="Sign In" />
 			{/if}
 		</div>
 	</li>

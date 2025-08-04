@@ -30,17 +30,24 @@
 		if (!authData.isLoading && !authData.auth) {
 			goto('/sign-in')
 		}
+		/**
+		 * Check to see if the user is part of an employer. IF they are not, redirect them to the employer registration page
+		 */
+		if (!authData.user?.memberOf || authData.user?.memberOf.length === 0) {
+			goto('/register/employer')
+		}
 	})
 </script>
 
-{#if authData.auth?.emailVerified === false}
+<!-- Dont need this anymore since the user is redirected to the employer registration page if they are not part of an employer -->
+<!-- {#if authData.auth?.emailVerified === false}
 	<div class="my-4">
 		<Alert
 			title="Check your email to verify your account. Actions will be limited until then."
 			type="warning"
 		/>
 	</div>
-{/if}
+{/if} -->
 
 {#if employer?.status === 'PENDING'}
 	<div class="my-4">
