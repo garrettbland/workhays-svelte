@@ -1,5 +1,19 @@
 <script lang="ts">
-	let currentStep = $state<number>(1)
+	import Button from '$lib/components/Button.svelte'
+	import Link from '$lib/components/Link.svelte'
+	import Register from '$lib/components/Register.svelte'
+	import type { User } from '$lib/types'
+
+	let currentStep = $state<number>(2)
+	let newUser = $state<User | null>(null)
+
+	/**
+	 * Logic that happens after user is registered successfully
+	 */
+	const handleUserCreationSuccess = (user: User) => {
+		newUser = user
+		currentStep = 2
+	}
 </script>
 
 <div class="prose prose-sm mb-8">
@@ -33,39 +47,13 @@
 			<span class="block text-sm font-medium text-gray-800 dark:text-white">
 				Create Your Account
 			</span>
-			<p class="mb-8 text-sm text-gray-500 dark:text-neutral-500">
+			<p class="text-sm text-gray-500 dark:text-neutral-500">
 				First we will need to get your account setup with a username and password.
 			</p>
 			{#if currentStep === 1}
-				<div class="space-y-4">
-					<div>
-						<label for="email" class="mb-2 block text-sm font-medium dark:text-white">Email</label>
-						<input
-							type="text"
-							id="email"
-							class="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-							placeholder="Email Address"
-							name="email"
-						/>
-						<p class="mt-2 text-sm text-red-500 dark:text-neutral-500">helper stuff</p>
-					</div>
-
-					<div>
-						<label for="password" class="mb-2 block text-sm font-medium dark:text-white"
-							>Password</label
-						>
-						<input
-							type="password"
-							id="password"
-							class="block w-full rounded-lg border-gray-200 px-4 py-3 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-							placeholder="Password"
-							name="password"
-						/>
-						<p class="mt-2 text-sm text-red-500 dark:text-neutral-500">helper stuff</p>
-					</div>
+				<div class="mt-8">
+					<Register onSuccess={(uid) => handleUserCreationSuccess(uid)} />
 				</div>
-
-				<button onclick={() => (currentStep = 2)}>NExt step</button>
 			{/if}
 		</div>
 	</li>
@@ -86,11 +74,19 @@
 				Create or Join an Employer
 			</span>
 			<p class="text-sm text-gray-500 dark:text-neutral-500">
-				Second, we will gather information about the employer you are representing or a part of. Or,
-				if the employer already exists, you can request to join.
+				Once creating an account and logging, we will gather information about the employer you are
+				representing or a part of. Or, if the employer already exists, you can request to join.
 			</p>
 			{#if currentStep === 2}
-				<div class="h-[500px]">content</div>
+				<div class="prose prose-sm my-4">
+					<p class="rounded-lg border border-green-300 bg-green-50 p-2">
+						Your user account has been created. An email should be sent to <strong
+							>{newUser?.email}</strong
+						> to verify ownership. Please click the link below to login and continue the registration
+						process.
+					</p>
+				</div>
+				<Link type="primary" href="/sign-in" title="Sign In" />
 			{/if}
 		</div>
 	</li>
