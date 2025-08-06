@@ -3,6 +3,8 @@
 	import { authData } from '$lib/auth.svelte'
 	import Alert from '$lib/components/Alert.svelte'
 	import { page } from '$app/state'
+	import CreateEmployer from '$lib/components/CreateEmployer.svelte'
+	import { cachedAdminData, clearCachedData } from '$lib/cache.svelte'
 	// import { use } from 'marked'
 
 	$effect(() => {
@@ -32,12 +34,11 @@
 			the inconvenience.
 		</p>
 	</div>
-{:else if !authData?.user.memberOf || authData.user?.memberOf.length === 0}
+{:else if authData.user?.memberOf.length === 0}
 	<div class="prose prose-sm mb-4">
 		<h1>Complete Registration</h1>
-		<p class="rounded-lg border border-green-300 bg-green-50 p-2">Your email has been verified</p>
 		<p>You can now proceed to register your employer account below.</p>
-		TO DO : FINISH
+		<CreateEmployer userId={authData.user.uid} />
 	</div>
 {:else}
 	<Alert type="secondary" title="Loading..." />

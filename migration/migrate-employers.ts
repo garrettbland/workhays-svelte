@@ -19,7 +19,7 @@ const CSV_PATH = './database/employers-manual-export.csv'
 const dataMapper = (record: OldEmployer): Required<Employer> => {
 	return {
 		title: record.title,
-		description: record.description,
+		description: record.description, // need to conver this to tip tap somehow
 		users: [
 			{
 				userId: record.id,
@@ -32,12 +32,12 @@ const dataMapper = (record: OldEmployer): Required<Employer> => {
 		email: record.email,
 		phone: record.phone,
 		logo_url: record.logo_url,
-		header_image_url: record.header_image_url,
+		// header_image_url: record.header_image_url,
 		website_url: record.website_url,
-		facebook_url: record.facebook_url,
-		twitter_url: record.twitter_url,
-		instagram_url: record.instagram_url,
-		youtube_url: record.youtube_url,
+		// facebook_url: record.facebook_url,
+		// twitter_url: record.twitter_url,
+		// instagram_url: record.instagram_url,
+		// youtube_url: record.youtube_url,
 		createdAt: record.created_at,
 		updatedAt: record.updated_at
 	}

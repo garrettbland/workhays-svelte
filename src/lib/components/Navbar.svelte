@@ -76,7 +76,7 @@
 				{/each}
 				<div class="mt-5 flex flex-col gap-2 sm:mt-0 sm:flex-row sm:items-center sm:ps-5">
 					{#if authData.user}
-						{#if !authData.user.memberOf || !authData.user.memberOf.length === 0}
+						{#if authData.user?.memberOf.length === 0}
 							<button
 								class="inline-flex w-max flex-1 items-center gap-x-2 rounded-lg border border-transparent bg-blue-800 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:bg-blue-500 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
 								><a href="/register/user">Complete Registration</a></button

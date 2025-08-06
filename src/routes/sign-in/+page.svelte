@@ -19,6 +19,8 @@
 		}
 	})
 
+	let queryParamMessage = $derived(page.url.searchParams.get('message'))
+
 	const handleSignIn = async () => {
 		try {
 			isSigningIn = true
@@ -39,6 +41,13 @@
 {#if authData.isLoading}
 	<p>Loading...</p>
 {:else}
+	{#if queryParamMessage === 'verified'}
+		<div class="mx-auto mt-12 max-w-md">
+			<p class="rounded-lg border border-green-300 bg-green-50 p-2">
+				Your email has been verified. You can now sign in to continue setup.
+			</p>
+		</div>
+	{/if}
 	<div
 		class="mx-auto mt-12 max-w-md rounded-xl border border-gray-200 bg-white shadow-sm dark:border-neutral-700 dark:bg-neutral-900"
 	>
@@ -57,7 +66,7 @@
 			</div>
 
 			<div class="mt-5">
-				<button
+				<!-- <button
 					type="button"
 					class="inline-flex hidden w-full items-center justify-center gap-x-2 rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-800 shadow-sm hover:bg-gray-50 focus:bg-gray-50 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
 				>
@@ -80,7 +89,7 @@
 						/>
 					</svg>
 					Sign in with Google
-				</button>
+				</button> -->
 
 				<div
 					class="flex items-center py-3 text-xs uppercase text-gray-400 before:me-6 before:flex-1 before:border-t before:border-gray-200 after:ms-6 after:flex-1 after:border-t after:border-gray-200 dark:text-neutral-500 dark:before:border-neutral-600 dark:after:border-neutral-600"

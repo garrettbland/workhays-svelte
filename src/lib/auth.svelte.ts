@@ -9,7 +9,7 @@ import {
 	reauthenticateWithCredential,
 	EmailAuthProvider
 } from 'firebase/auth'
-import type { UserWithID } from '$lib/types'
+import type { User } from '$lib/types'
 import { getUserByUid } from '$lib/users.admin'
 
 /**
@@ -18,7 +18,7 @@ import { getUserByUid } from '$lib/users.admin'
  */
 export const authData = $state<{
 	auth: FirebaseAuthUser | null
-	user: UserWithID | null
+	user: User | null
 	isLoading: boolean
 }>({
 	auth: null,

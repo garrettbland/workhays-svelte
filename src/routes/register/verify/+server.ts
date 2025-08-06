@@ -75,5 +75,5 @@ export const GET = async ({ request, cookies, url }) => {
 		emailVerified: true
 	})
 
-	throw redirect(302, '/register/user')
+	throw redirect(302, '/sign-in?message=verified')
 }

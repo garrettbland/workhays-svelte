@@ -47,14 +47,14 @@ export interface Employer extends CommonDocument {
 	status: 'PENDING' | 'APPROVED' | 'DENIED'
 	contact: string
 	email: string
-	phone: string
+	phone?: string
 	logo_url: string
-	header_image_url: string
-	website_url: string
-	facebook_url: string
-	twitter_url: string
-	instagram_url: string
-	youtube_url: string
+	// header_image_url?: string
+	website_url?: string
+	// facebook_url?: string
+	// twitter_url?: string
+	// instagram_url?: string
+	// youtube_url?: string
 }
 
 /**

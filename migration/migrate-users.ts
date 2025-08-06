@@ -22,7 +22,7 @@ export const userRecordDataMapper = (record: OldUser): Required<User> => {
 		uid: record.id,
 		firstName: record.first_name,
 		lastName: record.last_name,
-		// email: record.email,
+		email: record.email,
 		// password: string
 		// password_reset_token: string
 		// password_reset_token_expires: string

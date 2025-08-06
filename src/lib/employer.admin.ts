@@ -1,7 +1,7 @@
-import { doc, getDoc, updateDoc, serverTimestamp } from 'firebase/firestore'
+import { doc, getDoc, updateDoc, serverTimestamp, collection, addDoc } from 'firebase/firestore'
 import { db } from '$lib/firebase'
-import type { EmployerWithID } from '$lib/types'
-import { cachedAdminData } from '$lib/cache.svelte'
+import type { Employer, EmployerWithID } from '$lib/types'
+import { cachedAdminData, clearCachedData } from '$lib/cache.svelte'
 
 /**
  * Get employer by ID
@@ -67,7 +67,8 @@ export const updateEmployerById = async (
 		/**
 		 * Reference to the document in the employers collection
 		 */
-		const docRef = doc(db, 'employers', employerId)
+		// const docRef = doc(db, 'employers', employerId)
+		const employersRef = collection(db, 'employers')
 
 		/**
 		 * Remove "id" if present
@@ -89,5 +90,50 @@ export const updateEmployerById = async (
 	} catch (error) {
 		console.log(`Error with updateEmployerById`, error)
 		throw new Error(`Error in updateEmployerById`)
+	}
+}
+
+/**
+ * Creates a new employer
+ */
+export const createEmployer = async (
+	newEmployerData: Pick<
+		Employer,
+		'title' | 'description' | 'contact' | 'email' | 'phone' | 'website_url'
+	>,
+	userId: string
+) => {
+	try {
+		console.log(`Creating new employer...`)
+
+		/**
+		 * Reference to the document in the employers collection as well as users
+		 */
+		const employersRef = collection(db, 'employers')
+		// const usersRef = collection(db, 'users')
+
+		const newEmployer: Employer = {
+			...newEmployerData,
+			status: 'PENDING', // New employers are pending until approved by an admin
+			users: [{ role: 'ADMIN', status: 'ACCEPTED', userId }],
+			updatedAt: serverTimestamp(),
+			createdAt: serverTimestamp()
+		}
+
+		/**
+		 * Create the new employer
+		 */
+		const docRef = await addDoc(employersRef, newEmployer)
+
+		return {
+			status: 'SUCCESS',
+			employerId: docRef.id
+		}
+	} catch (error) {
+		console.error('Error with createEmployer', error)
+		return {
+			status: 'ERROR',
+			employerId: null
+		}
 	}
 }

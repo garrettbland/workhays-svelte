@@ -20,21 +20,22 @@
 				const data = await getEmployerById(authData.user?.memberOf[0] ?? '')
 				return data
 			}
-			getEmployer().then((data) => (employer = data))
+
+			if (authData.user.memberOf.length > 0) {
+				getEmployer().then((data) => (employer = data))
+			}
 		}
 	})
 
 	let { children } = $props()
 
 	$effect(() => {
-		if (!authData.isLoading && !authData.auth) {
-			goto('/sign-in')
-		}
-		/**
-		 * Check to see if the user is part of an employer. IF they are not, redirect them to the employer registration page
-		 */
-		if (!authData.user?.memberOf || authData.user?.memberOf.length === 0) {
-			goto('/register/user')
+		if (!authData.isLoading) {
+			if (!authData.auth) {
+				goto('/sign-in')
+			} else if (authData.user?.memberOf.length === 0) {
+				goto('/register/user')
+			}
 		}
 	})
 </script>

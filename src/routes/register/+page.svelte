@@ -95,8 +95,8 @@
 					<p>
 						Once signed in, you will be able to create or join an employer account. If you are
 						representing an employer, you can create a new employer account. If you are part of an
-						existing employer, you can request to join that employer. You will also be required to
-						verify your email address before proceeding.
+						existing employer, you can request to join that employer. You are required to verify
+						your email address before proceeding.
 					</p>
 				</div>
 			{/if}

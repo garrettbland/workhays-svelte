@@ -58,7 +58,7 @@
 	<h2>Personal Information</h2>
 </div>
 <form
-	on:submit|preventDefault={() => handleUserDetailsSubmit(user.id, user)}
+	on:submit|preventDefault={() => handleUserDetailsSubmit(user.uid, user)}
 	class="mb-12 space-y-8"
 >
 	<div>
