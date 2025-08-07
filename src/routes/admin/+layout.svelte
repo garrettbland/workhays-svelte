@@ -53,7 +53,7 @@
 {#if employer?.status === 'PENDING'}
 	<div class="my-4">
 		<Alert
-			title="Your employer account is pending approval. You will be notified once approved. You can still create job postings, but they will not be visible until approved."
+			title={`<p>Your employer account is pending approval. You will be notified once approved. You can still create job postings, but they will not be visible until approved</p><p class="mt-4">If it's been more than a few days, please <a class="underline" href="/contact">contact us</a> and let us know.</p>`}
 			type="warning"
 		/>
 	</div>

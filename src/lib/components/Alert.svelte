@@ -28,5 +28,5 @@
 </script>
 
 <div class={`rounded-md p-4 text-sm ${typeClassesMap[type]}`}>
-	{title}
+	{@html title}
 </div>

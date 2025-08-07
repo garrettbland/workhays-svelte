@@ -5,8 +5,10 @@
 import { importLargeCSVToFirestore } from './import-to-firestore.ts'
 import type { Employer } from '../src/lib/types.ts'
 import { OldEmployer } from './types.ts'
-
+import { generateJSON } from '@tiptap/core'
+import StarterKit from '@tiptap/starter-kit'
 const CSV_PATH = './database/employers-manual-export.csv'
+import { Timestamp } from 'firebase/firestore'
 
 /**
  * SQL query to get employers. Only gets employers that have a "verified" user
@@ -19,10 +21,10 @@ const CSV_PATH = './database/employers-manual-export.csv'
 const dataMapper = (record: OldEmployer): Required<Employer> => {
 	return {
 		title: record.title,
-		description: record.description, // need to conver this to tip tap somehow
+		description: generateJSON(record.description, [StarterKit]), // convet to tiptap JSON
 		users: [
 			{
-				userId: record.id,
+				userId: record.user_id,
 				role: 'OWNER',
 				status: 'ACCEPTED'
 			}
@@ -38,8 +40,8 @@ const dataMapper = (record: OldEmployer): Required<Employer> => {
 		// twitter_url: record.twitter_url,
 		// instagram_url: record.instagram_url,
 		// youtube_url: record.youtube_url,
-		createdAt: record.created_at,
-		updatedAt: record.updated_at
+		createdAt: Timestamp.fromDate(new Date(record.created_at)),
+		updatedAt: Timestamp.fromDate(new Date(record.updated_at))
 	}
 }
 
