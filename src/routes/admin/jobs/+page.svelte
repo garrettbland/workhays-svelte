@@ -10,7 +10,7 @@
 	 * Gets all public jobs. Takes advantage of "await" blocks from Svelte.
 	 * https://svelte.dev/docs/svelte/await
 	 */
-	let isGettingJobs = $state(getJobsByEmployerId(authData.user?.memberOf[0] ?? ''))
+	let isGettingJobs = $state(getJobsByEmployerId(authData?.user?.memberOf[0] ?? ''))
 
 	let wasJobDeleted = $derived(page.url.searchParams.has('jobDeleted'))
 	let newJobId = $derived(page.url.searchParams.get('newJobId'))
@@ -21,7 +21,7 @@
 </div>
 
 {#if wasJobDeleted}
-	<Alert title="Success - Your job has been updated" type="success" />
+	<Alert title="Success - Your job has been deleted" type="success" />
 {/if}
 
 {#await isGettingJobs}

@@ -21,6 +21,7 @@ export interface Job extends CommonDocument {
 	deletedAt?: Timestamp
 	expiresAt: Timestamp // expires_at
 	// renewedAt: string // renewed_at (!!! Not migrating from legacy !!!)
+	sortId: number // Used for sorting jobs in random order since firebase does not support random order
 }
 
 /**

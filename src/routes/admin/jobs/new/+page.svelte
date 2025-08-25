@@ -7,6 +7,7 @@
 	import JobForm from '$lib/components/JobForm.svelte'
 	import { goto } from '$app/navigation'
 	import Alert from '$lib/components/Alert.svelte'
+	import Breadcrumb from '$lib/components/Breadcrumb.svelte'
 	// import { cachedAdminData } from '$lib/cache.svelte'
 
 	type JobInputs = Omit<Job, 'createdAt' | 'updatedAt' | 'expiresAt'>
@@ -61,6 +62,17 @@
 	}
 </script>
 
+<div class="h-12"></div>
+<Breadcrumb
+	links={[
+		{
+			href: '/admin/jobs',
+			label: 'Jobs'
+		},
+		{ href: '', label: 'New Job' }
+	]}
+/>
+<div class="h-6"></div>
 <div class="prose prose-sm mb-8">
 	<h1>New Job</h1>
 </div>

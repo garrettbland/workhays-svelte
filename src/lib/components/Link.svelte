@@ -12,7 +12,7 @@
 		title,
 		type,
 		href,
-		target = '_self'
+		target
 	}: {
 		title: string
 		type: 'primary' | 'secondary' | 'danger' | 'success'
@@ -30,7 +30,7 @@
 
 <a
 	{href}
-	{target}
+	{...target ? { target } : {}}
 	class={`focus:outline-hidden inline-flex items-center gap-x-2 rounded-lg border border-transparent px-4 py-3 text-sm font-medium focus:bg-blue-700 disabled:pointer-events-none disabled:opacity-50 ${typeClassesMap[type]}`}
 >
 	{title}

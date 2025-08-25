@@ -16,6 +16,7 @@
 	import { getHumanDateFromFirebaseTimestamp, getTwoWeeksFromNow, isJobExpired } from '$lib/date'
 	import type { PageData } from './$types'
 	import { cachedAdminData } from '$lib/cache.svelte'
+	import Breadcrumb from '$lib/components/Breadcrumb.svelte'
 
 	let { data }: { data: PageData } = $props()
 	let job = $state<JobWithID>(data)
@@ -36,6 +37,9 @@
 			hasError = false
 			isSuccess = false
 			editFormStatus = 'LOADING'
+
+			console.log({ updatedFields: JSON.parse(JSON.stringify(updatedFields)) })
+
 			const { status } = await updateJobById(jobId, updatedFields)
 			if (status !== 'success') {
 				editFormStatus = 'ERROR'
@@ -91,6 +95,18 @@
 		}
 	}
 </script>
+
+<div class="h-12"></div>
+<Breadcrumb
+	links={[
+		{
+			href: '/admin/jobs',
+			label: 'Jobs'
+		},
+		{ href: '', label: job.title || 'Edit Job' }
+	]}
+/>
+<div class="h-6"></div>
 
 <div class="prose prose-sm">
 	<h1>Edit Job</h1>

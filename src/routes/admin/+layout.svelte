@@ -21,8 +21,13 @@
 				return data
 			}
 
-			if (authData.user.memberOf.length > 0) {
+			if (authData?.user?.memberOf?.length > 0) {
 				getEmployer().then((data) => (employer = data))
+			}
+
+			const userHasNoEmployer = !authData.user?.memberOf || authData.user?.memberOf.length === 0
+			if (userHasNoEmployer) {
+				goto('/register/user')
 			}
 		}
 	})
@@ -33,8 +38,6 @@
 		if (!authData.isLoading) {
 			if (!authData.auth) {
 				goto('/sign-in')
-			} else if (authData.user?.memberOf.length === 0) {
-				goto('/register/user')
 			}
 		}
 	})

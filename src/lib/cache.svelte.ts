@@ -1,5 +1,7 @@
 import type { Job, JobWithID, EmployerWithID } from '$lib/types'
 import type { QueryDocumentSnapshot, DocumentData } from 'firebase-admin/firestore'
+import { writable } from 'svelte/store'
+import type { LastDocType } from './jobs'
 
 /**
  * Universal state to store cached jobs.
@@ -13,6 +15,13 @@ import type { QueryDocumentSnapshot, DocumentData } from 'firebase-admin/firesto
  * ```
  */
 export const cachedJobs = $state<{ [id: string]: Job }>({})
+
+/**
+ * Testing out storing the lastSeen doc for pagination
+ */
+export const miscStorage = $state<{ lastSeenDoc: LastDocType | null }>({
+	lastSeenDoc: null
+})
 
 /**
  * Return cached jobs. Otherwise svelte returns the Proxy object thing

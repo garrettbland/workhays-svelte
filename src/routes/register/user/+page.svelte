@@ -34,12 +34,10 @@
 			the inconvenience.
 		</p>
 	</div>
-{:else if authData.user?.memberOf.length === 0}
+{:else}
 	<div class="prose prose-sm mb-4">
 		<h1>Complete Registration</h1>
 		<p>You can now proceed to register your employer account below.</p>
 		<CreateEmployer userId={authData.user.uid} />
 	</div>
-{:else}
-	<Alert type="secondary" title="Loading..." />
 {/if}

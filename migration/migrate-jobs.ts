@@ -32,7 +32,8 @@ const dataMapper = (record: OldJobWithEmployerTitle): Job => {
 		isDeleted: false, // soft deletes were not a thing in legacy
 		expiresAt: getTwoWeeksFromNow(new Date(record.renewed)), // to do: test that this works correctly
 		createdAt: Timestamp.fromDate(new Date(record.created_at)),
-		updatedAt: Timestamp.fromDate(new Date(record.updated_at))
+		updatedAt: Timestamp.fromDate(new Date(record.updated_at)),
+		sortId: Math.floor(Math.random() * 1_000_000) // random int for sorting jobs in random order
 	}
 }
 

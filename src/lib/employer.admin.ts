@@ -58,6 +58,7 @@ export const getEmployerById = async (employerId: string): Promise<EmployerWithI
 
 /**
  * Updates employer by Id
+ * TODO: Update jobs if employer title changes
  */
 export const updateEmployerById = async (
 	employerId: string,

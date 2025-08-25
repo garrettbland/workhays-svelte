@@ -5,6 +5,8 @@
 	import type { INDUSTRIES } from '$lib/constants'
 	import { untrack, onMount } from 'svelte'
 	import { page } from '$app/state'
+	import { cachedJobs, allCachedJobs, miscStorage } from '$lib/cache.svelte'
+	import { pushState } from '$app/navigation'
 
 	/**
 	 * Arguments
@@ -14,7 +16,6 @@
 	let isLoading = $state<boolean>(false)
 	let hasError = $state<boolean>(false)
 	let jobs = $state<Record<string, Job>>({})
-	let lastJobLoaded = $state<LastDocType>()
 
 	const getJobs = async ({
 		industry,
@@ -36,8 +37,6 @@
 				...data.jobs
 			}
 
-			// jobs = [...jobs, ...data.jobs]
-			lastJobLoaded = data.lastDoc
 			isLoading = false
 		} catch (err) {
 			console.error(err)
@@ -56,11 +55,12 @@
 	// 	}
 	// })
 
-	const handleLoadMore = async (lastVisibleDoc: Job) => {
-		console.log(`Loading more jobs in ${industry}`)
+	const handleLoadMore = async (lastDoc) => {
+		// console.log(`Loading more jobs in ${industry}`)
+
 		getJobs({
 			industry: industry,
-			lastVisibleDoc
+			lastVisibleDoc: lastDoc
 		})
 	}
 
@@ -69,6 +69,15 @@
 			industry: industry
 		})
 	})
+
+	// const handleJobLink = (id: string) => {
+	// 	// pushState(`/jobs/${id}`, {
+	// 	// 	showModal: true
+	// 	// })
+	// 	pushState(`/jobs/${id}`, {
+	// 		showJob: true
+	// 	})
+	// }
 </script>
 
 {#if isLoading}
@@ -117,16 +126,16 @@
 				</li>
 			</a>
 		{/each}
-		{#if lastJobLoaded === 'LAST'}
+		{#if miscStorage.lastSeenDoc === 'LAST'}
 			<div class="flex w-full justify-center">
 				<p class="font-bold text-gray-500">-- End of job listings --</p>
 			</div>
 		{/if}
-		{#if lastJobLoaded !== 'LAST'}
+		{#if miscStorage.lastSeenDoc !== 'LAST'}
 			<div class="flex w-full justify-center">
 				<button
 					class="flex gap-x-2 rounded-lg border border-transparent bg-blue-800 px-6 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:bg-blue-500 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-					onclick={() => handleLoadMore(lastJobLoaded!)}>Load more jobs</button
+					onclick={() => handleLoadMore(miscStorage.lastSeenDoc!)}>Load more jobs</button
 				>
 			</div>
 		{/if}

@@ -18,6 +18,15 @@ import { clearCachedData } from './cache.svelte'
 import { getTwoWeeksFromNow } from './date'
 
 /**
+ * This function is to generate a random number for the "sortId" so
+ * we can sort jobs in a random order. Used on job creation and update.
+ * TO DO: Re-rolls of the "sortId" every day? That way it's fair for all jobs to get same exposure
+ */
+const generateRandomNumber = () => {
+	return Math.floor(Math.random() * 1_000_000) // random int
+}
+
+/**
  * Creates new job. Adds document to jobs collection in firestore
  */
 
@@ -37,7 +46,8 @@ export const createJob = async (
 			employerTitle,
 			updatedAt: serverTimestamp(),
 			createdAt: serverTimestamp(),
-			expiresAt: getTwoWeeksFromNow()
+			expiresAt: getTwoWeeksFromNow(),
+			sortId: generateRandomNumber()
 		})
 
 		clearCachedData()
@@ -152,14 +162,20 @@ export const updateJobById = async (
 
 		/**
 		 * Remove "id" if present
+		 * TODO: What is this?
 		 */
 		delete updatedDocWithoutId.id
 
 		/**
 		 * Update the document. Will not create new documents, just updates. If promise
 		 * fufills, then success. The new job doc is not returned
+		 * Update sortId with random number to ensure jobs are sorted in random order
 		 */
-		await updateDoc(docRef, { ...updatedJob, updatedAt: serverTimestamp() })
+		await updateDoc(docRef, {
+			...updatedJob,
+			updatedAt: serverTimestamp(),
+			sortId: generateRandomNumber()
+		})
 
 		clearCachedData()
 

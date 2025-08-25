@@ -14,7 +14,7 @@ import {
 	Timestamp
 } from 'firebase/firestore'
 import { db } from '$lib/firebase'
-import { cachedJobs, allCachedJobs } from '$lib/cache.svelte'
+import { cachedJobs, allCachedJobs, miscStorage } from '$lib/cache.svelte'
 import type { Job, JobWithID } from '$lib/types'
 import type { DocumentData } from 'firebase-admin/firestore'
 import type { INDUSTRIES } from './constants'
@@ -51,22 +51,58 @@ export const getPublicJobs = async ({
 	lastVisibleDoc
 }: {
 	industry?: INDUSTRIES
-	lastVisibleDoc?: Job
+	lastVisibleDoc?: LastDocType
 }): Promise<{
 	jobs: Record<string, Job>
-	lastDoc: LastDocType
+	// lastDoc: LastDocType // this is now stored in miscStorage in this file
 }> => {
 	try {
+		// const LAST_VISIBLE_DOC = miscStorage.lastSeenDoc
+
+		console.log(`args:`, { industry, lastVisibleDoc: lastVisibleDoc })
+
 		const CACHE_KEY_NAME = industry ? industry.replace('-', '') : 'all'
+
+		const CACHE_EXISTS = Object.keys(cachedJobs).length > 0
+
+		if (CACHE_EXISTS) {
+			/**
+			 * Some sort of cache exists.
+			 */
+			if (lastVisibleDoc === 'LAST') {
+				console.log(`📀 Reached the end of jobs, no more to load...`)
+				return {
+					jobs: cachedJobs
+				}
+			} else if (lastVisibleDoc) {
+				console.log(`ℹ️ Some jobs exists, but fetching more...`)
+			} else {
+				console.log(`📀 Jobs exist in cache, skipping fetch...`)
+				return {
+					jobs: cachedJobs
+				}
+			}
+		}
 
 		/**
 		 * Last visible doc was NOT passed in, and there are jobs in
-		 * the cache
+		 * the cache. We skip returning the cache only here because
+		 * if the lastVisibleDoc is passed in, we are paginating and
+		 * need to fetch more jobs from the database.
 		 */
-		if (!lastVisibleDoc && Object.keys(cachedJobs).length > 0) {
-			console.log(`Jobs exist in cache, skipping fetch...`)
-			return { jobs: cachedJobs, lastDoc: Object.values(cachedJobs).at(-1) }
-		}
+		// if (!LAST_VISIBLE_DOC && CACHE_EXISTS) {
+		// 	console.log(`📀 Jobs exist in cache, skipping fetch...`)
+		// 	return { jobs: cachedJobs } //  lastDoc: Object.values(cachedJobs).at(-1)
+		// }
+
+		// if (LAST_VISIBLE_DOC === 'LAST') {
+		// 	console.log(`🚩 Reached the end of jobs, no more to load...`)
+		// 	return { jobs: cachedJobs }
+		// }
+
+		// if (LAST_VISIBLE_DOC && CACHE_EXISTS) {
+		// 	console.log(`📀 Some jobs exists, but fetching more...`)
+		// }
 
 		/**
 		 * Check if jobs exists in cache
@@ -90,9 +126,11 @@ export const getPublicJobs = async ({
 		// 	return cachedData.jobs
 		// }
 
-		console.log(
-			lastVisibleDoc ? `Loading additional jobs...` : `Fetching fresh jobs, none in cache...`
-		)
+		console.log(`📡 Fetching ${CACHE_EXISTS ? `additional` : `new`} jobs from database...`)
+
+		// console.log(
+		// 	lastVisibleDoc ? `Loading additional jobs...` : `Fetching fresh jobs, none in cache...`
+		// )
 
 		const querySnapshot = await getDocs(
 			query(
@@ -106,7 +144,7 @@ export const getPublicJobs = async ({
 							return where('industry', '==', industry)
 						}
 					},
-					orderBy('updatedAt'),
+					orderBy('sortId', 'desc'),
 					() => {
 						if (lastVisibleDoc) {
 							return startAfter(lastVisibleDoc)
@@ -119,6 +157,8 @@ export const getPublicJobs = async ({
 
 		const jobs: Record<string, Job> = {}
 
+		console.log(`ℹ️ Fetched ${querySnapshot.docs.length} jobs from database`)
+
 		querySnapshot.docs.map((doc) => {
 			jobs[doc.id] = doc.data() as Job
 
@@ -127,7 +167,23 @@ export const getPublicJobs = async ({
 			 */
 			cachedJobs[doc.id] = doc.data() as Job
 		})
-		;(window as any).cache = { ...window.cache, ...jobs }
+
+		const LAST_DOC =
+			querySnapshot.docs.length > 1 ? querySnapshot.docs[querySnapshot.docs.length - 1] : 'LAST'
+
+		/**
+		 * Update last seen doc in misc storage
+		 */
+		miscStorage.lastSeenDoc = LAST_DOC
+
+		/**
+		 * Store on window for debugging
+		 */
+		window.cache = { ...cachedJobs, ...miscStorage }
+
+		if (querySnapshot.docs.length < DOC_LIMIT) {
+			console.log(`🚩 Reached the end of jobs...`)
+		}
 
 		// cachedData[CACHE_KEY_NAME] = [
 		// 	...(cachedData[CACHE_KEY_NAME] ? (cachedData[CACHE_KEY_NAME] as any) : []),
@@ -144,9 +200,7 @@ export const getPublicJobs = async ({
 		// })) as JobWithID[]
 
 		return {
-			jobs,
-			lastDoc:
-				querySnapshot.docs.length > 1 ? querySnapshot.docs[querySnapshot.docs.length - 1] : 'LAST'
+			jobs
 		}
 	} catch (error) {
 		console.error('Error with getPublicJobs:', error)

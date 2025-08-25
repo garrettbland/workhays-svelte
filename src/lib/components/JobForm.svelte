@@ -36,7 +36,7 @@
 	}
 
 	let isLoading = $state(false)
-	let job = $state<JobInputs>(currentJob ? currentJob : DEFAULT_EMPTY_JOB)
+	let job = $state<JobInputs>(currentJob ? { ...currentJob } : DEFAULT_EMPTY_JOB)
 
 	const clearInputs = () => (job = DEFAULT_EMPTY_JOB)
 
