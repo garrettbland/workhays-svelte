@@ -7,13 +7,16 @@
 	import { page } from '$app/state'
 	import { cachedJobs, allCachedJobs, miscStorage } from '$lib/cache.svelte'
 	import { pushState } from '$app/navigation'
+	import Loader from './Loader.svelte'
+	import Button from './Button.svelte'
 
 	/**
 	 * Arguments
 	 */
 	let { industry } = $props()
 
-	let isLoading = $state<boolean>(false)
+	let isLoadingInitial = $state(true)
+	let isLoadingMore = $state<boolean>(false)
 	let hasError = $state<boolean>(false)
 	let jobs = $state<Record<string, Job>>({})
 
@@ -25,7 +28,11 @@
 		lastVisibleDoc?: LastDocType
 	}) => {
 		try {
-			isLoading = true
+			if (lastVisibleDoc) {
+				isLoadingMore = true
+			} else {
+				isLoadingInitial = true
+			}
 
 			const data = await getPublicJobs({
 				industry: industry,
@@ -37,12 +44,17 @@
 				...data.jobs
 			}
 
-			isLoading = false
+			if (lastVisibleDoc) {
+				isLoadingMore = true
+			} else {
+				isLoadingInitial = true
+			}
 		} catch (err) {
 			console.error(err)
 			hasError = true
 		} finally {
-			isLoading = false
+			isLoadingInitial = false
+			isLoadingMore = false
 		}
 	}
 
@@ -80,19 +92,11 @@
 	// }
 </script>
 
-{#if isLoading}
-	<!-- promise is pending -->
-	<div class="flex flex-1 flex-col items-center gap-6">
-		<div class="text-2xl font-bold">Loading opportunities..yay! 😃</div>
-		<div
-			class="inline-block size-5 animate-spin rounded-full border-[3px] border-current border-t-transparent text-blue-800 dark:text-blue-800"
-			role="status"
-			aria-label="loading"
-		></div>
-	</div>
+{#if isLoadingInitial}
+	<Loader />
 {/if}
 
-{#if !isLoading && jobs}
+{#if !isLoadingInitial && jobs}
 	<!-- promise was fulfilled or not a Promise -->
 	<ul class="list-inside list-none p-0">
 		{#each Object.entries(jobs) as [id, job]}
@@ -133,10 +137,14 @@
 		{/if}
 		{#if miscStorage.lastSeenDoc !== 'LAST'}
 			<div class="flex w-full justify-center">
-				<button
-					class="flex gap-x-2 rounded-lg border border-transparent bg-blue-800 px-6 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:bg-blue-500 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-					onclick={() => handleLoadMore(miscStorage.lastSeenDoc!)}>Load more jobs</button
-				>
+				<Button
+					title="Load More"
+					type="primary"
+					disabled={isLoadingMore}
+					isLoading={isLoadingMore}
+					onclick={() => handleLoadMore(miscStorage.lastSeenDoc!)}
+					loadingText="Loading..."
+				/>
 			</div>
 		{/if}
 	</ul>

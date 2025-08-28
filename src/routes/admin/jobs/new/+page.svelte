@@ -8,6 +8,7 @@
 	import { goto } from '$app/navigation'
 	import Alert from '$lib/components/Alert.svelte'
 	import Breadcrumb from '$lib/components/Breadcrumb.svelte'
+	import Loader from '$lib/components/Loader.svelte'
 	// import { cachedAdminData } from '$lib/cache.svelte'
 
 	type JobInputs = Omit<Job, 'createdAt' | 'updatedAt' | 'expiresAt'>
@@ -82,7 +83,7 @@
 {/if}
 
 {#await currentEmployer}
-	<div>loading...</div>
+	<Loader />
 {:then employer}
 	<JobForm
 		handleSubmit={(_job) => handleSubmit(_job, employer)}
@@ -135,5 +136,6 @@
 		<button type="submit">{isLoading ? 'Loading...' : 'Submit'}</button>
 	</form> -->
 {:catch err}
+	<!-- TO DO -->
 	<div>error loading employer...</div>
 {/await}

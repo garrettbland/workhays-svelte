@@ -5,6 +5,7 @@
 	import Alert from '$lib/components/Alert.svelte'
 	import Link from '$lib/components/Link.svelte'
 	import { getHumanDateFromFirebaseTimestamp, isJobExpired } from '$lib/date'
+	import Loader from '$lib/components/Loader.svelte'
 
 	/**
 	 * Gets all public jobs. Takes advantage of "await" blocks from Svelte.
@@ -25,9 +26,7 @@
 {/if}
 
 {#await isGettingJobs}
-	<div class="mb-4">
-		<Alert type="secondary" title="Loading..." />
-	</div>
+	<Loader />
 {:then jobs}
 	{#if newJobId && jobs.find((i) => i.id === newJobId)}
 		<Alert

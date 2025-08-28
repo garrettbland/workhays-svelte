@@ -13,7 +13,6 @@ import type { Job } from '$lib/types'
  */
 export const load: PageLoad = async ({ params }): Promise<Job> => {
 	try {
-		console.log(`PageLoad...`, JSON.stringify(params))
 		const job = await getPublicJob(params.jobId)
 		return job
 	} catch (err) {

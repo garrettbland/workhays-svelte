@@ -220,11 +220,11 @@ export const getPublicJob = async (jobId: string): Promise<Job> => {
 		const cachedJob = allCachedJobs()[jobId]
 
 		if (cachedJob) {
-			console.log('Job found in cache, skipping fetch...')
+			console.log(`📀 Job exists in cache, skipping fetch...`)
 			return cachedJob
 		}
 
-		console.log('Job not found in cache, fetching fresh data...')
+		console.log(`📡 Fetching job details from database...`)
 
 		/**
 		 * Reference to the document in the jobs collection
@@ -238,8 +238,10 @@ export const getPublicJob = async (jobId: string): Promise<Job> => {
 		if (docSnap.exists()) {
 			job = docSnap.data() as Job
 		} else {
-			console.log('No such document!')
-			throw new Error(`No such job with id: ${jobId}`)
+			/**
+			 * Job was not found
+			 */
+			throw new Error()
 		}
 
 		// const docRef = doc(db, 'jobs', jobId)

@@ -6,6 +6,7 @@
 	import { getEmployerById } from '$lib/employer.admin'
 	import { onMount } from 'svelte'
 	import type { Employer } from '$lib/types'
+	import Loader from '$lib/components/Loader.svelte'
 
 	let employer = $state<Employer | undefined>(undefined)
 
@@ -63,7 +64,7 @@
 {/if}
 
 {#if authData.isLoading || !authData.auth}
-	<Alert type="secondary" title="Loading..." />
+	<Loader />
 {:else}
 	<!-- {JSON.stringify(authData.auth, null, 4)} -->
 	<div class="relative grid grid-cols-12 gap-6">

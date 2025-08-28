@@ -90,15 +90,8 @@
 							> -->
 						{/if}
 					{:else}
-						<button
-							type="button"
-							class="inline-flex w-max flex-1 items-center gap-x-2 rounded-lg border border-blue-700 px-3 py-2 text-sm font-medium text-blue-700 hover:bg-gray-50 focus:bg-gray-50 focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50 md:w-full"
-							><a href="/register">Register</a></button
-						>
-						<button
-							class="inline-flex w-max flex-1 items-center gap-x-2 rounded-lg border border-transparent bg-blue-800 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:bg-blue-500 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-							><a href="/sign-in">Sign in</a></button
-						>
+						<Link href="/sign-in" title="Sign In" type="secondary" />
+						<Link href="/register" title="Register" type="primary" />
 					{/if}
 				</div>
 			</div>

@@ -8,6 +8,7 @@
 	import { INDUSTRIES, JOB_TYPES } from '$lib/constants'
 	import { getHumanDateFromFirebaseTimestamp } from '$lib/date'
 	import Breadcrumb from '$lib/components/Breadcrumb.svelte'
+	import Loader from '$lib/components/Loader.svelte'
 
 	let { data }: { data: PageData } = $props()
 	const job: Job = data
@@ -53,7 +54,7 @@
 <div class="h-6"></div>
 
 {#if loading}
-	<div>Loading...</div>
+	<Loader />
 {:else}
 	<div class="lg:flex lg:items-center lg:justify-between">
 		<div class="flex-1">

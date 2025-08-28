@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { authData } from '$lib/auth.svelte'
 	import Alert from '$lib/components/Alert.svelte'
+	import Loader from '$lib/components/Loader.svelte'
 	import RichText from '$lib/components/RichText.svelte'
 	import { getEmployerById, updateEmployerById } from '$lib/employer.admin'
 	import type { Employer, EmployerWithID } from '$lib/types'
@@ -26,9 +27,7 @@
 </script>
 
 {#await currentEmployer}
-	<div class="mb-4">
-		<Alert type="secondary" title="Loading..." />
-	</div>
+	<Loader />
 {:then employer}
 	<div class="prose prose-sm mb-4">
 		<h1>Employer Settings</h1>
