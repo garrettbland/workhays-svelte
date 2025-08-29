@@ -1,9 +1,18 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import 'tailwindcss';
+
+/* @import '../node_modules/preline/variants.css'; */
+@source "../node_modules/preline/dist/*.js";
+
+/* Optional plugins */
+/* @import "preline/src/plugins/datepicker/styles.css"; */
+
+/* Third-party plugins */
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
+/* @plugin "@tailwindcss/aspect-ratio"; */
 
 .ProseMirror:focus {
-	@apply rounded-b-lg rounded-t-none outline outline-2 outline-offset-1 outline-blue-500;
+	@apply rounded-t-none rounded-b-lg outline outline-2 outline-offset-1 outline-blue-500;
 }
 
 .tiptap ul p,

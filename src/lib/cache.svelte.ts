@@ -34,6 +34,7 @@ export const allCachedJobs = () => {
  * Clear all cached data
  */
 export const clearCachedData = () => {
+	console.log(`🗑️ Clearing all cached data...`)
 	Object.keys(cachedJobs).forEach((key) => delete cachedJobs[key])
 }
 

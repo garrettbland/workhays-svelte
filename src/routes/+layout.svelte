@@ -4,8 +4,7 @@
 	import Footer from '$lib/components/Footer.svelte'
 	import { afterNavigate } from '$app/navigation'
 	import { page } from '$app/state'
-	import { fade, fly } from 'svelte/transition'
-	let modalOpen = $derived(page.route.id === '/jobs/[id]')
+
 	let { children } = $props()
 
 	import { pushState } from '$app/navigation'
@@ -22,9 +21,9 @@
 		window.HSStaticMethods.autoInit()
 	})
 
-	$effect(() => {
-		console.log(`miscStorage changed:`, miscStorage)
-	})
+	// $effect(() => {
+	// 	console.log(`miscStorage changed:`, miscStorage)
+	// })
 
 	// $effect(() => {
 	// 	if (page.state.showModal) {

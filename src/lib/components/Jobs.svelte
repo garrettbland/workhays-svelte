@@ -5,7 +5,7 @@
 	import type { INDUSTRIES } from '$lib/constants'
 	import { untrack, onMount } from 'svelte'
 	import { page } from '$app/state'
-	import { cachedJobs, allCachedJobs, miscStorage } from '$lib/cache.svelte'
+	import { cachedJobs, allCachedJobs, miscStorage, clearCachedData } from '$lib/cache.svelte'
 	import { pushState } from '$app/navigation'
 	import Loader from './Loader.svelte'
 	import Button from './Button.svelte'

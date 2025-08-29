@@ -24,5 +24,5 @@ export default {
 			}
 		}
 	},
-	plugins: [typography, forms, prelinePlugin]
+	plugins: [typography, prelinePlugin]
 } satisfies Config

@@ -14,7 +14,7 @@ import {
 	Timestamp
 } from 'firebase/firestore'
 import { db } from '$lib/firebase'
-import { cachedJobs, allCachedJobs, miscStorage } from '$lib/cache.svelte'
+import { cachedJobs, allCachedJobs, miscStorage, clearCachedData } from '$lib/cache.svelte'
 import type { Job, JobWithID } from '$lib/types'
 import type { DocumentData } from 'firebase-admin/firestore'
 import type { INDUSTRIES } from './constants'
@@ -44,6 +44,13 @@ const buildQuery = (queries: any[]) => {
 }
 
 /**
+ * Last seen industry. Track this for caching purposes. If the user switches
+ * industries, we need to clear the cache basically. There isn't a way currently
+ * that I'm caching by industry.
+ */
+let lastIndustry: INDUSTRIES | undefined = undefined
+
+/**
  * Fetches public job listings from firebase
  */
 export const getPublicJobs = async ({
@@ -59,7 +66,18 @@ export const getPublicJobs = async ({
 	try {
 		// const LAST_VISIBLE_DOC = miscStorage.lastSeenDoc
 
-		console.log(`args:`, { industry, lastVisibleDoc: lastVisibleDoc })
+		if (industry !== lastIndustry) {
+			/**
+			 * Industry has changed, clear the cache
+			 */
+			console.log(`ℹ️ Industry changed, clearing cached jobs...`)
+			clearCachedData()
+		}
+
+		/**
+		 * Set our last industry variable
+		 */
+		lastIndustry = industry
 
 		const CACHE_KEY_NAME = industry ? industry.replace('-', '') : 'all'
 
@@ -126,7 +144,9 @@ export const getPublicJobs = async ({
 		// 	return cachedData.jobs
 		// }
 
-		console.log(`📡 Fetching ${CACHE_EXISTS ? `additional` : `new`} jobs from database...`)
+		console.log(
+			`📡 Fetching ${CACHE_EXISTS ? `additional` : `new`} jobs${industry ? ` (${industry})` : ``} from database...`
+		)
 
 		// console.log(
 		// 	lastVisibleDoc ? `Loading additional jobs...` : `Fetching fresh jobs, none in cache...`
