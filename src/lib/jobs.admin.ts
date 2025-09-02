@@ -161,8 +161,7 @@ export const updateJobById = async (
 		const updatedDocWithoutId = { ...updatedJob }
 
 		/**
-		 * Remove "id" if present
-		 * TODO: What is this?
+		 * Remove "id" if present since the type is JobWithID (we dont want to store/update the id)
 		 */
 		delete updatedDocWithoutId.id
 

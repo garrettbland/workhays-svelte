@@ -9,6 +9,7 @@
 	import { pushState } from '$app/navigation'
 	import Loader from './Loader.svelte'
 	import Button from './Button.svelte'
+	import { getHumanDateFromFirebaseTimestamp } from '$lib/date'
 
 	/**
 	 * Arguments
@@ -97,57 +98,66 @@
 {/if}
 
 {#if !isLoadingInitial && jobs}
-	<!-- promise was fulfilled or not a Promise -->
-	<ul class="list-inside list-none p-0">
-		{#each Object.entries(jobs) as [id, job]}
-			<a class="group/item no-underline" href={`/jobs/${id}`}>
-				<li
-					class="flex w-full items-center gap-4 rounded-lg border border-gray-200 px-6 py-4 duration-300 ease-in-out hover:cursor-pointer hover:border-blue-800 hover:shadow-md hover:transition-all"
-				>
-					<div class="flex-1">
-						<div class="text-sm font-normal text-gray-700">Employer Name</div>
-						<div class="group/job text-lg font-bold group-hover/item:underline">
-							{job.title}
-						</div>
-					</div>
-					<div class="flex items-center gap-4">
-						<div class="text-sm font-normal text-gray-700">Jan 1, 2025</div>
-						<svg
-							class="group/chevron size-4 shrink-0 group-hover/item:text-blue-800"
-							xmlns="http://www.w3.org/2000/svg"
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						>
-							<path d="m9 18 6-6-6-6"></path>
-						</svg>
-					</div>
-				</li>
-			</a>
-		{/each}
-		{#if miscStorage.lastSeenDoc === 'LAST'}
-			<div class="flex w-full justify-center">
-				<p class="font-bold text-gray-500">-- End of job listings --</p>
+	<div class="flex flex-col">
+		<div class="-m-1.5 overflow-x-auto">
+			<div class="inline-block min-w-full p-1.5 align-middle">
+				<div class="overflow-hidden rounded-lg border border-gray-200 shadow-xs">
+					<table class="min-w-full divide-y divide-gray-200">
+						<thead class="bg-gray-50">
+							<tr class="grid grid-cols-3 px-6">
+								<th scope="col" class="py-3 text-start text-xs font-medium text-gray-500 uppercase"
+									>Title</th
+								>
+
+								<th scope="col" class="py-3 text-start text-xs font-medium text-gray-500 uppercase"
+									>Employer</th
+								>
+								<th scope="col" class="py-3 text-end text-xs font-medium text-gray-500 uppercase"
+									>Updated</th
+								>
+							</tr>
+						</thead>
+						<tbody class="divide-y divide-gray-200">
+							{#each Object.entries(jobs) as [id, job]}
+								<tr class="grid grid-cols-3 hover:bg-gray-50">
+									<td class="truncate text-start text-sm whitespace-nowrap text-gray-800"
+										><a href={`/jobs/${id}`} class="block py-4 pl-6">{job.title}</a></td
+									>
+									<td class="truncate text-sm whitespace-nowrap text-gray-800"
+										><a href={`/jobs/${id}`} class="block py-4 pl-2">{job.employerTitle}</a></td
+									>
+
+									<td class=" text-end text-sm whitespace-nowrap text-gray-800"
+										><a href={`/jobs/${id}`} class="block py-4 pr-6"
+											>{getHumanDateFromFirebaseTimestamp(job.updatedAt)}</a
+										></td
+									>
+								</tr>
+							{/each}
+						</tbody>
+					</table>
+				</div>
 			</div>
-		{/if}
-		{#if miscStorage.lastSeenDoc !== 'LAST'}
-			<div class="flex w-full justify-center">
-				<Button
-					title="Load More"
-					type="primary"
-					disabled={isLoadingMore}
-					isLoading={isLoadingMore}
-					onclick={() => handleLoadMore(miscStorage.lastSeenDoc!)}
-					loadingText="Loading..."
-				/>
-			</div>
-		{/if}
-	</ul>
+		</div>
+	</div>
+
+	{#if miscStorage.lastSeenDoc === 'LAST'}
+		<div class=" flex w-full justify-center">
+			<p class="prose prose-sm py-4 text-gray-500">No more job listings in this industry</p>
+		</div>
+	{/if}
+	{#if miscStorage.lastSeenDoc !== 'LAST'}
+		<div class="flex w-full justify-center py-4">
+			<Button
+				title="Load More"
+				type="primary"
+				disabled={isLoadingMore}
+				isLoading={isLoadingMore}
+				onclick={() => handleLoadMore(miscStorage.lastSeenDoc!)}
+				loadingText="Loading..."
+			/>
+		</div>
+	{/if}
 {/if}
 
 {#if hasError}

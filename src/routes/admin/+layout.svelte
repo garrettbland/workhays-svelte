@@ -9,21 +9,18 @@
 	import Loader from '$lib/components/Loader.svelte'
 
 	let employer = $state<Employer | undefined>(undefined)
+	let hasFetchEmployer = $state(false)
 
-	// onMount(async () => {
-	// 	const res = await getEmployerById(authData.user?.memberOf[0] ?? '')
-	// 	employer = res
-	// })
+	const getEmployer = async () => {
+		const data = await getEmployerById(authData.user?.memberOf[0] ?? '')
+		return data
+	}
 
 	$effect(() => {
 		if (authData.user) {
-			const getEmployer = async () => {
-				const data = await getEmployerById(authData.user?.memberOf[0] ?? '')
-				return data
-			}
-
-			if (authData?.user?.memberOf?.length > 0) {
+			if (authData?.user?.memberOf?.length > 0 && !hasFetchEmployer) {
 				getEmployer().then((data) => (employer = data))
+				hasFetchEmployer = true
 			}
 
 			const userHasNoEmployer = !authData.user?.memberOf || authData.user?.memberOf.length === 0
@@ -63,7 +60,7 @@
 	</div>
 {/if}
 
-{#if authData.isLoading || !authData.auth}
+{#if authData.isLoading || !authData.auth || !employer}
 	<Loader />
 {:else}
 	<!-- {JSON.stringify(authData.auth, null, 4)} -->
@@ -73,7 +70,7 @@
 				<nav class="-me-0.5 flex flex-col space-y-3">
 					{#each ADMIN_NAV_LINKS as link}
 						<a
-							class="inline-flex items-center gap-2 whitespace-nowrap border-e-2 border-transparent py-1 pe-4 text-sm text-gray-500 no-underline hover:text-blue-800 focus:text-blue-800 focus:outline-none dark:text-neutral-500 dark:hover:text-blue-500 dark:focus:text-blue-500"
+							class="inline-flex items-center gap-2 border-e-2 border-transparent py-1 pe-4 text-sm whitespace-nowrap text-gray-500 no-underline hover:text-blue-800 focus:text-blue-800 focus:outline-none dark:text-neutral-500 dark:hover:text-blue-500 dark:focus:text-blue-500"
 							href={link.href}
 						>
 							{link.name}

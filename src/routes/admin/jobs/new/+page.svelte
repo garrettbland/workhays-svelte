@@ -9,6 +9,7 @@
 	import Alert from '$lib/components/Alert.svelte'
 	import Breadcrumb from '$lib/components/Breadcrumb.svelte'
 	import Loader from '$lib/components/Loader.svelte'
+	import { cachedAdminData } from '$lib/cache.svelte'
 	// import { cachedAdminData } from '$lib/cache.svelte'
 
 	type JobInputs = Omit<Job, 'createdAt' | 'updatedAt' | 'expiresAt'>
@@ -24,10 +25,7 @@
 		isDeleted: false
 	}
 
-	/**
-	 * TO DO: Set this up in cache
-	 */
-	let currentEmployer = $state(getEmployerById(authData.user?.memberOf[0] ?? ''))
+	let currentEmployer = $state(cachedAdminData.employer)
 
 	let isLoading = $state(false)
 	let hasError = $state(false)

@@ -82,7 +82,7 @@
 	description="Browse current job openings in Hays, KS and surrounding communities. Post your job openings for free and generate more qualified job canidates."
 />
 
-<div class="prose prose-sm mb-12">
+<div class="prose prose-sm mb-6">
 	<h1>
 		Current Job Openings <br /><span class="font-normal text-gray-600">in {industryName}</span>
 	</h1>
@@ -93,6 +93,9 @@
 			class="not-prose text-blue-800 no-underline hover:underline">register here!</a
 		>
 	</p>
+</div>
+
+<div class="mb-4 grid grid-cols-1 md:grid-cols-2">
 	<CatgorySelector />
 </div>
 

@@ -42,7 +42,7 @@
     peer-disabled:opacity-50
     dark:text-neutral-500
     dark:text-white dark:peer-not-placeholder-shown:text-neutral-500 dark:peer-focus:text-neutral-500"
-		>Label</label
+		>Industry</label
 	>
 </div>
 <!-- End Floating Select -->

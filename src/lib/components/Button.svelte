@@ -37,7 +37,7 @@
 <button
 	type={buttonType}
 	disabled={disabled || isLoading}
-	class={`focus:outline-hidden inline-flex items-center gap-x-2 rounded-lg border border-transparent px-4 py-3 text-sm font-medium focus:bg-blue-700 disabled:pointer-events-none disabled:opacity-50 ${typeClassesMap[type]}`}
+	class={`inline-flex cursor-pointer items-center gap-x-2 rounded-lg border border-transparent px-4 py-3 text-sm font-medium focus:bg-blue-700 focus:outline-hidden disabled:pointer-events-none disabled:opacity-50 ${typeClassesMap[type]}`}
 	{...onclick ? { onclick: () => onclick() } : {}}
 >
 	{isLoading ? loadingText : title}

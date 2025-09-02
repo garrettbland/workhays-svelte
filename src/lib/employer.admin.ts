@@ -1,24 +1,31 @@
-import { doc, getDoc, updateDoc, serverTimestamp, collection, addDoc } from 'firebase/firestore'
+import {
+	doc,
+	getDoc,
+	updateDoc,
+	serverTimestamp,
+	collection,
+	addDoc,
+	writeBatch
+} from 'firebase/firestore'
 import { db } from '$lib/firebase'
 import type { Employer, EmployerWithID } from '$lib/types'
 import { cachedAdminData, clearCachedData } from '$lib/cache.svelte'
+import { getJobsByEmployerId } from './jobs.admin'
 
 /**
  * Get employer by ID
  */
 export const getEmployerById = async (employerId: string): Promise<EmployerWithID> => {
 	try {
-		console.log(`Getting employer with ID: `, employerId)
-
 		/**
 		 * Check if employer exists in cache
 		 */
-		if (cachedAdminData.employer) {
-			console.log(`Employer exists in cache, skipping fetch`)
+		if (cachedAdminData.employer?.id) {
+			console.log(`📀 Employer exists in cache, skipping fetch...`)
 			return cachedAdminData.employer
 		}
 
-		console.log(`Empty employer cache, fetching fresh data...`)
+		console.log(`📡 Empty employer cache, fetching fresh data...`)
 
 		/**
 		 * Reference to the document in the employers collection
@@ -48,7 +55,7 @@ export const getEmployerById = async (employerId: string): Promise<EmployerWithI
 
 			return docWithId
 		} else {
-			throw new Error(`No such employer with id: ${employerId}`)
+			throw new Error(`❌ No such employer with id: ${employerId}`)
 		}
 	} catch (error) {
 		console.error('Error with getEmployerById', error)
@@ -61,35 +68,67 @@ export const getEmployerById = async (employerId: string): Promise<EmployerWithI
  * TODO: Update jobs if employer title changes
  */
 export const updateEmployerById = async (
-	employerId: string,
-	updatedEmployer: Partial<EmployerWithID>
-) => {
+	currentEmployer: EmployerWithID,
+	updatedEmployerFields: Partial<EmployerWithID>
+): Promise<{ status: 'SUCCESS' | 'ERROR' }> => {
 	try {
 		/**
-		 * Reference to the document in the employers collection
+		 * Create a batch to perform multiple writes as a single atomic operation
 		 */
-		// const docRef = doc(db, 'employers', employerId)
-		const employersRef = collection(db, 'employers')
+		const batch = writeBatch(db)
 
 		/**
-		 * Remove "id" if present
+		 * Reference to the employer document in the employers collection
 		 */
-		delete updatedEmployer.id
-
-		const newDoc = { ...updatedEmployer, updatedAt: serverTimestamp() }
+		const employerRef = doc(db, 'employers', currentEmployer.id)
 
 		/**
-		 * Update the document. Will not create new documents, just updates. If promise
-		 * fufills, then success. The new doc is not returned
+		 * Remove "id" if present (since the type is EmployerWithID)
 		 */
-		await updateDoc(docRef, newDoc)
+		delete updatedEmployerFields.id
+
+		/**
+		 * Add employer update to the batch
+		 */
+		batch.update(employerRef, {
+			...updatedEmployerFields,
+			updatedAt: serverTimestamp()
+		})
+
+		/**
+		 * The title of the employer changed, meaning we have to go
+		 * update each jobs "employer title" field
+		 */
+		if (currentEmployer.title !== updatedEmployerFields.title) {
+			console.log(`ℹ️ Employer title has changed, updated existing jobs..`)
+
+			const employersJobs = await getJobsByEmployerId(currentEmployer.id)
+
+			/**
+			 * Loop through and update each job with the new employer title
+			 * and add to the batch (There is a limit of 500, but should be fine for now)
+			 */
+			employersJobs.forEach((job) => {
+				const jobRef = doc(db, 'jobs', job.id)
+				batch.update(jobRef, { employerTitle: updatedEmployerFields.title })
+			})
+		}
+
+		await batch.commit()
 
 		/**
 		 * Reset cache
 		 */
 		cachedAdminData.employer = null
+
+		return {
+			status: 'SUCCESS'
+		}
 	} catch (error) {
 		console.log(`Error with updateEmployerById`, error)
+		return {
+			status: 'ERROR'
+		}
 		throw new Error(`Error in updateEmployerById`)
 	}
 }
