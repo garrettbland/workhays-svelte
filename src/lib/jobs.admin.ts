@@ -31,7 +31,7 @@ const generateRandomNumber = () => {
  */
 
 export const createJob = async (
-	newJob: Omit<Job, 'updatedAt' | 'createdAt'>,
+	newJob: Omit<Job, 'updatedAt' | 'createdAt' | 'expiresAt' | 'sortId' | 'isDeleted'>,
 	employerId: string,
 	employerTitle: string
 ) => {
@@ -47,7 +47,8 @@ export const createJob = async (
 			updatedAt: serverTimestamp(),
 			createdAt: serverTimestamp(),
 			expiresAt: getTwoWeeksFromNow(),
-			sortId: generateRandomNumber()
+			sortId: generateRandomNumber(),
+			isDeleted: false
 		})
 
 		clearCachedData()

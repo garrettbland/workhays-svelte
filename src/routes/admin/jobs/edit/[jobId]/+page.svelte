@@ -41,10 +41,12 @@
 			console.log({ updatedFields: JSON.parse(JSON.stringify(updatedFields)) })
 
 			const { status } = await updateJobById(jobId, updatedFields)
-			if (status !== 'success') {
-				editFormStatus = 'ERROR'
+
+			if (status === 'success') {
+				editFormStatus = 'SUCCESSFUL'
+			} else {
+				throw new Error('Error updating job')
 			}
-			throw new Error('Job not updated')
 		} catch (err) {
 			console.log(err)
 			editFormStatus = 'ERROR'
@@ -146,7 +148,7 @@
 	employer={cachedAdminData.employer ?? ({} as any)}
 />
 
-<div class="mb-8 mt-12">
+<div class="mt-12 mb-8">
 	<div class="prose prose-sm mb-4">
 		<h2>Renew</h2>
 		<p>

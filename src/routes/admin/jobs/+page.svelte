@@ -49,7 +49,7 @@
 		/>
 	{/if}
 
-	<div class="mb-6 flex flex-col">
+	<div class="mt-6 mb-6 flex flex-col">
 		<div class="-m-1.5 overflow-x-auto">
 			<div class="inline-block min-w-full p-1.5 align-middle">
 				<div class="overflow-hidden rounded-lg border border-gray-200 shadow-xs">

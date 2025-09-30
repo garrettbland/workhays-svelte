@@ -83,12 +83,15 @@
 {#await currentEmployer}
 	<Loader />
 {:then employer}
-	<JobForm
-		handleSubmit={(_job) => handleSubmit(_job, employer)}
-		onStatusChange={(status) => (newFormStatus = status)}
-		clearInputsOnSubmit={true}
-		{employer}
-	/>
+	{#if employer}
+		<JobForm
+			handleSubmit={(_job) => handleSubmit(_job, employer)}
+			onStatusChange={(status) => (newFormStatus = status)}
+			clearInputsOnSubmit={true}
+			{employer}
+		/>
+	{/if}
+
 	<!-- <form on:submit|preventDefault={() => handleSubmit(job, employer)}>
 		<div>Employer: {employer.title}</div>
 
