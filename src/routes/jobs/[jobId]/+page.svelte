@@ -189,7 +189,11 @@
 					<div class="mb-6">
 						<h4 class="not-prose text-sm font-bold">Employer</h4>
 						<div class="mt-1 text-sm">
-							<div class="mt-1 text-sm">{job.employerTitle}</div>
+							<div class="mt-1 text-sm">
+								<a class="text-blue-700 hover:underline" href={`/employers/${job.employerId}`}
+									>{job.employerTitle}</a
+								>
+							</div>
 						</div>
 					</div>
 					{#if job.applicationLink}

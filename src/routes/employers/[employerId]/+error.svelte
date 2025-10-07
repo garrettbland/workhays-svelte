@@ -1,0 +1,9 @@
+<!-- TO DO: Implement -->
+
+<div class="prose prose-sm">
+	<h1>404 Employer Not Found</h1>
+	<p>Uh oh, looks like this employer doesn't exist</p>
+	<p>
+		If you believe this is an error, please <a href="/contact">contact us</a>.
+	</p>
+</div>
