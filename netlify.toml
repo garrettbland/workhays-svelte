@@ -6,4 +6,4 @@
   node_bundler = "esbuild"
 
 [functions."check-job-expiration"]
-  schedule = "0 13 * * *" # Runs at 8:00 AM or 9:00 AM daily (depending on daylight savings)
+  schedule = "0 8 * * *" # Uses Crontab. Runs at 8:00 AM or 9:00 AM daily (depending on daylight savings)
